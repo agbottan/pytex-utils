@@ -1,0 +1,137 @@
+
+############### REPLICAÇÃO ###############
+
+import sublime, sublime_plugin, sys, re, os
+
+# Caminho para módulos
+paths = (
+	# Lecom
+	'C:\\Users\\123\\AppData\\Roaming\\Sublime Text 3\\Packages\\User',
+	# Apto Bauru
+	'C:\\Users\\andre_bottan\\AppData\\Roaming\\Sublime Text 3\\Packages\\User',
+	# Duartina
+	'F:\\ST3\\Data\\Packages\\User'
+)
+
+# =========================================================== #
+
+for path in paths:
+	if os.path.isdir(path) and path not in sys.path:
+		sys.path.append(path)
+
+import func.css, func.html, func.entities, func.editor, func.utils
+
+# RELOAD !!!
+
+import imp
+imp.reload(func.editor)
+
+def x(*args): func.editor.x(*args);
+
+
+# -?[_a-zA-Z]+[_a-zA-Z0-9-]*
+
+# Pega ID e Classes
+def pegaIdClasses(tx):
+	ret = { 'id':None, 'classes':None }
+	
+	#mId = re.match(r'-?[_a-zA-Z]+[_a-zA-Z0-9-]*',tx)
+	#ID ^[a-zA-Z][\w:.-]*$
+	#mClass = re.match(r'-?[_a-zA-Z]+[_a-zA-Z0-9-]*',tx)
+
+	#mId	   = re.finditer(r'#([a-zA-Z][_a-zA-Z0-9-.:]*)',tx)
+	mId	   = re.finditer(r'#([a-zA-Z][_a-zA-Z0-9-]*)',tx)
+	mClass = re.finditer(r'\.(-?[_a-zA-Z]+[_a-zA-Z0-9-]*)',tx)
+
+	if mId:
+		for Id in mId:
+			ret['id'] = Id.group(1)
+			break
+
+	if mClass:
+		ret['classes'] = []
+		for classe in mClass:
+			ret['classes'].append(classe.group(1))
+
+	return ret
+
+
+#----------------------------------------------------#
+#	TESTE
+#----------------------------------------------------#
+
+def identa_html(tx, inicIdent='', ident='\t', ln='\n'):
+	
+	tags_linha = ('span','em','img')
+
+	re_abre	 = re.compile(r'<(?P<tag>([a-z]+)[^<>]*?)(?<=[^/])>(?P<txt>[^<]*)')
+	re_fecha = re.compile(r'<\/(?P<tag>[a-z]+)>')
+	re_auto	 = re.compile(r'<(?P<tag>[a-z]+)[^<>]*? \/>')
+
+	#re_condensa = re.compile(r'<(?P<tag>[a-z]+)[^<>]*? \/>')
+
+	seqIdent = [inicIdent]
+	partes = []
+
+	# Abre
+	for item in re_abre.finditer(tx):
+		partes.append({ 'tipo':'abre', 'm':item, 'nivel':None })
+
+	# Fecha
+	for item in re_fecha.finditer(tx):
+		partes.append({ 'tipo':'fecha', 'm':item, 'nivel':None })
+
+	# Autofecha
+	for item in re_auto.finditer(tx):
+		partes.append({ 'tipo':'auto', 'm':item, 'nivel':None })
+
+	# Ordena pela posição do começo do 'match'
+	partes.sort(key=lambda parte: parte['m'].start())
+
+	# Índices dos níveis
+	cont_nivel = 0
+	max_nivel = 0
+	for p in partes:
+		if  p['tipo'] == 'fecha': cont_nivel -= 1
+		p['nivel'] = cont_nivel
+		if p['tipo'] == 'abre':
+			cont_nivel += 1
+			max_nivel += 1
+
+	# Gera texto
+	tx_identado = ''
+	for p in partes:
+		tx_identado += inicIdent + ident * p['nivel'] + p['m'].group(0)
+		tx_identado += ln
+
+		# Condensa tags
+		tx_identado = re.sub( r'\s*<em>\s*(.*?)\s*<\/em>\s*', '<em>\g<1></em>', tx_identado)
+		tx_identado = re.sub( r'\s*<span>\s*(.*?)\s*<\/span>\s*', '<span>\g<1></span>', tx_identado)
+
+		#if p['m'].group('tag') not in tags_linha:
+			#tx_identado += ln
+		#if p['nivel'] != max_nivel:
+		#	tx_identado += ln
+
+	# Retorna texto identado
+	return tx_identado
+
+
+txident = '<p class="deu">TESTE<span>Conteúdo de texto</span><p><img /><img id="deu" /></p><span><img /></span><p><span>mais texto<em>dentro</em></span></p></p>'
+B = '-'*30
+
+class testePluginCommand(sublime_plugin.TextCommand):
+	def run(self, edit):
+
+		# tx = "p.c1#mid.c2 .c3 teste #deu teste"
+		# tx = "p.c1#mid#deu"
+		# x(pegaIdClasses(tx))
+
+		x(B)
+
+		x(identa_html(txident))
+
+		#for p in identa(txident):
+		#	x(p['m'].group(0),' -- ',p['tipo'],' -- ',p['nivel'])
+
+		x(B)

@@ -1,0 +1,33 @@
+
+[
+//////// ATALHOS
+	
+	{ "keys": ["f6"], "command": "wrap_lines" },
+	{ "keys": ["f1"], "command": "toggle_side_bar" },
+	{ "keys": ["shift+f1"], "command": "toggle_minimap" },
+	{ "keys": ["ctrl+'"], "command": "show_panel", "args": {"panel": "console", "toggle": true} },
+
+//////// PLUGINS
+
+/*
+	{ "keys": ["ctrl+f11"], "command": "formata_tabela" },
+	{ "keys": ["f12"], "command": "troca_entities" },
+	{ "keys": ["ctrl+alt+f12"], "command": "info_aptos" }
+	{ "keys": ["ctrl+f11"], "command": "limpa_traducao" },
+	{ "keys": ["f11"], "command": "monta_tabela" }
+	{ "keys": ["f12"], "command": "teste" }
+	{ "keys": ["ctrl+shift+f12"], "command": "formata_tabela" },
+*/
+
+//////// AUTO-EXPANDE / AUTO-APAGA
+
+	{ "keys": ["f8"], "command": "auto_expande" },
+	{ "keys": ["f9"], "command": "auto_apaga" },
+
+//////// TESTE
+	{ "keys": ["f7"], "command": "teste_plugin" },
+
+//////// OUTROS
+	{ "keys": ["shift+f11"], "command": "limpa_texto" },
+	{ "keys": ["shift+f12"], "command": "troca_entities" }
+]

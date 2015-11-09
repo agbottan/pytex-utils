@@ -1,0 +1,9 @@
+<snippet>
+	<description>Mailto Wrap</description>
+	<!--
+	<tabTrigger>mail</tabTrigger>
+	-->
+	<content><![CDATA[
+<a href="mailto:$SELECTION">$SELECTION</a>
+]]></content>
+</snippet>

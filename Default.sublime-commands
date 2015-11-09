@@ -1,0 +1,7 @@
+[
+/*
+    { "caption": "Plugin: Info Aptos", "command": "info_aptos" },
+*/
+
+    { "caption":"Plugin: Convert Entities", "command":"convert_entities" }
+]
