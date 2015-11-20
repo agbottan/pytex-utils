@@ -38,15 +38,11 @@ def tiraGrupo(tx, match, ind = 0):
 ############### IDENTA ##############################
 # Monta objeto-árvore
 
-def identaHtml(tx, inicIdent='', ident='\t', ln='\n'):
-	
-	tags_linha = ('span','em','img', 'p')
+def identaHtml(tx='', inicIdent='', ident='\t', ln='\n', linear=None):
 
 	re_abre	 = re.compile(r'<(?P<tag>([a-z]+)[^<>]*?)(?<=[^/])>(?P<txt>[^<]*)')
 	re_fecha = re.compile(r'<\/(?P<tag>[a-z]+)>')
 	re_auto	 = re.compile(r'<(?P<tag>[a-z]+)[^<>]*? \/>')
-
-	#re_condensa = re.compile(r'<(?P<tag>[a-z]+)[^<>]*? \/>')
 
 	seqIdent = [inicIdent]
 	partes = []
@@ -83,8 +79,8 @@ def identaHtml(tx, inicIdent='', ident='\t', ln='\n'):
 		tx_identado += ln
 
 		# Condensa tags
-		tx_identado = re.sub( r'\s*<em>\s*(.*?)\s*<\/em>\s*', '<em>\g<1></em>', tx_identado)
-		tx_identado = re.sub( r'\s*<span>\s*(.*?)\s*<\/span>\s*', '<span>\g<1></span>', tx_identado)
+		# tx_identado = re.sub( r'\s*<em>\s*(.*?)\s*<\/em>\s*', '<em>\g<1></em>', tx_identado)
+		# tx_identado = re.sub( r'\s*<span>\s*(.*?)\s*<\/span>\s*', '<span>\g<1></span>', tx_identado)
 
 	# Retorna texto identado
 	return tx_identado
@@ -123,6 +119,7 @@ def splitTags(tx,Tags):
 			el = {
 				'tag'		: None,
 				'autofecha'	: None,
+				'linear'	: None,
 				'tipo'		: tipo,
 				'pos'		: pos,
 				'atribs'	: None,
@@ -139,8 +136,12 @@ def splitTags(tx,Tags):
 				matchTag = re.match(tag['re'],el['txt'])
 
 				if matchTag:
+
 					# Autofecha
 					el['autofecha'] = tag.get('autofecha',False)
+
+					# Linear
+					el['linear'] = tag.get('linear',False)
 
 					# Tag
 					el['tag'] = re.sub(tag['re'],tag['tag'],matchTag.group(0))
@@ -226,6 +227,10 @@ def montaTags(arvore, ident='\t', inicIdent=''):
 			else:
 				txTag = ''
 
+			# Se é ou não linear
+			# if node['linear']:
+
+			# Atributos
 			if node['atribs']:
 				for a in node['atribs']:
 					txTag += ' {atr}="{val}"'.format(atr=a[0], val=a[1])
@@ -271,9 +276,20 @@ def htmlExpande(tx,modo=None):
 
 	pos_ident = posIdent(tx)
 
-	confHtml = ConfigHtml()	
+	confHtml = ConfigHtml()
+
+	linearTags = []
+	for tag in confHtml.tags:
+		if not (tag.get('linear',None)):
+			linearTags.append(tag['re'])
+
+	x(linearTags)
 
 	# Tags montadas
-	return identaHtml(montaTags(splitTags(tx[pos_ident::],confHtml.tags),tx[0:pos_ident]))
+	return identaHtml(
+		tx = montaTags(splitTags(tx[pos_ident::],confHtml.tags),tx[0:pos_ident]),
+		inicIdent = tx[0:pos_ident],
+		linear = linearTags
+	)
 
 #------------------------------------- fim 'htmlExpande'

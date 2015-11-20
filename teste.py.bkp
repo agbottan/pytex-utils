@@ -120,18 +120,15 @@ def identa_html(tx, inicIdent='', ident='\t', ln='\n'):
 txident = '<p class="deu">TESTE<span>Conteúdo de texto</span><p><img /><img id="deu" /></p><span><img /></span><p><span>mais texto<em>dentro</em></span></p></p>'
 B = '-'*30
 
+# ========================================================================================
+
+class ConfigTeste:
+	tt1 = 'deu'
+	tt2 = tt1 + 'foi'
+
 class testePluginCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
-		# tx = "p.c1#mid.c2 .c3 teste #deu teste"
-		# tx = "p.c1#mid#deu"
-		# x(pegaIdClasses(tx))
+		objTeste = ConfigTeste()
 
-		x(B)
-
-		x(identa_html(txident))
-
-		#for p in identa(txident):
-		#	x(p['m'].group(0),' -- ',p['tipo'],' -- ',p['nivel'])
-
-		x(B)
+		x(objTeste.tt2)

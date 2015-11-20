@@ -5,7 +5,7 @@
 
 class ConfigHtml:
 	
-	dirImg = '',
+	dirImg = 'img/'
 
 	tags = (
 		{ # <a>
@@ -18,8 +18,7 @@ class ConfigHtml:
 			're':r'^\s*i(?=\s+|\.|#|~|$)', 'tag':'img',
 			'autofecha': True,
 			'atribs':(
-				#('src', self['dirImg']),
-				('src', 'img/'),
+				('src', dirImg),
 				('alt', '')
 			)
 		},
@@ -28,15 +27,19 @@ class ConfigHtml:
 		},
 		{ # <span>
 			're':r'^\s*s(?=\s+|\.|#|~|$)', 'tag':'span',
+			'linear': True
 		},
 		{ # <p>
 			're':r'^\s*p(?=\s+|\.|#|~|$)', 'tag':'p',
+			'linear': True
 		},
 		{ # <strong>
 			're':r'^\s*st(?=\s+|\.|#|~|$)', 'tag':'strong',
+			'linear': True
 		},
 		{ # <br> <hr>
 			're':r'^\s*(?P<tag>br|hr)(?=\s+|\.|#|~|$)', 'tag':'\g<tag>',
+			'taglist': ('br','hr'),
 			'autofecha': True
 		},
 
@@ -47,12 +50,15 @@ class ConfigHtml:
 		},
 		{ # <li>
 			're':r'^\s*li(?=\s+|\.|#|~|$)', 'tag':'li',
+			'linear': True
 		},
 
 		# === HEADERS ===
 
 		{ # <h1> <h2> <h3> <h4> <h5> <h6>
 			're':r'^\s*h([123456])(?=\s+|\.|#|~|$)', 'tag':r'h\1',
+			'taglist': ('h1','h2','h3','h4','h5','h6'),
+			'linear': True
 		},
 
 		# === TABELAS ===
@@ -65,9 +71,11 @@ class ConfigHtml:
 		},
 		{ # <td>
 			're':r'^\s*td(?=\s+|\.|#|~|$)', 'tag':'td',
+			'linear': True
 		},
 		{ # <th>
 			're':r'^\s*th(?=\s+|\.|#|~|$)', 'tag':'th',
+			'linear': True
 		},
 
 		# === FORMS ===

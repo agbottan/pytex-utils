@@ -6,6 +6,8 @@
 	"font_size": 11,
 	"ignored_packages":
 	[
+		"GitSavvy",
+		"GitStatus",
 		"Vintage"
 	],
 	"translate_tabs_to_spaces": false,
