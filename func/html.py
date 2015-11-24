@@ -35,6 +35,9 @@ def tiraGrupo(tx, match, ind = 0):
 
 # ------------------------------------------------------- #
 
+# Config init
+config_html = ConfigHtml()
+
 ############### IDENTA ##############################
 # Monta objeto-árvore
 
@@ -209,7 +212,7 @@ def splitTags(tx,Tags):
 ############### MONTA TAGS ##############################
 # Monta tags identadas
 
-def montaTags(arvore, ident='\t', inicIdent=''):
+def montaTags(arvore):
 
 	seqFecha = []
 	ret		 = ''
@@ -276,20 +279,15 @@ def htmlExpande(tx,modo=None):
 
 	pos_ident = posIdent(tx)
 
-	confHtml = ConfigHtml()
-
-	linearTags = []
-	for tag in confHtml.tags:
-		if not (tag.get('linear',None)):
-			linearTags.append(tag['re'])
-
-	x(linearTags)
-
 	# Tags montadas
 	return identaHtml(
-		tx = montaTags(splitTags(tx[pos_ident::],confHtml.tags),tx[0:pos_ident]),
-		inicIdent = tx[0:pos_ident],
-		linear = linearTags
+		tx = montaTags(
+			splitTags(
+				tx[pos_ident::],
+				config_html.tags
+			)
+		),
+		inicIdent = tx[0:pos_ident]
 	)
 
 #------------------------------------- fim 'htmlExpande'
