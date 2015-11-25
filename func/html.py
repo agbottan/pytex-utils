@@ -43,8 +43,8 @@ config_html = ConfigHtml()
 
 def identaHtml(tx='', inicIdent='', ident='\t', ln='\n', linear=None):
 
-	re_abre	 = re.compile(r'<(?P<tag>([a-z]+)[^<>]*?)(?<=[^/])>(?P<txt>[^<]*)')
-	re_fecha = re.compile(r'<\/(?P<tag>[a-z]+)>')
+	re_abre	 = re.compile(r'<(?P<tag>([a-z]+[0-9]*)[^<>]*?)(?<=[^/])>(?P<txt>[^<]*)')
+	re_fecha = re.compile(r'<\/(?P<tag>[a-z]+[0-9]*)>')
 	re_auto	 = re.compile(r'<(?P<tag>[a-z]+)[^<>]*? \/>')
 
 	seqIdent = [inicIdent]
@@ -76,14 +76,13 @@ def identaHtml(tx='', inicIdent='', ident='\t', ln='\n', linear=None):
 			max_nivel += 1
 
 	# Gera texto
+
+	x(config_html)
+
 	tx_identado = ''
 	for p in partes:
-		tx_identado += inicIdent + ident * p['nivel'] + p['m'].group(0)
+		tx_identado += inicIdent + ident * p['nivel'] + limpaTexto(p['m'].group(0))
 		tx_identado += ln
-
-		# Condensa tags
-		# tx_identado = re.sub( r'\s*<em>\s*(.*?)\s*<\/em>\s*', '<em>\g<1></em>', tx_identado)
-		# tx_identado = re.sub( r'\s*<span>\s*(.*?)\s*<\/span>\s*', '<span>\g<1></span>', tx_identado)
 
 	# Retorna texto identado
 	return tx_identado
@@ -229,9 +228,6 @@ def montaTags(arvore):
 				txTag = '<' + node['tag']
 			else:
 				txTag = ''
-
-			# Se é ou não linear
-			# if node['linear']:
 
 			# Atributos
 			if node['atribs']:

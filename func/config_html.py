@@ -39,7 +39,6 @@ class ConfigHtml:
 		},
 		{ # <br> <hr>
 			're':r'^\s*(?P<tag>br|hr)(?=\s+|\.|#|~|$)', 'tag':'\g<tag>',
-			'taglist': ('br','hr'),
 			'autofecha': True
 		},
 
@@ -57,7 +56,6 @@ class ConfigHtml:
 
 		{ # <h1> <h2> <h3> <h4> <h5> <h6>
 			're':r'^\s*h([123456])(?=\s+|\.|#|~|$)', 'tag':r'h\1',
-			'taglist': ('h1','h2','h3','h4','h5','h6'),
 			'linear': True
 		},
 

@@ -1,15 +1,8 @@
 
 
 
-
-#teste { bg teste.jpg }
-#teste { db
-	position:absolute;
-	pr
-	background:url("../img/teste.jpg") left top no-repeat;
-}
-
-#teste { bg teste.jpg } #teste {
-	background:url("../img/teste.jpg") left top no-repeat;
-pa z99
+.coisa {
+	
+	position:absolute; z-index:7;
+	color:#c00;
 }
