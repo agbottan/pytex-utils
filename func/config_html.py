@@ -55,7 +55,7 @@ class ConfigHtml:
 		# === HEADERS ===
 
 		{ # <h1> <h2> <h3> <h4> <h5> <h6>
-			're':r'^\s*h([123456])(?=\s+|\.|#|~|$)', 'tag':r'h\1',
+			're':r'^\s*h([1-6])(?=\s+|\.|#|~|$)', 'tag':r'h\1',
 			'linear': True
 		},
 
