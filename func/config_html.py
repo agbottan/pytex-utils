@@ -50,11 +50,12 @@ class ConfigHtml:
 		},
 		{ # <br> <hr>
 			're':r'^\s*(?P<tag>br|hr)(?=\s+|\.|#|~|$)', 'tag':'\g<tag>',
+			'taglist': ('br','hr'),
 			'autofecha': True,
 			'linha':1
 		},
 
-		# === LISTAS ===
+		# === LISTAS === #
 
 		{ # <ul>
 			're':r'^\s*ul(?=\s+|\.|#|~|$)', 'tag':'ul',
@@ -65,14 +66,15 @@ class ConfigHtml:
 			'linha':1
 		},
 
-		# === HEADERS ===
+		# === HEADERS === #
 
 		{ # <h1> <h2> <h3> <h4> <h5> <h6>
 			're':r'^\s*h([1-6])(?=\s+|\.|#|~|$)', 'tag':r'h\1',
+			'taglist': ('h1','h2','h3','h4','h5','h6'),
 			'linha':1
 		},
 
-		# === TABELAS ===
+		# === TABELAS === #
 
 		{ # <table>
 			're':r'^\s*tb(?=\s+|\.|#|~|$)', 'tag':'table',
@@ -82,16 +84,13 @@ class ConfigHtml:
 			're':r'^\s*tr(?=\s+|\.|#|~|$)', 'tag':'tr',
 			'linha':2
 		},
-		{ # <td>
-			're':r'^\s*td(?=\s+|\.|#|~|$)', 'tag':'td',
-			'linha':1
-		},
-		{ # <th>
-			're':r'^\s*th(?=\s+|\.|#|~|$)', 'tag':'th',
+		{ # <td> <th>
+			're':r'^\s*(?P<tag>td|th)(?=\s+|\.|#|~|$)', 'tag':'\g<tag>',
+			'taglist': ('td','th'),
 			'linha':1
 		},
 
-		# === FORMS ===
+		# === FORMS === #
 
 		{ # <form>
 			're':r'^\s*fm(?=\s+|\.|#|~|$)', 'tag':'form',

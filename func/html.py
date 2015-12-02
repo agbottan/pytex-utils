@@ -52,15 +52,15 @@ def identaHtml(tx='', inicIdent='', ident='\t', ln='\n', linear=None):
 
 	# Abre
 	for item in re_abre.finditer(tx):
-		partes.append({ 'tipo':'abre', 'm':item, 'nivel':None })
+		partes.append({ 'tipo':'abre', 'm':item, 'nivel':None, 'cola':None })
 
 	# Fecha
 	for item in re_fecha.finditer(tx):
-		partes.append({ 'tipo':'fecha', 'm':item, 'nivel':None })
+		partes.append({ 'tipo':'fecha', 'm':item, 'nivel':None, 'cola':None })
 
 	# Autofecha
 	for item in re_auto.finditer(tx):
-		partes.append({ 'tipo':'auto', 'm':item, 'nivel':None })
+		partes.append({ 'tipo':'auto', 'm':item, 'nivel':None, 'cola':None })
 
 	# Ordena pela posição do começo do 'match'
 	partes.sort(key=lambda parte: parte['m'].start())
@@ -68,7 +68,15 @@ def identaHtml(tx='', inicIdent='', ident='\t', ln='\n', linear=None):
 	# Índices dos níveis
 	cont_nivel = 0
 	max_nivel = 0
+
 	for p in partes:
+
+		# Colagem
+		for tag in config_html.tags:
+			p['cola'] = str(tag.get('taglist'))
+			p['cola'] = 'deu'
+
+		# Nível
 		if  p['tipo'] == 'fecha': cont_nivel -= 1
 		p['nivel'] = cont_nivel
 		if p['tipo'] == 'abre':
@@ -76,12 +84,10 @@ def identaHtml(tx='', inicIdent='', ident='\t', ln='\n', linear=None):
 			max_nivel += 1
 
 	# Gera texto
-
-	x(config_html)
-
 	tx_identado = ''
 	for p in partes:
-		tx_identado += inicIdent + ident * p['nivel'] + limpaTexto(p['m'].group(0))
+		#tx_identado += inicIdent + ident * p['nivel'] + limpaTexto(p['m'].group(0))
+		tx_identado += inicIdent + ident * p['nivel'] + limpaTexto(p['m'].group('tag')) + p['cola']
 		tx_identado += ln
 
 	# Retorna texto identado
