@@ -416,7 +416,7 @@ def cssSub(tx, dirImg=''):
 				fim_vals = ( vImg, vCor, vPox, vPoy, vAtt, vRep )
 				fim_vals = ' '.join(fim_vals)
 				fim_vals = fim_vals.strip(' ')
-				fim_vals = fim_prop+':'+fim_vals+';'
+				fim_vals = fim_prop + ':' + fim_vals + ';'
 				ret = fim_vals
 					
 			# ======== FIM do 'switch'

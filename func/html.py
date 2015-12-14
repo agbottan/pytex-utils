@@ -86,9 +86,14 @@ def identaHtml(tx='', inicIdent='', ident='\t', ln='\n', linear=None):
 	# Gera texto
 	tx_identado = ''
 	for p in partes:
-		#tx_identado += inicIdent + ident * p['nivel'] + limpaTexto(p['m'].group(0))
-		tx_identado += inicIdent + ident * p['nivel'] + limpaTexto(p['m'].group('tag')) + p['cola']
-		tx_identado += ln
+		#tx_identado += inicIdent + ident * p['nivel'] + limpaTexto(p['m'].group('tag')) + p['cola']
+
+		if p['tipo'] == 'abre':
+			tx_identado += inicIdent + ident * p['nivel']
+
+		tx_identado += limpaTexto(p['m'].group(0))
+		
+		#tx_identado += ln
 
 	# Retorna texto identado
 	return tx_identado

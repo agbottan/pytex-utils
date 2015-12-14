@@ -5,10 +5,6 @@
 
 # /////////////// IMPORTS
 
-import re, sublime
-from func.utils import splitRe, indices, limpaTexto, posIdent
-from func.editor import *
-
 from replicacao_utils.debug import _c
 from replicacao_utils.funcoes import getEOLString
 import re
@@ -19,7 +15,7 @@ sinal		= ';\d*;'
 sepCampo	= '\t+'
 multilinha	= ';;;'
 formato		= None
-#ln			= '\r\n'
+ln			= '\r\n'
 
 sepCampo = re.compile(sepCampo)
 

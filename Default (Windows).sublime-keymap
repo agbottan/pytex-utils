@@ -4,6 +4,8 @@
 	{ "keys": ["f6"], "command": "wrap_lines" },
 	{ "keys": ["f1"], "command": "toggle_side_bar" },
 	{ "keys": ["shift+f1"], "command": "toggle_minimap" },
+	{ "keys": ["alt+up"], "command": "select_lines", "args": {"forward": false} },
+	{ "keys": ["alt+down"], "command": "select_lines", "args": {"forward": true} },
 
 //////// PLUGINS
 
@@ -24,8 +26,9 @@
 
 //////// TESTE
 
-  	{ "keys": ["f7"], "command": "teste_plugin" },
+  	{ "keys": ["f7"], "command": "formata_linhas" },
 /*
+  	{ "keys": ["f7"], "command": "muda_header" },
   	{ "keys": ["f7"], "command": "monta_aula" },
 	{ "keys": ["shift+f7"], "command": "limpa_tags" },
 */
