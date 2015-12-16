@@ -13,11 +13,11 @@ sinal		= ';\d*;'
 sepCampo	= '\t+'
 multilinha	= ';;;'
 formato		= None
-ln			= '\r\n'
+ln			= '\n'
 
 sepCampo = re.compile(sepCampo)
 
-def formataLinhas(linha,modelo):
+def montaCampos(linha,modelo):
 	campos = re.split(sepCampo,linha)
 	for campo in campos:
 		#if re.search(sinal,linha) != None:
@@ -25,7 +25,7 @@ def formataLinhas(linha,modelo):
 		linha = re.sub(sinal,campo,modelo)
 	return linha
 
-def separaLinhas(tx):
+def formataLinhas(tx):
 
 	linhas = tx.splitlines(False)
 
@@ -39,6 +39,6 @@ def separaLinhas(tx):
 	linhas[:] = [ L for L in linhas if( re.search('^\s*$',L) == None )]
 
 	# Formata as linhas
-	linhas[:] = [ formataLinhas(L,formato) for L in linhas]
+	linhas[:] = [ montaCampos(L,formato) for L in linhas]
 
 	return ln.join(linhas)

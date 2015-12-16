@@ -5,34 +5,25 @@ import sublime, sublime_plugin, sys, re, os
 
 # Caminho para módulos
 paths = (
-	# Apto Bauru - Windows
-	# 'C:\\Users\\andre_bottan\\AppData\\Roaming\\Sublime Text 3\\Packages\\User',
 
 	# Apto Bauru - Linux
 	'/home/andre/.config/sublime-text-3/Packages/User',
 
-	# Lecom
-	# 'C:\\Users\\123\\AppData\\Roaming\\Sublime Text 3\\Packages\\User',
-
-	# Triata
-	'C:\\Users\\Triata\\AppData\\Roaming\\Sublime Text 3\\Packages\\User',
-
-	# Duartina
-	'F:\\ST3\\Data\\Packages\\User'
+	# Triata - Windows
+	'C:\\Users\\Triata\\AppData\\Roaming\\Sublime Text 3\\Packages\\User'
 )
-
-# =========================================================== #
 
 for path in paths:
 	if os.path.isdir(path) and path not in sys.path:
 		sys.path.append(path)
 
-import func.css, func.html, func.entities, func.editor, func.utils
+import func.css, func.html, func.entities, func.editor, func.utils, func.formata_linhas
 
-# RELOAD !!!
+# !!! RELOAD !!!
 
 import imp
 imp.reload(func.editor)
+
 
 # ============================ CLASSES DOS COMANDOS ============================ #
 
@@ -57,7 +48,7 @@ class LimpaTextoCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 class FormataLinhasCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		func.editor.aplica(edit, func=montaAula, vis=self.view)
+		func.editor.aplica(edit, vis=self.view, func=func.formata_linhas.formataLinhas)
 
 
 #----------------------------------------------------#
