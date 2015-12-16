@@ -1,4 +1,5 @@
 
+import sublime, sublime_plugin, sys, re, os
 import func.css, func.html, func.entities, func.editor, func.utils
 def x(*args): func.editor.x(*args);
 

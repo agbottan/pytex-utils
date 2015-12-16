@@ -53,6 +53,14 @@ class LimpaTextoCommand(sublime_plugin.TextCommand):
 
 
 #----------------------------------------------------#
+#	FORMATA LINHAS
+#----------------------------------------------------#
+class FormataLinhasCommand(sublime_plugin.TextCommand):
+	def run(self, edit):
+		func.editor.aplica(edit, func=montaAula, vis=self.view)
+
+
+#----------------------------------------------------#
 #	AUTO EXPANDE
 #----------------------------------------------------#
 class AutoExpandeCommand(sublime_plugin.TextCommand):

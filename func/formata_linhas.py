@@ -1,14 +1,11 @@
-﻿
+
 # ===================
 #	FORMATA LINHAS
 # ===================
 
 # /////////////// IMPORTS
 
-import re, sublime
-from func.utils import splitRe, indices, limpaTexto, posIdent
-from func.editor import *
-
+import re
 
 # /////////////// CONFIG
 
@@ -45,9 +42,3 @@ def separaLinhas(tx):
 	linhas[:] = [ formataLinhas(L,formato) for L in linhas]
 
 	return ln.join(linhas)
-
-# -----------------------------------------------
-
-class FormataLinhasCommand(sublime_plugin.TextCommand):
-	def run(self, edit):
-		func.editor.aplica(edit, func=montaAula, vis=self.view)
