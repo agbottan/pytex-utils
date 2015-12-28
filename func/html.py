@@ -73,12 +73,13 @@ def identaHtml(tx='', inicIdent='', ident='\t', ln='\n', linear=None):
 
 		# Colagem
 		for tag in config_html.tags:
-			p['cola'] = str(tag.get('taglist'))
-			p['cola'] = 'deu'
+			p['cola'] = str(tag.get('linha'))
 
 		# Nível
 		if  p['tipo'] == 'fecha': cont_nivel -= 1
+
 		p['nivel'] = cont_nivel
+
 		if p['tipo'] == 'abre':
 			cont_nivel += 1
 			max_nivel += 1
@@ -86,14 +87,11 @@ def identaHtml(tx='', inicIdent='', ident='\t', ln='\n', linear=None):
 	# Gera texto
 	tx_identado = ''
 	for p in partes:
-		#tx_identado += inicIdent + ident * p['nivel'] + limpaTexto(p['m'].group('tag')) + p['cola']
 
 		if p['tipo'] == 'abre':
-			tx_identado += inicIdent + ident * p['nivel']
+			tx_identado += inicIdent + ident * p['nivel'] + ln
 
-		tx_identado += limpaTexto(p['m'].group(0))
-		
-		#tx_identado += ln
+		tx_identado += limpaTexto(p['m'].group(0)) + ' -> ' + p['cola']
 
 	# Retorna texto identado
 	return tx_identado

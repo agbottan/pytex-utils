@@ -23,6 +23,7 @@ import func.css, func.html, func.entities, func.editor, func.utils, func.formata
 
 import imp
 imp.reload(func.editor)
+imp.reload(func.html)
 
 
 # ============================ CLASSES DOS COMANDOS ============================ #

@@ -1,4 +1,13 @@
 [
+
+//////// IDENTA
+
+  { "keys": ["shift+tab"], "command": "unindent", "context":
+      [
+          { "key": "text", "operator": "regex_contains", "operand": "." }
+      ]
+  },
+
 //////// ATALHOS
 	
 	{ "keys": ["f6"], "command": "wrap_lines" },
