@@ -18,6 +18,7 @@
 	{ "keys": ["f12"], "command": "teste" }
 	{ "keys": ["ctrl+shift+f12"], "command": "formata_tabela" },
 */
+	{ "keys": ["f7"], "command": "formata_linhas" },
 
 //////// AUTO-EXPANDE / AUTO-APAGA
 
@@ -25,7 +26,9 @@
 	{ "keys": ["f9"], "command": "auto_apaga" },
 
 //////// TESTE
+/*
 	{ "keys": ["f7"], "command": "teste_plugin" },
+*/
 
 //////// OUTROS
 	{ "keys": ["shift+f11"], "command": "limpa_texto" },
