@@ -43,7 +43,7 @@ config_html = ConfigHtml()
 
 def identaHtml(tx='', inicIdent='', ident='\t', ln='\n', linear=None):
 
-	re_abre	 = re.compile(r'<(?P<tag>([a-z]+[1-6]*)[^<>]*?)(?<=[^/])>(?P<txt>[^<]*)')
+	re_abre	 = re.compile(r'<(?P<tag>[a-z]+[1-6]*)[^<>]*?(?<=[^/])>(?P<txt>[^<]*)')
 	re_fecha = re.compile(r'<\/(?P<tag>[a-z]+[1-6]*)>')
 	re_auto	 = re.compile(r'<(?P<tag>[a-z]+)[^<>]*? \/>')
 

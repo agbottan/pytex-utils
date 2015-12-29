@@ -20,10 +20,10 @@ for path in paths:
 import func.css, func.html, func.entities, func.editor, func.utils, func.formata_linhas
 
 # !!! RELOAD !!!
-
 import imp
 imp.reload(func.editor)
 imp.reload(func.html)
+imp.reload(func.css)
 
 
 # ============================ CLASSES DOS COMANDOS ============================ #

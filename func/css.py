@@ -124,17 +124,16 @@ def cssSub(tx, dirImg=''):
 		( 'Z-index',		r'\bz\s*\d+\b'			),	# Z-index
 		( 'Float',			r'\bf[lrn]\b'			),	# Float
 		( 'Clear',			r'\bc[lrbn]\b'			),	# Clear
+		( 'Box',			r'\bbs[b]?\b'			),	# Box-sizing
 		( 'Cursor',			r'\bcu[dp]\b'			),	# Cursor
 		( 'Overflow',		r'\bo[xy]?[hsv]\b'		),	# Overflow
 		( 'Color',			r'\bco\b'				),	# Color
 		( 'Width-Height',	r'\b(wh?|hw?)'			),	# Width - Height
 		( 'Margin-Padding',	r'\b(m|pd)[trbl]?'		),	# Margin - Padding
-		( 'Text',			r'\b(t)[adit][cjlru]?'	),	# Text
-		( 'Font',			r'\bf[msw][abn]?'		),	# Font
+		( 'Text',			r'\b(t)[adit][cjlnoru]?'),	# Text
+		( 'Font',			r'\bf[fsw][abn]?'		),	# Font
 		( 'Border',			r'\bbd\b'				),	# Border
-		( 'Background',		r'\bbg[aiprc]?\b'		) 	# Background
-		
-		#teste: r'\blh\b',			# Line
+		( 'Background',		r'\bbg[aiprc]?\b'		) 	# Background		
 	)
 
 	reCss = ''
@@ -215,6 +214,15 @@ def cssSub(tx, dirImg=''):
 				val = rel_vals.get(ini_prop[-1],'')
 				
 				ret = 'clear:' + val + ';'
+
+			# ========================== BOX-SIZING
+			if ind == 'Box':
+				
+				rel_vals = { 'b':'border-box' }
+
+				val = rel_vals.get(ini_prop[-1],'border-box')
+				
+				ret = 'box-sizing:' + val + ';'
 				
 			# ========================== CURSOR
 			if ind == 'Cursor':
@@ -313,7 +321,7 @@ def cssSub(tx, dirImg=''):
 			if ind == 'Font':
 				
 				rel_subProps_vals = {
-					'm':'family',
+					'f':'family',
 					's':'size',
 					'w':('weight',{ 'b':'bold', 'n':'normal' })
 				}
