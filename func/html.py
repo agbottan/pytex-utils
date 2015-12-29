@@ -72,8 +72,20 @@ def identaHtml(tx='', inicIdent='', ident='\t', ln='\n', linear=None):
 	for p in partes:
 
 		# Colagem
-		for tag in config_html.tags:
-			p['cola'] = str(tag.get('linha'))
+		for t in config_html.tags:
+
+			tag = p['m'].group('tag')
+			linha =  t.get('linha')
+
+			if tag == t['tag']:
+				p['cola'] = linha
+				break
+
+			lista = t.get('taglist')
+
+			if lista and (tag in lista):
+				p['cola'] = linha
+				break
 
 		# Nível
 		if  p['tipo'] == 'fecha': cont_nivel -= 1
@@ -88,10 +100,20 @@ def identaHtml(tx='', inicIdent='', ident='\t', ln='\n', linear=None):
 	tx_identado = ''
 	for p in partes:
 
-		if p['tipo'] == 'abre':
-			tx_identado += inicIdent + ident * p['nivel'] + ln
+		# Mesma linha
+		if p['cola'] == 0:
+			tx_identado += limpaTexto(p['m'].group(0))
 
-		tx_identado += limpaTexto(p['m'].group(0)) + ' -> ' + p['cola']
+		# Pula linha
+		elif p['cola'] == 1:
+			tx_identado += inicIdent + ident * p['nivel'] + limpaTexto(p['m'].group(0))
+
+			if p['tipo'] == 'fecha':
+				tx_identado += ln
+
+		# Abre identação
+		elif p['cola'] == 2:
+			tx_identado += inicIdent + ident * p['nivel'] + limpaTexto(p['m'].group(0)) + ln
 
 	# Retorna texto identado
 	return tx_identado
