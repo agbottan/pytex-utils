@@ -435,12 +435,17 @@ def cssSub(tx, dirImg=''):
 					
 			# ======== FIM do 'switch'
 			
-			retProps.append(ret)
+			#retProps.append(ret)
 			
 		# ======== FIM do 'for' dos 'patterns'
 		
 	# ======== FIM do 'for' das 'Props'
 	
-	return re.sub(' +',' ',' '.join(retProps))
+	# Converte tuplas de 'prop-val' em string
+	retProps[:] = [ p[0] + ': ' + p[1] + ';' for p in retProps]
+
+	#return re.sub(' +',' ',' '.join(retProps))
+
+	return '\n'.join(retProps)
 
 #--------------------------------- fim de 'cssSub'
