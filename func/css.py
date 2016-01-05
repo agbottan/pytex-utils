@@ -129,7 +129,7 @@ def cssSub(tx, dirImg=''):
 		( 'Color',			r'\bco\b'				),	# Color
 		( 'Width-Height',	r'\b(wh?|hw?)'			),	# Width - Height
 		( 'Margin-Padding',	r'\b(m|pd)[trbl]?'		),	# Margin - Padding
-		( 'Text',			r'\b(t)[adit][cjlnoru]?'),	# Text
+		( 'Text',			r'\bt[adit][cjlnoru]?'	),	# Text
 		( 'Font',			r'\bf[fsw][abn]?'		),	# Font
 		( 'Border',			r'\bbd\b'				),	# Border
 		( 'Background',		r'\bbg[aiprc]?\b'		) 	# Background		
