@@ -12,7 +12,6 @@ from func.editor import *
 def pegaFonte():
 	# !!! TODO !!! -> Pegar a fonte por projeto
 	return 'Arial'
-	
 
 reCor = re.compile(r'(?:[0-9a-fA-F]{3}){1,2}')
 def pegaCor(P):
@@ -20,14 +19,16 @@ def pegaCor(P):
 	cores[:] = ['#'+cor for cor in cores]
 	return cores
 
-reNum = re.compile(r'a|(-?[\d,\.]+(px|=|%|r?em|vw|vh|cm|mm)?)')
+reNum = re.compile(r'a|(-?[\d,\.]+(px|=|%|rem|em|m|vw|vh|cm|mm)?)')
 
-def pegaNumeros(P, completa=True):
+def pegaNumeros(P, unidades=True):
 	numeros = reNum.findall(P)
 	numeros[:] = [n[0] for n in numeros] # Reduz para o primeiro subgrupo apenas
-	if completa:
+	if unidades:
 		numeros[:] = [re.sub(r'^(-?[\d,\.]+)$','\g<1>px',n) for n in numeros] # Põe unidade 'px'
-		numeros[:] = [re.sub(r'^0px$','0',n) for n in numeros] # Transforma '0px' em '0'
+		numeros[:] = [re.sub(r'^(-?[\d,\.]+)m$','\g<1>em',n) for n in numeros] # 'm' vira 'em'
+		numeros[:] = [re.sub(r'^(-?[\d,\.]+)=$','\g<1>%',n) for n in numeros] # '=' vira '%'
+		numeros[:] = [re.sub(r'^0.+$','0',n) for n in numeros] # Transforma '0 unid' em '0'
 	return numeros
 	
 def limpaNumeros(P):
@@ -90,11 +91,19 @@ def cssAutoApaga(vis, edit):
 
 ############### CSS EXPANDE ##############################
 
+# Converte tuplas de 'prop-val' em string
+#retProps[:] = [ p[0] + ': ' + p[1] + ';' for p in retProps]
+#return re.sub(' +',' ',' '.join(retProps))
+#return ident + ('\n'+ident).join(retProps)
+
 def cssExpande(tx, modo=None):
 
 	def cb(tx):
 		nonlocal modo
-		return cssSub(tx,modo['dirImg'])
+		return cssSub(
+			tx = tx,
+			dirImg = modo['dirImg']
+		)
 
 	if re.search('{.+}',tx):
 		tx = re.sub(r'(?<={).*?(?=})',cb,tx)	# aplica 'cssSub' dentro das chaves '{}'
@@ -103,14 +112,18 @@ def cssExpande(tx, modo=None):
 	else:
 		# aplica 'cssSub' se não houver chaves '{}'
 		i = posIdent(tx)
-		tx = tx[0:i] + cssSub(tx[i::],modo['dirImg'])
+		tx = cssSub(
+			tx 		= tx[i::],
+			ident 	= tx[0:i],
+			dirImg 	= modo['dirImg']
+		)
 	return tx
 
 #--------------------------------- fim de 'cssExpande'
 
 ############### CSS SUB ##############################
 
-def cssSub(tx, dirImg=''):
+def cssSub(tx, ident='', dirImg=''):
 
 	if type(tx) != str: tx = tx.group(0)
 
@@ -299,7 +312,7 @@ def cssSub(tx, dirImg=''):
 					't':('transform',{ 'l':'lowercase', 'c':'capitalize', 'u':'uppercase' })
 				}
 				
-				subPropsVals = rel_subProps_vals.get(ini_prop[1],'')
+				subPropsVals = rel_subProps_vals.get(ini_prop[1],None)
 				
 				subProp = ''
 				if(type(subPropsVals) is str):
@@ -312,17 +325,13 @@ def cssSub(tx, dirImg=''):
 				if(subProp == 'indent'):
 					numeros = pegaNumeros(iniProp)
 					iniProp = limpaNumeros(iniProp)
+					val = numeros[0]
 				else:
 					if( len(ini_prop) == 3 ):
 						val = subPropsVals[1].get(ini_prop[2],'')
 				
-				ret = 'text-' + subProp + ':' + val + ' '.join(numeros) + ';'
+				retProps.append(('text-' + subProp, val))
 
-				retProps.append((
-					'text-' + subProp,
-					'val +  '.join(numeros)
-				))
-				
 			# ========================== FONT
 			if ind == 'Font':
 				
@@ -345,6 +354,7 @@ def cssSub(tx, dirImg=''):
 				if(subProp == 'size'):
 					numeros = pegaNumeros(iniProp)
 					iniProp = limpaNumeros(iniProp)
+					val = numeros[0]
 					
 				elif(subProp == 'family'):
 					if( len(ini_prop) == 3 ):
@@ -354,7 +364,7 @@ def cssSub(tx, dirImg=''):
 					if( len(ini_prop) == 3 ):
 						val = subPropsVals[1].get(ini_prop[2],'')
 				
-				ret = 'font-' + subProp + ':' + val + ' '.join(numeros) + ';'
+				retProps.append(('font-' + subProp, val))
 			
 			# ========================== BACKGROUND
 			if ind == 'Background':
@@ -430,22 +440,12 @@ def cssSub(tx, dirImg=''):
 				fim_vals = ( vImg, vCor, vPox, vPoy, vAtt, vRep )
 				fim_vals = ' '.join(fim_vals)
 				fim_vals = fim_vals.strip(' ')
-				fim_vals = fim_prop + ':' + fim_vals + ';'
-				ret = fim_vals
-					
-			# ======== FIM do 'switch'
-			
-			#retProps.append(ret)
-			
-		# ======== FIM do 'for' dos 'patterns'
-		
-	# ======== FIM do 'for' das 'Props'
-	
-	# Converte tuplas de 'prop-val' em string
-	retProps[:] = [ p[0] + ': ' + p[1] + ';' for p in retProps]
 
-	#return re.sub(' +',' ',' '.join(retProps))
-
-	return '\n'.join(retProps)
+				retProps.append((fim_prop, fim_vals))
+			
+			#- 'switch'
+		#- 'for' dos 'patterns'
+	#- 'for' das 'Props'
+	return retProps
 
 #--------------------------------- fim de 'cssSub'
