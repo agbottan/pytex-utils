@@ -41,7 +41,7 @@ config_html = ConfigHtml()
 ############### IDENTA ##############################
 # Monta objeto-árvore
 
-def identaHtml(tx='', inicIdent='', ident='\t', ln='\n', linear=None):
+def identaHtml(tx='', inicIdent='', charIdent='\t', ln='\n', linear=None):
 
 	re_abre	 = re.compile(r'<(?P<tag>[a-z]+[1-6]*)[^<>]*?(?<=[^/])>(?P<txt>[^<]*)')
 	re_fecha = re.compile(r'<\/(?P<tag>[a-z]+[1-6]*)>')
@@ -100,25 +100,35 @@ def identaHtml(tx='', inicIdent='', ident='\t', ln='\n', linear=None):
 	tx_identado = ''
 	for p in partes:
 
+		ptx = ''
+		ident = inicIdent + charIdent * p['nivel']
+		txt = limpaTexto(p['m'].group(0))
+
 		# Mesma linha
 		if p['cola'] == 0:
-			tx_identado += limpaTexto(p['m'].group(0))
+
+			ptx = txt
 
 		# Pula linha
 		elif p['cola'] == 1:
-			tx_identado += inicIdent + ident * p['nivel'] + limpaTexto(p['m'].group(0))
 
 			if p['tipo'] == 'fecha':
-				tx_identado += ln
+				ptx = txt + ln
+			else:
+				ptx = ident + txt
 
 		# Abre identação
 		elif p['cola'] == 2:
-			tx_identado += inicIdent + ident * p['nivel'] + limpaTexto(p['m'].group(0)) + ln
+			ptx = ident + txt + ln
+
+		# Adiciona ao bloco
+		tx_identado += ptx
 
 	# Retorna texto identado
 	return tx_identado
 
 # ---------------------------- FIM de 'identa'
+
 
 ############### SPLIT TAGS ###############
 # Monta objeto-árvore

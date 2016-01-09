@@ -9,26 +9,26 @@ from func.editor import *
 
 # ------------------------------------------------------- #
 
-reCor = re.compile(r'(?:[0-9a-fA-F]{3}){1,2}')
-
 def pegaFonte():
 	# !!! TODO !!! -> Pegar a fonte por projeto
 	return 'Arial'
-	
 
+reCor = re.compile(r'(?:[0-9a-fA-F]{3}){1,2}')
 def pegaCor(P):
 	cores = reCor.findall(P)
 	cores[:] = ['#'+cor for cor in cores]
 	return cores
 
-reNum = re.compile(r'a|(-?[\d,\.]+(px|=|%|r?em|vw|vh|cm|mm)?)')
+reNum = re.compile(r'a|(-?[\d,\.]+(px|=|%|rem|em|m|vw|vh|cm|mm)?)')
 
-def pegaNumeros(P, completa=True):
+def pegaNumeros(P, unidades=True):
 	numeros = reNum.findall(P)
 	numeros[:] = [n[0] for n in numeros] # Reduz para o primeiro subgrupo apenas
-	if completa:
+	if unidades:
 		numeros[:] = [re.sub(r'^(-?[\d,\.]+)$','\g<1>px',n) for n in numeros] # Põe unidade 'px'
-		numeros[:] = [re.sub(r'^0px$','0',n) for n in numeros] # Transforma '0px' em '0'
+		numeros[:] = [re.sub(r'^(-?[\d,\.]+)m$','\g<1>em',n) for n in numeros] # 'm' vira 'em'
+		numeros[:] = [re.sub(r'^(-?[\d,\.]+)=$','\g<1>%',n) for n in numeros] # '=' vira '%'
+		numeros[:] = [re.sub(r'^0.+$','0',n) for n in numeros] # Transforma '0 unid' em '0'
 	return numeros
 	
 def limpaNumeros(P):
@@ -91,27 +91,39 @@ def cssAutoApaga(vis, edit):
 
 ############### CSS EXPANDE ##############################
 
+# Converte tuplas de 'prop-val' em string
+#retProps[:] = [ p[0] + ': ' + p[1] + ';' for p in retProps]
+#return re.sub(' +',' ',' '.join(retProps))
+#return ident + ('\n'+ident).join(retProps)
+
 def cssExpande(tx, modo=None):
 
 	def cb(tx):
 		nonlocal modo
-		return cssSub(tx,modo['dirImg'])
+		return cssSub(
+			tx = tx,
+			dirImg = modo['dirImg']
+		)
 
 	if re.search('{.+}',tx):
 		tx = re.sub(r'(?<={).*?(?=})',cb,tx)	# aplica 'cssSub' dentro das chaves '{}'
-		tx = re.sub(r'{(?=\S)','{ ',tx)		# põe espaço depois de '{'
-		tx = re.sub(r'(?<=\S)}',' }',tx)	# põe espaço antes de '}'
+		tx = re.sub(r'{(?=\S)','{ ',tx)			# põe espaço depois de '{'
+		tx = re.sub(r'(?<=\S)}',' }',tx)		# põe espaço antes de '}'
 	else:
 		# aplica 'cssSub' se não houver chaves '{}'
 		i = posIdent(tx)
-		tx = tx[0:i] + cssSub(tx[i::],modo['dirImg'])
+		tx = cssSub(
+			tx 		= tx[i::],
+			ident 	= tx[0:i],
+			dirImg 	= modo['dirImg']
+		)
 	return tx
 
 #--------------------------------- fim de 'cssExpande'
 
 ############### CSS SUB ##############################
 
-def cssSub(tx, dirImg=''):
+def cssSub(tx, ident='', dirImg=''):
 
 	if type(tx) != str: tx = tx.group(0)
 
@@ -130,7 +142,7 @@ def cssSub(tx, dirImg=''):
 		( 'Color',			r'\bco\b'				),	# Color
 		( 'Width-Height',	r'\b(wh?|hw?)'			),	# Width - Height
 		( 'Margin-Padding',	r'\b(m|pd)[trbl]?'		),	# Margin - Padding
-		( 'Text',			r'\b(t)[adit][cjlnoru]?'),	# Text
+		( 'Text',			r'\bt[adit][cjlnoru]?'	),	# Text
 		( 'Font',			r'\bf[fsw][abn]?'		),	# Font
 		( 'Border',			r'\bbd\b'				),	# Border
 		( 'Background',		r'\bbg[aiprc]?\b'		) 	# Background		
@@ -161,9 +173,7 @@ def cssSub(tx, dirImg=''):
 			continue
 		
 		for (ind,pat) in patCss[1:]:
-			
-			ret = ''
-			
+
 			# ========================== Sem expansão, ignora...
 			m = re.match(pat,iniProp)
 			if m == None:
@@ -179,7 +189,7 @@ def cssSub(tx, dirImg=''):
 
 				val = rel_vals.get(ini_prop[-1],'')
 
-				ret = 'display:' + val + ';'
+				retProps.append(('display',val))
 				
 			# ========================== POSITION
 			if ind == 'Position':
@@ -187,15 +197,15 @@ def cssSub(tx, dirImg=''):
 				rel_vals = { 'a':'absolute', 'r':'relative', 'f':'fixed', 's':'static' }
 
 				val = rel_vals.get(ini_prop[-1],'')
-				
-				ret = 'position:' + val + ';'
+
+				retProps.append(('position',val))
 
 			# ========================== Z-INDEX
 			if ind == 'Z-index':
 
 				val = pegaNumeros(ini_prop,False)[0]
 
-				ret = 'z-index:' + val + ';'
+				retProps.append(('z-index',val))
 
 			# ========================== FLOAT
 			if ind == 'Float':
@@ -204,7 +214,7 @@ def cssSub(tx, dirImg=''):
 
 				val = rel_vals.get(ini_prop[-1],'')
 				
-				ret = 'float:' + val + ';'
+				retProps.append(('float',val))
 				
 			# ========================== CLEAR
 			if ind == 'Clear':
@@ -213,7 +223,7 @@ def cssSub(tx, dirImg=''):
 
 				val = rel_vals.get(ini_prop[-1],'')
 				
-				ret = 'clear:' + val + ';'
+				retProps.append(('clear',val))
 
 			# ========================== BOX-SIZING
 			if ind == 'Box':
@@ -222,7 +232,7 @@ def cssSub(tx, dirImg=''):
 
 				val = rel_vals.get(ini_prop[-1],'border-box')
 				
-				ret = 'box-sizing:' + val + ';'
+				retProps.append(('box-sizing',val))
 				
 			# ========================== CURSOR
 			if ind == 'Cursor':
@@ -231,7 +241,7 @@ def cssSub(tx, dirImg=''):
 
 				val = rel_vals.get(ini_prop[-1],'')
 				
-				ret = 'cursor:' + val + ';'
+				retProps.append(('cursor',val))
 				
 			# ========================== OVERFLOW
 			if ind == 'Overflow':
@@ -241,17 +251,20 @@ def cssSub(tx, dirImg=''):
 				val = rel_vals.get(ini_prop[-1],'')
 				
 				coord = ''
-				if( len(ini_prop) == 3 ):
+				if len(ini_prop) == 3:
 					coord = '-' + ini_prop[1]
 				
-				ret = 'overflow' + coord + ':' + val + ';'
-									
+				retProps.append(('overflow' + coord,val))
+
 			# ========================== COLOR
 			if ind == 'Color':
 
 				val = pegaCor(ini_vals)
 				
-				ret = 'color:' + '='.join(val) + ';'
+				retProps.append((
+					'color',
+					'='.join(val)
+				))
 				
 			# ========================== WIDTH - HEIGHT
 			if ind == 'Width-Height':
@@ -267,10 +280,7 @@ def cssSub(tx, dirImg=''):
 				}
 				
 				props = rel_props.get(ini_prop,'')
-				fimProps = list(zip(props,numeros))
-				fimProps[:] = [ p[0] + ':' + p[1] + ';' for p in fimProps]
-				
-				ret = ' '.join(fimProps)
+				retProps.append(list(zip(props,numeros)))
 
 			# ========================== MARGIN - PADDING
 			if ind == 'Margin-Padding':
@@ -282,11 +292,15 @@ def cssSub(tx, dirImg=''):
 				rel_subProps	= { 't':'top', 'r':'right', 'b':'bottom', 'l':'left' }
 				
 				val = ''
+				subProp = ''
 				prop	= rel_props.get(ini_prop[0],'')
-				sprop	= rel_subProps.get(ini_prop[-1],'')
-				if( sprop != '' ): sprop = '-' + sprop
+				subProp	= rel_subProps.get(ini_prop[-1],'')
+				if( subProp != '' ): subProp = '-' + subProp
 				
-				ret = prop + sprop + ':' + ' '.join(numeros) + ';'
+				retProps.append((
+					prop + subProp,
+					' '.join(numeros)
+				))
 			
 			# ========================== TEXT
 			if ind == 'Text':
@@ -298,7 +312,7 @@ def cssSub(tx, dirImg=''):
 					't':('transform',{ 'l':'lowercase', 'c':'capitalize', 'u':'uppercase' })
 				}
 				
-				subPropsVals = rel_subProps_vals.get(ini_prop[1],'')
+				subPropsVals = rel_subProps_vals.get(ini_prop[1],None)
 				
 				subProp = ''
 				if(type(subPropsVals) is str):
@@ -311,12 +325,13 @@ def cssSub(tx, dirImg=''):
 				if(subProp == 'indent'):
 					numeros = pegaNumeros(iniProp)
 					iniProp = limpaNumeros(iniProp)
+					val = numeros[0]
 				else:
 					if( len(ini_prop) == 3 ):
 						val = subPropsVals[1].get(ini_prop[2],'')
 				
-				ret = 'text-' + subProp + ':' + val + ' '.join(numeros) + ';'
-				
+				retProps.append(('text-' + subProp, val))
+
 			# ========================== FONT
 			if ind == 'Font':
 				
@@ -339,6 +354,7 @@ def cssSub(tx, dirImg=''):
 				if(subProp == 'size'):
 					numeros = pegaNumeros(iniProp)
 					iniProp = limpaNumeros(iniProp)
+					val = numeros[0]
 					
 				elif(subProp == 'family'):
 					if( len(ini_prop) == 3 ):
@@ -348,7 +364,7 @@ def cssSub(tx, dirImg=''):
 					if( len(ini_prop) == 3 ):
 						val = subPropsVals[1].get(ini_prop[2],'')
 				
-				ret = 'font-' + subProp + ':' + val + ' '.join(numeros) + ';'
+				retProps.append(('font-' + subProp, val))
 			
 			# ========================== BACKGROUND
 			if ind == 'Background':
@@ -424,17 +440,12 @@ def cssSub(tx, dirImg=''):
 				fim_vals = ( vImg, vCor, vPox, vPoy, vAtt, vRep )
 				fim_vals = ' '.join(fim_vals)
 				fim_vals = fim_vals.strip(' ')
-				fim_vals = fim_prop + ':' + fim_vals + ';'
-				ret = fim_vals
-					
-			# ======== FIM do 'switch'
+
+				retProps.append((fim_prop, fim_vals))
 			
-			retProps.append(ret)
-			
-		# ======== FIM do 'for' dos 'patterns'
-		
-	# ======== FIM do 'for' das 'Props'
-	
-	return re.sub(' +',' ',' '.join(retProps))
+			#- 'switch'
+		#- 'for' dos 'patterns'
+	#- 'for' das 'Props'
+	return retProps
 
 #--------------------------------- fim de 'cssSub'
