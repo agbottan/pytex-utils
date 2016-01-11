@@ -3,8 +3,8 @@
 //////// ATALHOS
 	
 	{ "keys": ["f6"], "command": "wrap_lines" },
-	{ "keys": ["f1"], "command": "toggle_side_bar" },
-	{ "keys": ["shift+f1"], "command": "toggle_minimap" },
+	{ "keys": ["shift+f1"], "command": "toggle_side_bar" },
+	{ "keys": ["f1"], "command": "toggle_minimap" },
 	{ "keys": ["ctrl+'"], "command": "show_panel", "args": {"panel": "console", "toggle": true} },
 
 //////// PLUGINS
