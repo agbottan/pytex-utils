@@ -1,7 +1,7 @@
 
-#########################
-#	FUNÇÕES PARA CSS	#
-#########################
+#####################
+#   CSS > EXPANDE   #
+#####################
 
 import re, sublime
 from func.utils import splitRe, posIdent
@@ -37,59 +37,8 @@ def limpaNumeros(P):
 	for n in numeros: P = re.sub(n,'',P)
 	return P
 
-############### CSS AUTO APAGA ##############################
 
-def pegaCssProp(vis):
-
-	# ---> Cursor move 1 atrás se tiver um ';' antes
-	# p = posCursor(vis)
-	# if vis.substr(sublime.Region(p,p-1)) == ';': vaiCursor(vis,p-1)
-
-	ini = fim = posCursor(vis)
-	eof = vis.size()
-
-	# Indo para o começo da linha
-	ch = ''
-	while ini > 0:
-		ch = vis.substr(sublime.Region(ini,ini-1))
-	
-		if ch == '{': break
-
-		elif ch == ';': break
-
-		elif ch == '}':
-			ini = None; break
-
-		ini -= 1
-
-	# Indo para o fim da linha
-	ch = ''
-	while fim < eof:
-		ch = vis.substr(sublime.Region(fim,fim+1))
-
-		if ch == '}': break
-
-		elif ch == ';':
-			fim += 1; break
-
-		elif ch == '{':
-			fim = None; break
-
-		fim += 1
-
-	return sublime.Region(ini,fim)
-
-#--------------------------------- fim de 'pegaCssProp'
-
-def cssAutoApaga(vis, edit):
-
-	prop = pegaCssProp(vis)
-	if None not in (prop.a,prop.b):
-		vis.erase(edit,prop)
-
-#--------------------------------- fim de 'cssAutoApaga'
-
-############### CSS EXPANDE ##############################
+############### EXPANSOR DE CSS ###############
 
 # Converte tuplas de 'prop-val' em string
 #retProps[:] = [ p[0] + ': ' + p[1] + ';' for p in retProps]
@@ -98,12 +47,20 @@ def cssAutoApaga(vis, edit):
 
 def cssExpande(tx, modo=None):
 
+	# Converte tuplas de prop-val em string
+	def propsMonta(propsLista, ident=' ', ln=''):
+		montaLista[:] = [ ident + p[0] + ': ' + p[1] + ';' for p in propsLista]
+		ret = ln.join(montaLista)
+		ret = re.sub(' +',' ',ret) # Junta espaços em um só
+		return ret
+
 	def cb(tx):
 		nonlocal modo
-		return cssSub(
+		lista = cssSub(
 			tx = tx,
 			dirImg = modo['dirImg']
 		)
+		ret = propsMonta(propsLista=lista)
 
 	if re.search('{.+}',tx):
 		tx = re.sub(r'(?<={).*?(?=})',cb,tx)	# aplica 'cssSub' dentro das chaves '{}'

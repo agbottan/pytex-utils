@@ -17,13 +17,14 @@ for path in paths:
 	if os.path.isdir(path) and path not in sys.path:
 		sys.path.append(path)
 
-import func.css, func.html, func.entities, func.editor, func.utils, func.formata_linhas
+import func.css_apaga, func.css_expande, func.html, func.entities, func.editor, func.utils, func.formata_linhas
 
 # !!! RELOAD !!!
 import imp
 imp.reload(func.editor)
 imp.reload(func.html)
-imp.reload(func.css)
+imp.reload(func.css_apaga)
+imp.reload(func.css_expande)
 
 
 # ============================ CLASSES DOS COMANDOS ============================ #

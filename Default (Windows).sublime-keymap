@@ -11,8 +11,8 @@
 //////// ATALHOS
 	
 	{ "keys": ["f6"], "command": "wrap_lines" },
-	{ "keys": ["f1"], "command": "toggle_side_bar" },
-	{ "keys": ["shift+f1"], "command": "toggle_minimap" },
+	{ "keys": ["shift+f1"], "command": "toggle_side_bar" },
+	{ "keys": ["f1"], "command": "toggle_minimap" },
 	{ "keys": ["alt+up"], "command": "select_lines", "args": {"forward": false} },
 	{ "keys": ["alt+down"], "command": "select_lines", "args": {"forward": true} },
 

@@ -117,6 +117,34 @@ class ConfigHtml:
 				('value', ''),
 			)
 		},
+
+		# === HTML-5 === #
+		
+		{ # <header>
+			're':r'^\s*h[ed](?=\s+|\.|#|~|$)', 'tag':'header',
+			'linha':2
+		},
+		{ # <section>
+			're':r'^\s*s[ce](?=\s+|\.|#|~|$)', 'tag':'section',
+			'linha':2
+		},
+		{ # <footer>
+			're':r'^\s*f[ot](?=\s+|\.|#|~|$)', 'tag':'footer',
+			'linha':2
+		},
+		{ # <aside>
+			're':r'^\s*as(?=\s+|\.|#|~|$)', 'tag':'aside',
+			'linha':2
+		},
+		{ # <article>
+			're':r'^\s*at(?=\s+|\.|#|~|$)', 'tag':'article',
+			'linha':2
+		},
+		{ # <main>
+			're':r'^\s*ma(?=\s+|\.|#|~|$)', 'tag':'main',
+			'linha':2
+		}
+
 	)  # .tags
 
 # Fim de 'ConfigHtml'
