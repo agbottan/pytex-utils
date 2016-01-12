@@ -1,20 +1,13 @@
 
-####################
-#  CONFIG DO HTML  #
-####################
+###################
+#  CONFIG DO CSS  #
+###################
 
-class ConfigHtml:
+class ConfigCss:
 	
 	dirImg = 'img/'
 
-	tags = (
-
-		# ----------------------------
-		# linha:
-		#	0 -> mesma linha
-		#	1 -> pula linha
-		#	2 -> abre identação
-		# ----------------------------
+	props = (
 
 		{ # <a>
 			're':r'^\s*a(?=\s+|\.|#|~|$)', 'tag':'a',

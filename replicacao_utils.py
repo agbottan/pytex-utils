@@ -64,7 +64,7 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
 
 		# Expande CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):
-			func.editor.aplica(edit, func=func.css.cssExpande, vis=vis, modo=modo)
+			func.editor.aplica(edit, func=func.css_expande.cssExpande, vis=vis, modo=modo)
 
 		# Expande HTML
 		elif modo['modo'] == 'html':
@@ -88,6 +88,6 @@ class AutoApagaCommand(sublime_plugin.TextCommand):
 
 		# Apaga CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):
-			func.css.cssAutoApaga(self.view,edit)
+			func.css_apaga.cssAutoApaga(self.view,edit)
 		else:
 			func.editor.x('Não apaga "' + modo['ext'] + '"')

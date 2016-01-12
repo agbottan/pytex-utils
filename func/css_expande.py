@@ -19,6 +19,7 @@ def pegaCor(P):
 	cores[:] = ['#'+cor for cor in cores]
 	return cores
 
+# Regex que acha os números
 reNum = re.compile(r'a|(-?[\d,\.]+(px|=|%|rem|em|m|vw|vh|cm|mm)?)')
 
 def pegaNumeros(P, unidades=True):
@@ -40,47 +41,40 @@ def limpaNumeros(P):
 
 ############### EXPANSOR DE CSS ###############
 
-# Converte tuplas de 'prop-val' em string
-#retProps[:] = [ p[0] + ': ' + p[1] + ';' for p in retProps]
-#return re.sub(' +',' ',' '.join(retProps))
-#return ident + ('\n'+ident).join(retProps)
-
 def cssExpande(tx, modo=None):
 
 	# Converte tuplas de prop-val em string
-	def propsMonta(propsLista, ident=' ', ln=''):
-		montaLista[:] = [ ident + p[0] + ': ' + p[1] + ';' for p in propsLista]
-		ret = ln.join(montaLista)
+	def propsMonta(propsLista, ident='', ln=''):
+		propsLista[:] = [ ident + p[0] + ':' + p[1] + ';' for p in propsLista]
+		ret = ln.join(propsLista)
 		ret = re.sub(' +',' ',ret) # Junta espaços em um só
 		return ret
 
+	ret = ''
 	def cb(tx):
 		nonlocal modo
-		lista = cssSub(
+		lista = cssLista(
 			tx = tx,
 			dirImg = modo['dirImg']
 		)
-		ret = propsMonta(propsLista=lista)
+		ret = propsMonta(lista)
 
 	if re.search('{.+}',tx):
-		tx = re.sub(r'(?<={).*?(?=})',cb,tx)	# aplica 'cssSub' dentro das chaves '{}'
-		tx = re.sub(r'{(?=\S)','{ ',tx)			# põe espaço depois de '{'
-		tx = re.sub(r'(?<=\S)}',' }',tx)		# põe espaço antes de '}'
+		tx = re.sub(r'(?<={).*?(?=})',cb,tx) # aplica 'cssLista' e 'cssMonta' dentro das chaves '{}'
+		tx = re.sub(r'{(?=\S)','{ ',tx)		 # põe espaço depois de '{'
+		tx = re.sub(r'(?<=\S)}',' }',tx)	 # põe espaço antes de '}'
 	else:
-		# aplica 'cssSub' se não houver chaves '{}'
+		# aplica 'cssLista' se não houver chaves '{}'
 		i = posIdent(tx)
-		tx = cssSub(
-			tx 		= tx[i::],
-			ident 	= tx[0:i],
-			dirImg 	= modo['dirImg']
-		)
-	return tx
+		lista = cssLista(tx = tx[i::], dirImg 	= modo['dirImg'])
+		ret = propsMonta(propsLista = lista, ident = '\t')
+	return ret
 
 #--------------------------------- fim de 'cssExpande'
 
 ############### CSS SUB ##############################
 
-def cssSub(tx, ident='', dirImg=''):
+def cssLista(tx, dirImg=''):
 
 	if type(tx) != str: tx = tx.group(0)
 
@@ -405,4 +399,4 @@ def cssSub(tx, ident='', dirImg=''):
 	#- 'for' das 'Props'
 	return retProps
 
-#--------------------------------- fim de 'cssSub'
+#--------------------------------- fim de 'cssLista'
