@@ -44,30 +44,45 @@ def limpaNumeros(P):
 def cssExpande(tx, modo=None):
 
 	# Converte tuplas de prop-val em string
-	def propsMonta(propsLista, ident='', ln=''):
+	def propsMonta(propsLista, ident='', propsSepara=''):
 		propsLista[:] = [ ident + p[0] + ':' + p[1] + ';' for p in propsLista]
-		ret = ln.join(propsLista)
+		ret = propsSepara.join(propsLista)
 		ret = re.sub(' +',' ',ret) # Junta espaços em um só
 		return ret
 
 	ret = ''
-	def cb(tx):
-		nonlocal modo
-		lista = cssLista(
-			tx = tx,
-			dirImg = modo['dirImg']
-		)
-		ret = propsMonta(lista)
 
+	# Aplica 'cssLista' dentro das chaves '{}'
 	if re.search('{.+}',tx):
-		tx = re.sub(r'(?<={).*?(?=})',cb,tx) # aplica 'cssLista' e 'cssMonta' dentro das chaves '{}'
+
+		def cb(tx):
+			nonlocal modo
+
+			lista = cssLista(
+				tx = tx,
+				dirImg = modo['dirImg']
+			)
+			return propsMonta(
+				propsLista = lista,
+				ident = '',
+				propsSepara = ' '
+			)
+
+		tx = re.sub(r'(?<={).*?(?=})',cb,tx) # aplica 'cssLista' e 'propsMonta' dentro das chaves '{}'
 		tx = re.sub(r'{(?=\S)','{ ',tx)		 # põe espaço depois de '{'
 		tx = re.sub(r'(?<=\S)}',' }',tx)	 # põe espaço antes de '}'
+		ret = tx
+
+	# Aplica 'cssLista' se não houver chaves '{}'
 	else:
-		# aplica 'cssLista' se não houver chaves '{}'
 		i = posIdent(tx)
 		lista = cssLista(tx = tx[i::], dirImg 	= modo['dirImg'])
-		ret = propsMonta(propsLista = lista, ident = '\t')
+		ret = propsMonta(
+			propsLista = lista,
+			ident = tx[0:i],
+			propsSepara = '\n'
+		)
+
 	return ret
 
 #--------------------------------- fim de 'cssExpande'
@@ -94,7 +109,7 @@ def cssLista(tx, dirImg=''):
 		( 'Width-Height',	r'\b(wh?|hw?)'			),	# Width - Height
 		( 'Margin-Padding',	r'\b(m|pd)[trbl]?'		),	# Margin - Padding
 		( 'Text',			r'\bt[adit][cjlnoru]?'	),	# Text
-		( 'Font',			r'\bf[fsw][abn]?'		),	# Font
+		( 'Font',			r'\bf[msw][abn]?'		),	# Font
 		( 'Border',			r'\bbd\b'				),	# Border
 		( 'Background',		r'\bbg[aiprc]?\b'		) 	# Background		
 	)
@@ -287,7 +302,7 @@ def cssLista(tx, dirImg=''):
 			if ind == 'Font':
 				
 				rel_subProps_vals = {
-					'f':'family',
+					'm':'family',
 					's':'size',
 					'w':('weight',{ 'b':'bold', 'n':'normal' })
 				}
