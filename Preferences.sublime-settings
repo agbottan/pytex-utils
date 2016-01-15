@@ -1,5 +1,21 @@
 {
 	"auto_complete": false,
+	"binary_file_patterns":
+	[
+		"*.jpg",
+		"*.jpeg",
+		"*.png",
+		"*.gif",
+		"*.ttf",
+		"*.tga",
+		"*.dds",
+		"*.ico",
+		"*.eot",
+		"*.pdf",
+		"*.swf",
+		"*.jar",
+		"*.zip"
+	],
 	"default_encoding": "UTF-8",
 	"detect_indentation": false,
 	"fallback_encoding": "UTF-8",
@@ -13,7 +29,5 @@
 		"Vintage"
 	],
 	"translate_tabs_to_spaces": false,
-	"word_wrap": true,
-
-  "binary_file_patterns": ["*.jpg", "*.jpeg", "*.png", "*.gif", "*.ttf", "*.tga", "*.dds", "*.ico", "*.eot", "*.pdf", "*.swf", "*.jar", "*.zip"],
+	"word_wrap": true
 }

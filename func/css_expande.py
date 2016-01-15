@@ -20,12 +20,15 @@ def pegaCor(P):
 	return cores
 
 # Regex que acha os números
-reNum = re.compile(r'a|(-?[\d,\.]+(px|=|%|rem|em|m|vw|vh|cm|mm)?)')
+reNum = re.compile(r'(-?[\d,\.a]+(px|=|%|rem|em|m|vw|vh|cm|mm)?)')
 
-def pegaNumeros(P, unidades=True):
+def pegaNumeros(P, completaUnidades=True):
+
 	numeros = reNum.findall(P)
 	numeros[:] = [n[0] for n in numeros] # Reduz para o primeiro subgrupo apenas
-	if unidades:
+	numeros[:] = [re.sub('a','auto',n) for n in numeros] # 'a' vira 'auto'
+
+	if completaUnidades:
 		numeros[:] = [re.sub(r'^(-?[\d,\.]+)$','\g<1>px',n) for n in numeros] # Põe unidade 'px'
 		numeros[:] = [re.sub(r'^(-?[\d,\.]+)m$','\g<1>em',n) for n in numeros] # 'm' vira 'em'
 		numeros[:] = [re.sub(r'^(-?[\d,\.]+)=$','\g<1>%',n) for n in numeros] # '=' vira '%'
@@ -45,10 +48,9 @@ def cssExpande(tx, modo=None):
 
 	# Converte tuplas de prop-val em string
 	def propsMonta(propsLista, ident='', propsSepara=''):
-		propsLista[:] = [ ident + p[0] + ':' + p[1] + ';' for p in propsLista]
-		ret = propsSepara.join(propsLista)
-		ret = re.sub(' +',' ',ret) # Junta espaços em um só
-		return ret
+		return propsSepara.join([
+			ident + p[0] + ':' + p[1] + ';' for p in propsLista
+		])
 
 	ret = ''
 
@@ -98,7 +100,7 @@ def cssLista(tx, dirImg=''):
 		( 'ignora', r'\b(display|position|z-index|left|top|right|bottom|float|clear|margin|padding|(min-|max-)?width|(min-|max-)?height|line-height|border|text|font|color|background|overflow)[^;]*;' ), # ignora...			
 		# Chamadas para montar propriedades
 		( 'Display',		r'\bd[bnil]\b'			),	# Display
-		( 'Position',		r'\bp[arfs]\b'			),	# Position
+		( 'Position',		r'\bp[akrfs]\b'			),	# Position
 		( 'Z-index',		r'\bz\s*\d+\b'			),	# Z-index
 		( 'Float',			r'\bf[lrn]\b'			),	# Float
 		( 'Clear',			r'\bc[lrbn]\b'			),	# Clear
@@ -106,12 +108,12 @@ def cssLista(tx, dirImg=''):
 		( 'Cursor',			r'\bcu[dp]\b'			),	# Cursor
 		( 'Overflow',		r'\bo[xy]?[hsv]\b'		),	# Overflow
 		( 'Color',			r'\bco\b'				),	# Color
-		( 'Width-Height',	r'\b(wh?|hw?)'			),	# Width - Height
+		( 'Width-Height',	r'\b(wh?|hw?|q)'		),	# Width - Height
 		( 'Margin-Padding',	r'\b(m|pd)[trbl]?'		),	# Margin - Padding
 		( 'Text',			r'\bt[adit][cjlnoru]?'	),	# Text
 		( 'Font',			r'\bf[msw][abn]?'		),	# Font
 		( 'Border',			r'\bbd\b'				),	# Border
-		( 'Background',		r'\bbg[aiprc]?\b'		) 	# Background		
+		( 'Background',		r'\bbg[aiprc]?\b'		) 	# Background
 	)
 
 	reCss = ''
@@ -160,7 +162,7 @@ def cssLista(tx, dirImg=''):
 			# ========================== POSITION
 			if ind == 'Position':
 				
-				rel_vals = { 'a':'absolute', 'r':'relative', 'f':'fixed', 's':'static' }
+				rel_vals = { 'a':'absolute', 'r':'relative', 'f':'fixed', 's':'static', 'k':'sticky' }
 
 				val = rel_vals.get(ini_prop[-1],'')
 
@@ -236,6 +238,7 @@ def cssLista(tx, dirImg=''):
 			if ind == 'Width-Height':
 			
 				numeros = pegaNumeros(iniProp)
+				x(numeros)
 				iniProp = limpaNumeros(iniProp)
 				
 				rel_props = {
@@ -246,7 +249,7 @@ def cssLista(tx, dirImg=''):
 				}
 				
 				props = rel_props.get(ini_prop,'')
-				retProps.append(list(zip(props,numeros)))
+				retProps += list(zip(props,numeros))
 
 			# ========================== MARGIN - PADDING
 			if ind == 'Margin-Padding':
