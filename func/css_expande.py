@@ -11,7 +11,7 @@ from func.editor import *
 
 def pegaFonte():
 	# !!! TODO !!! -> Pegar a fonte por projeto
-	return 'Arial'
+	return ''
 
 reCor = re.compile(r'(?:[0-9a-fA-F]{3}){1,2}')
 def pegaCor(P):
@@ -112,8 +112,8 @@ def cssLista(tx, dirImg=''):
 		( 'Margin-Padding',	r'\b(m|pd)[trbl]?'		),	# Margin - Padding
 		( 'Text',			r'\bt[adit][cjlnoru]?'	),	# Text
 		( 'Font',			r'\bf[msw][abn]?'		),	# Font
-		( 'Border',			r'\bbd\b'				),	# Border
-		( 'Background',		r'\bbg[aiprc]?\b'		) 	# Background
+		( 'Border',			r'\bbd[drs]\b'			),	# Border
+		( 'Background',		r'\bbg[aiprcs]?\b'		) 	# Background
 	)
 
 	reCss = ''
@@ -137,7 +137,9 @@ def cssLista(tx, dirImg=''):
 		# ========================== Propriedade feita, ignora...
 		pronta = re.match(patCss[0][1],iniProp)
 		if pronta:
-			retProps.append(iniProp)
+			retProps.append(
+				iniProp.replace(';','').split(':',1)
+			)
 			continue
 		
 		for (ind,pat) in patCss[1:]:
@@ -326,15 +328,43 @@ def cssLista(tx, dirImg=''):
 					val = numeros[0]
 					
 				elif(subProp == 'family'):
-					if( len(ini_prop) == 3 ):
-						val = pegaFonte()
-					
+					val = pegaFonte()
+
 				else:
 					if( len(ini_prop) == 3 ):
 						val = subPropsVals[1].get(ini_prop[2],'')
 				
 				retProps.append(('font-' + subProp, val))
 			
+			# ========================== BORDER
+			if ind == 'Border':
+				
+				rel_subProps_vals = {
+					'd':'dotted',
+					'r':'radius',
+					's':'solid'
+				}
+				
+				subPropsVals = rel_subProps_vals.get(ini_prop[1],None)
+				
+				subProp = ''
+				if(type(subPropsVals) is str):
+					subProp = subPropsVals
+				else:
+					subProp = subPropsVals[0]
+					
+				val = numeros = ''
+				
+				if(subProp == 'radius'):
+					numeros = pegaNumeros(iniProp)
+					iniProp = limpaNumeros(iniProp)
+					val = numeros[0]
+				else:
+					if( len(ini_prop) == 3 ):
+						val = subPropsVals[1].get(ini_prop[2],'') # !!!
+				
+				retProps.append(('border-' + subProp, val))
+
 			# ========================== BACKGROUND
 			if ind == 'Background':
 				
@@ -347,6 +377,7 @@ def cssLista(tx, dirImg=''):
 				elif ini_prop[-1] == 'p':	fim_prop = 'background-position'
 				elif ini_prop[-1] == 'r':	fim_prop = 'background-repeat'
 				elif ini_prop[-1] == 'c':	fim_prop = 'background-color'
+				elif ini_prop[-1] == 's':	fim_prop = 'background-size'
 				else: fim_prop = 'background'
 				
 				if fim_prop in ['background','background-image']:
