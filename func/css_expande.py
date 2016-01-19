@@ -22,23 +22,29 @@ def pegaCor(P):
 # Regex que acha os números
 reNum = re.compile(r'(-?[\d,\.a]+(px|=|%|rem|em|m|vw|vh|cm|mm)?)')
 
-def pegaNumeros(P, completaUnidades=True):
+def pegaNumeros(P, limite=None, completaUnidades=True):
 
-	numeros = reNum.findall(P)
-	numeros[:] = [n[0] for n in numeros] # Reduz para o primeiro subgrupo apenas
-	numeros[:] = [re.sub('a','auto',n) for n in numeros] # 'a' vira 'auto'
+	nums = reNum.findall(P)
+	nums[:] = [n[0] for n in nums] # Reduz para o primeiro subgrupo apenas
+	nums[:] = [re.sub('a','auto',n) for n in nums] # 'a' vira 'auto'
+
+	if limite: nums = nums[:limite]
 
 	if completaUnidades:
-		numeros[:] = [re.sub(r'^(-?[\d,\.]+)$','\g<1>px',n) for n in numeros] # Põe unidade 'px'
-		numeros[:] = [re.sub(r'^(-?[\d,\.]+)m$','\g<1>em',n) for n in numeros] # 'm' vira 'em'
-		numeros[:] = [re.sub(r'^(-?[\d,\.]+)=$','\g<1>%',n) for n in numeros] # '=' vira '%'
-		numeros[:] = [re.sub(r'^0.+$','0',n) for n in numeros] # Transforma '0 unid' em '0'
-	return numeros
+		for i, n in enumerate(nums):
+			n = re.sub(r'^(-?[\d,\.]+)$','\g<1>px',n)	# Põe unidade 'px'
+			n = re.sub(r'^(-?[\d,\.]+)m$','\g<1>em',n)	# 'm' vira 'em'
+			n = re.sub(r'^(-?[\d,\.]+)=$','\g<1>%',n)	# '=' vira '%'
+			n = re.sub(r'^0.+$','0',n)					# Transforma '0 unid' em '0'
+			nums[i] = n
+
+	return nums
 	
 def limpaNumeros(P):
-	numeros = reNum.findall(P)
-	numeros[:] = [n[0] for n in numeros] # Reduz para o primeiro subgrupo apenas
-	for n in numeros: P = re.sub(n,'',P)
+	nums = reNum.findall(P)
+	nums[:] = [n[0] for n in nums] # Reduz para o primeiro subgrupo apenas
+	for n in nums:
+		P = re.sub(n,'',P)
 	return P
 
 
@@ -47,15 +53,16 @@ def limpaNumeros(P):
 def cssExpande(tx, modo=None):
 
 	# Converte tuplas de prop-val em string
-	def propsMonta(propsLista, ident='', propsSepara=''):
+	def propsMonta(propsLista, ident='', propsSepara='', valSepara=': '):
 		return propsSepara.join([
-			ident + p[0] + ':' + p[1] + ';' for p in propsLista
+			ident + p[0] + valSepara + p[1] + ';' for p in propsLista
 		])
 
 	ret = ''
 
 	# Aplica 'cssLista' dentro das chaves '{}'
-	if re.search('{.+}',tx):
+	#if re.search(r'{.+}|^.+}|{.+$',tx):
+	if re.search(r'{.+}',tx):
 
 		def cb(tx):
 			nonlocal modo
@@ -75,7 +82,7 @@ def cssExpande(tx, modo=None):
 		tx = re.sub(r'(?<=\S)}',' }',tx)	 # põe espaço antes de '}'
 		ret = tx
 
-	# Aplica 'cssLista' se não houver chaves '{}'
+	# Aplica 'cssLista' se não houver as duas chaves '{}'
 	else:
 		i = posIdent(tx)
 		lista = cssLista(tx = tx[i::], dirImg 	= modo['dirImg'])
@@ -240,18 +247,22 @@ def cssLista(tx, dirImg=''):
 			if ind == 'Width-Height':
 			
 				numeros = pegaNumeros(iniProp)
-				x(numeros)
 				iniProp = limpaNumeros(iniProp)
 				
 				rel_props = {
 					'w':['width'],
 					'h':['height'],
 					'wh':['width','height'],
-					'hw':['height','width']
+					'hw':['height','width'],
+					'q':['width','height']
 				}
 				
 				props = rel_props.get(ini_prop,'')
-				retProps += list(zip(props,numeros))
+
+				if iniProp == 'q':
+					retProps += list(zip(props,(10, 10)))
+				else:
+					retProps += list(zip(props,numeros))
 
 			# ========================== MARGIN - PADDING
 			if ind == 'Margin-Padding':
