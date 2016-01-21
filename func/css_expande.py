@@ -20,9 +20,12 @@ def pegaCor(P):
 	return cores
 
 # Regex que acha os números
-reNum = re.compile(r'(-?[\d,\.a]+(px|=|%|rem|em|m|vw|vh|cm|mm)?)')
+#unids = 'px|%|rem|em|vw|vh|cm|mm'
+unidades = ('px','%','rem','em','vw','vh','cm','mm')
+unidadesAtalho = ('=','m')
+reNum = re.compile(r'(-?[\d,\.a]+(' + '|'.join(unidades + unidadesAtalho) + ')?)')
 
-def pegaNumeros(P, limite=None, completaUnidades=True):
+def pegaNumeros(P, limite=None, completaUnidades=True, unidadePadrao='px'):
 
 	nums = reNum.findall(P)
 	nums[:] = [n[0] for n in nums] # Reduz para o primeiro subgrupo apenas
@@ -32,10 +35,22 @@ def pegaNumeros(P, limite=None, completaUnidades=True):
 
 	if completaUnidades:
 		for i, n in enumerate(nums):
-			n = re.sub(r'^(-?[\d,\.]+)$','\g<1>px',n)	# Põe unidade 'px'
-			n = re.sub(r'^(-?[\d,\.]+)m$','\g<1>em',n)	# 'm' vira 'em'
-			n = re.sub(r'^(-?[\d,\.]+)=$','\g<1>%',n)	# '=' vira '%'
-			n = re.sub(r'^0(px|em|%)$','0',n)					# Transforma '0 unid' em '0'
+
+			# Põe a unidade padrão
+			n = re.sub(r'^(-?[\d,.]+)$','\g<1>'+unidadePadrao,n)
+
+			# 'm' vira 'em'
+			n = re.sub(r'^(-?[\d,.]+)m$','\g<1>em',n)
+
+			# '=' vira '%'
+			n = re.sub(r'^(-?[\d,.]+)=$','\g<1>%',n)
+
+			# Transforma '0 unid' em '0'
+			n = re.sub(r'^0('+ '|'.join(unidades) +')$','0',n)
+
+			# 'A.Bpx' vira 'Apx'
+			n = re.sub(r'^(-?\d+)[.,]\d+px$','\g<1>px',n)
+
 			nums[i] = n
 
 	return nums
