@@ -35,7 +35,7 @@ def pegaNumeros(P, limite=None, completaUnidades=True):
 			n = re.sub(r'^(-?[\d,\.]+)$','\g<1>px',n)	# Põe unidade 'px'
 			n = re.sub(r'^(-?[\d,\.]+)m$','\g<1>em',n)	# 'm' vira 'em'
 			n = re.sub(r'^(-?[\d,\.]+)=$','\g<1>%',n)	# '=' vira '%'
-			n = re.sub(r'^0.+$','0',n)					# Transforma '0 unid' em '0'
+			n = re.sub(r'^0(px|em|%)$','0',n)					# Transforma '0 unid' em '0'
 			nums[i] = n
 
 	return nums
@@ -53,7 +53,7 @@ def limpaNumeros(P):
 def cssExpande(tx, modo=None):
 
 	# Converte tuplas de prop-val em string
-	def propsMonta(propsLista, ident='', propsSepara='', valSepara=': '):
+	def propsMonta(propsLista, ident='', propsSepara='', valSepara=':'):
 		return propsSepara.join([
 			ident + p[0] + valSepara + p[1] + ';' for p in propsLista
 		])
@@ -61,7 +61,6 @@ def cssExpande(tx, modo=None):
 	ret = ''
 
 	# Aplica 'cssLista' dentro das chaves '{}'
-	#if re.search(r'{.+}|^.+}|{.+$',tx):
 	if re.search(r'{.+}',tx):
 
 		def cb(tx):
@@ -85,7 +84,10 @@ def cssExpande(tx, modo=None):
 	# Aplica 'cssLista' se não houver as duas chaves '{}'
 	else:
 		i = posIdent(tx)
-		lista = cssLista(tx = tx[i::], dirImg 	= modo['dirImg'])
+		lista = cssLista(
+			tx = tx[i::],
+			dirImg = modo['dirImg']
+		)
 		ret = propsMonta(
 			propsLista = lista,
 			ident = tx[0:i],
@@ -144,8 +146,12 @@ def cssLista(tx, dirImg=''):
 		# ========================== Propriedade feita, ignora...
 		pronta = re.match(patCss[0][1],iniProp)
 		if pronta:
+			iniProp = re.sub(
+				r'\s+$', '',
+				iniProp.replace(';','')
+			)
 			retProps.append(
-				iniProp.replace(';','').split(':',1)
+				iniProp.split(':',1)
 			)
 			continue
 		
@@ -259,8 +265,8 @@ def cssLista(tx, dirImg=''):
 				
 				props = rel_props.get(ini_prop,'')
 
-				if iniProp == 'q':
-					retProps += list(zip(props,(10, 10)))
+				if iniProp[0] == 'q':
+					retProps += list(zip(props,(numeros[0],numeros[0])))
 				else:
 					retProps += list(zip(props,numeros))
 
@@ -383,7 +389,7 @@ def cssLista(tx, dirImg=''):
 				
 				# -------------------------- background
 				
-				if ini_prop[-1] == 'a':		fim_prop = 'background-attachment'
+				if	 ini_prop[-1] == 'a':	fim_prop = 'background-attachment'
 				elif ini_prop[-1] == 'i':	fim_prop = 'background-image'
 				elif ini_prop[-1] == 'p':	fim_prop = 'background-position'
 				elif ini_prop[-1] == 'r':	fim_prop = 'background-repeat'

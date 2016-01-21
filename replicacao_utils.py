@@ -64,15 +64,24 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
 
 		# Expande CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):
-			func.editor.aplica(edit, func=func.css_expande.cssExpande, vis=vis, modo=modo)
+			func.editor.aplica(
+				edit, vis=vis, modo=modo,
+				func=func.css_expande.cssExpande
+			)
 
 		# Expande HTML
 		elif modo['modo'] == 'html':
-			func.editor.aplica(edit, func=func.html.htmlExpande, vis=vis, modo=modo)
+			func.editor.aplica(
+				edit, vis=vis, modo=modo,
+				func=func.html.htmlExpande
+			)
 
 		# Expande PHP
 		elif modo['modo'] == 'php':
-			func.editor.aplica(edit, func=func.html.phpExpande, vis=vis, modo=modo)
+			func.editor.aplica(
+				edit, vis=vis, modo=modo,
+				func=func.html.phpExpande
+			)
 
 		else:
 			func.editor.x('Não expande "' + modo['ext'] + '"')
