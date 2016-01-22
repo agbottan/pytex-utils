@@ -11,7 +11,8 @@ for path in (
 	if os.path.isdir(path) and path not in sys.path:
 		sys.path.append(path)
 
-from func import *
+#from func import *
+import func import *
 
 # 'Reload' nos módulos, ao salvar este arquivo
 imp.reload(func)
@@ -24,7 +25,7 @@ imp.reload(func)
 #----------------------------------------------------#
 class TrocaEntitiesCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		func.aplica(edit,func.entities.trocaEntities,self.view)
+		func.editor.aplica(edit,func.entities.trocaEntities,self.view)
 
 
 #----------------------------------------------------#
@@ -32,7 +33,7 @@ class TrocaEntitiesCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 class LimpaTextoCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		func.aplica(edit, func=func.utils.limpaTexto, vis=self.view)
+		func.editor.aplica(edit, func=func.utils.limpaTexto, vis=self.view)
 
 
 #----------------------------------------------------#
@@ -40,7 +41,7 @@ class LimpaTextoCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 class FormataLinhasCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		func.aplica(edit, vis=self.view, func=func.formata_linhas.formataLinhas)
+		func.editor.aplica(edit, vis=self.view, func=func.formata_linhas.formataLinhas)
 
 
 #----------------------------------------------------#
@@ -54,21 +55,21 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
 
 		# Expande CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):
-			func.aplica(
+			func.editor.aplica(
 				edit, vis=vis, modo=modo,
 				func=func.css_expande.cssExpande
 			)
 
 		# Expande HTML
 		elif modo['modo'] == 'html':
-			func.aplica(
+			func.editor.aplica(
 				edit, vis=vis, modo=modo,
 				func=func.html.htmlExpande
 			)
 
 		# Expande PHP
 		elif modo['modo'] == 'php':
-			func.aplica(
+			func.editor.aplica(
 				edit, vis=vis, modo=modo,
 				func=func.html.phpExpande
 			)
