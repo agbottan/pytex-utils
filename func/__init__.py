@@ -8,7 +8,7 @@ __all__ = [
 	'utils',
 
 	# Gerais
-	'formata_linhas'
+	'formata_linhas',
 
 	# CSS
 	'css_apaga',
@@ -16,5 +16,5 @@ __all__ = [
 	
 	# HTML
 	'html',
-	'entities',
+	'entities'
 ]

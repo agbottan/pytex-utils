@@ -14,10 +14,7 @@ def posIdent(tx):
 # Retorna a parte de identação do texto
 def txIdent(tx):
 	pos = posIdent(tx)
-	if pos == 0:
-		return ''
-	else:
-		return tx[0::pos]
+	return tx[0::pos] if pos == 0 else ''
 
 
 def indices(tx, sep, completa = False):
@@ -101,9 +98,9 @@ def pegaModo(arqNome):
 		tx	= pegaTextoTodo(vis)
 
 		reTipos = (
-			( 'css_tag',	re.compile(r'<style.*?>(.*?)</style>',re.S)),
-			( 'css_attr',	re.compile(r'style="(.*?)"',re.S)),
-			( 'php',		re.compile(r'<\?php(.*?)\?>',re.S))
+			( 'css_tag',	re.compile(r'<style.*?>(.*?)</style>', re.S)),
+			( 'css_attr',	re.compile(r'style="(.*?)"', re.S)),
+			( 'php',		re.compile(r'<\?php(.*?)\?>', re.S))
 		)
 
 		for tipo in reTipos:

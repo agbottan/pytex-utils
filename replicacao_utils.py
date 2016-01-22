@@ -11,11 +11,10 @@ for path in (
 	if os.path.isdir(path) and path not in sys.path:
 		sys.path.append(path)
 
-#from func import *
-import func import *
+from func import *
 
 # 'Reload' nos módulos, ao salvar este arquivo
-imp.reload(func)
+# imp.reload(func)
 
 
 # ============================ CLASSES DOS COMANDOS ============================ #
