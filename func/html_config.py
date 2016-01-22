@@ -145,6 +145,6 @@ class ConfigHtml:
 			'linha':2
 		}
 
-	)  # .tags
+	) # -tags
 
 # Fim de 'ConfigHtml'

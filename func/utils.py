@@ -1,9 +1,9 @@
 
 ############### FUNÇÕES ÚTEIS ###############
 
-import re, func.editor
+# Funções que NÃO DEPENDEM do editor
 
-# ================================================================= INDEPENDENTE do editor
+import re, func.editor
 
 # Retorna a posição do término da primeira identação de um texto (linha)
 def posIdent(tx):
@@ -70,3 +70,57 @@ def limpaTexto(tx):
 	tx = re.sub('\s+',' ',tx)
 	tx = tx.strip()
 	return tx
+
+
+# Decide e retorna o modo de operação e informações sobre ele
+def pegaModo(arqNome):
+
+	import os.path
+	ret = {
+		'modo':None,
+		'dirImg':None,
+		'ext':None,
+		'match':None
+	}
+
+	ext = os.path.splitext(arqNome)[1]
+	ret['ext'] = ext 
+
+	# Extensão 'css'
+	if re.match( r'\.s?css', ret['ext'], re.I ):
+		ret['modo']		= 'css_arq'
+		ret['dirImg']	= '../img/'
+		return ret
+
+	# Extensão 'html' e 'php'
+	if re.match( r'\.php|\.p?html?|\.asp', ret['ext'], re.I ):
+		ret['dirImg'] = 'img/'
+		
+		# Dentro do html
+		pos = posCursor(vis)
+		tx	= pegaTextoTodo(vis)
+
+		reTipos = (
+			( 'css_tag',	re.compile(r'<style.*?>(.*?)</style>',re.S)),
+			( 'css_attr',	re.compile(r'style="(.*?)"',re.S)),
+			( 'php',		re.compile(r'<\?php(.*?)\?>',re.S))
+		)
+
+		for tipo in reTipos:
+			for m in tipo[1].finditer(tx):
+
+				if m.start(1) <= pos <= m.end(1):
+					ret['modo'] = tipo[0]
+					ret['match'] = m
+					break
+				
+				if ret['modo'] != None:
+					break
+
+		if ret['modo'] == None:
+			ret['modo'] = 'html'
+
+		return ret
+	else: return ret
+
+# ------------------------ -pegaModo

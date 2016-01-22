@@ -1,30 +1,20 @@
 ﻿
 ############### REPLICAÇÃO ###############
 
-import sublime, sublime_plugin, sys, re, os
+import sublime, sublime_plugin, sys, re, os, imp
 
 # Caminho para módulos
-paths = (
-
-	# Apto Bauru - Linux
-	'/home/andre/.config/sublime-text-3/Packages/User',
-
-	# Triata - Windows
-	'C:\\Users\\Triata\\AppData\\Roaming\\Sublime Text 3\\Packages\\User'
-)
-
-for path in paths:
+for path in (
+	'/home/andre/.config/sublime-text-3/Packages/User', # Apto Bauru - Linux
+	'C:\\Users\\Triata\\AppData\\Roaming\\Sublime Text 3\\Packages\\User' # Triata - Windows
+):
 	if os.path.isdir(path) and path not in sys.path:
 		sys.path.append(path)
 
-import func.css_apaga, func.css_expande, func.html, func.entities, func.editor, func.utils, func.formata_linhas
+from func import *
 
-# !!! RELOAD !!!
-import imp
-imp.reload(func.editor)
-imp.reload(func.html)
-imp.reload(func.css_apaga)
-imp.reload(func.css_expande)
+# 'Reload' nos módulos, ao salvar este arquivo
+imp.reload(func)
 
 
 # ============================ CLASSES DOS COMANDOS ============================ #
@@ -34,7 +24,7 @@ imp.reload(func.css_expande)
 #----------------------------------------------------#
 class TrocaEntitiesCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		func.editor.aplica(edit,func.entities.trocaEntities,self.view)
+		func.aplica(edit,func.entities.trocaEntities,self.view)
 
 
 #----------------------------------------------------#
@@ -42,7 +32,7 @@ class TrocaEntitiesCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 class LimpaTextoCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		func.editor.aplica(edit, func=func.utils.limpaTexto, vis=self.view)
+		func.aplica(edit, func=func.utils.limpaTexto, vis=self.view)
 
 
 #----------------------------------------------------#
@@ -50,7 +40,7 @@ class LimpaTextoCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 class FormataLinhasCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		func.editor.aplica(edit, vis=self.view, func=func.formata_linhas.formataLinhas)
+		func.aplica(edit, vis=self.view, func=func.formata_linhas.formataLinhas)
 
 
 #----------------------------------------------------#
@@ -60,25 +50,25 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
 		vis = self.view
-		modo = func.editor.pegaModo(vis)
+		modo = func.utils.pegaModo(func.editor.pegaNomeArquivoAtivo(vis))
 
 		# Expande CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):
-			func.editor.aplica(
+			func.aplica(
 				edit, vis=vis, modo=modo,
 				func=func.css_expande.cssExpande
 			)
 
 		# Expande HTML
 		elif modo['modo'] == 'html':
-			func.editor.aplica(
+			func.aplica(
 				edit, vis=vis, modo=modo,
 				func=func.html.htmlExpande
 			)
 
 		# Expande PHP
 		elif modo['modo'] == 'php':
-			func.editor.aplica(
+			func.aplica(
 				edit, vis=vis, modo=modo,
 				func=func.html.phpExpande
 			)
@@ -93,7 +83,7 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
 class AutoApagaCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
-		modo = func.editor.pegaModo(self.view)
+		modo = func.utils.pegaModo(func.editor.pegaNomeArquivoAtivo(self.view))
 
 		# Apaga CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):

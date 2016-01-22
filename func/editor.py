@@ -1,11 +1,12 @@
 
 ############### FUNÇÕES DO EDITOR ###############
 
+# Funções que DEPENDEM do editor
+# Devem ser alteradas para portabilidade entre editores
+
 import sublime, re
 
-# ================================================================= DEPENDENTE do editor
-
-# !!! DEBUG !!!
+# --------------- Debug
 
 def x(*args):
 	ret = ''
@@ -20,59 +21,12 @@ def x_(*args):
 		ret += str(tx) + '\n'
 	sublime.message_dialog(ret)
 
+# ---------------
 
-# Retorna o modo de operação e informações
-def pegaModo(vis):
 
-	import os.path
-	ret = {
-		'modo':None,
-		'dirImg':None,
-		'ext':None,
-		'match':None
-	}
-
-	ext = os.path.splitext(vis.file_name())[1]
-	ret['ext'] = ext 
-
-	# Extensão 'css'
-	if re.match( r'\.s?css', ret['ext'], re.I ):
-		ret['modo']		= 'css_arq'
-		ret['dirImg']	= '../img/'
-		return ret
-
-	# Extensão 'html' e 'php'
-	if re.match( r'\.php|\.p?html?|\.asp', ret['ext'], re.I ):
-		ret['dirImg'] = 'img/'
-		
-		# Dentro do html
-		pos = posCursor(vis)
-		tx	= pegaTextoTodo(vis)
-
-		reTipos = (
-			( 'css_tag',	re.compile(r'<style.*?>(.*?)</style>',re.S)),
-			( 'css_attr',	re.compile(r'style="(.*?)"',re.S)),
-			( 'php',		re.compile(r'<\?php(.*?)\?>',re.S))
-		)
-
-		for tipo in reTipos:
-			for m in tipo[1].finditer(tx):
-
-				if m.start(1) <= pos <= m.end(1):
-					ret['modo'] = tipo[0]
-					ret['match'] = m
-					break
-				
-				if ret['modo'] != None:
-					break
-
-		if ret['modo'] == None:
-			ret['modo'] = 'html'
-
-		return ret
-	else: return ret
-
-# ------------------------ FIM de modo
+# Retorna o nome do arquivo ativo
+def pegaNomeArquivoAtivo(vis):
+	return vis.file_name()
 
 # Retorna a posição do cursor no texto
 def posCursor(vis):
