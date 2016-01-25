@@ -3,7 +3,7 @@
 
 # Funções que NÃO DEPENDEM do editor
 
-import re, func.editor
+import re, editor
 
 # Retorna a posição do término da primeira identação de um texto (linha)
 def posIdent(tx):
@@ -94,7 +94,7 @@ def pegaModo(arqNome):
 		ret['dirImg'] = 'img/'
 		
 		# Dentro do html
-		pos = posCursor(vis)
+		pos = editor.posCursor(vis)
 		tx	= pegaTextoTodo(vis)
 
 		reTipos = (

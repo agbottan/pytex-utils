@@ -24,7 +24,7 @@ from func import *
 #----------------------------------------------------#
 class TrocaEntitiesCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		func.editor.aplica(edit,func.entities.trocaEntities,self.view)
+		editor.aplica(edit,entities.trocaEntities,self.view)
 
 
 #----------------------------------------------------#
@@ -32,7 +32,7 @@ class TrocaEntitiesCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 class LimpaTextoCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		func.editor.aplica(edit, func=func.utils.limpaTexto, vis=self.view)
+		editor.aplica(edit, func=utils.limpaTexto, vis=self.view)
 
 
 #----------------------------------------------------#
@@ -40,7 +40,7 @@ class LimpaTextoCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 class FormataLinhasCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		func.editor.aplica(edit, vis=self.view, func=func.formata_linhas.formataLinhas)
+		editor.aplica(edit, vis=self.view, func=formata_linhas.formataLinhas)
 
 
 #----------------------------------------------------#
@@ -50,31 +50,31 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
 		vis = self.view
-		modo = func.utils.pegaModo(func.editor.pegaNomeArquivoAtivo(vis))
+		modo = utils.pegaModo(editor.pegaNomeArquivoAtivo(vis))
 
 		# Expande CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):
-			func.editor.aplica(
+			editor.aplica(
 				edit, vis=vis, modo=modo,
-				func=func.css_expande.cssExpande
+				func=css_expande.cssExpande
 			)
 
 		# Expande HTML
 		elif modo['modo'] == 'html':
-			func.editor.aplica(
+			editor.aplica(
 				edit, vis=vis, modo=modo,
-				func=func.html.htmlExpande
+				func=html.htmlExpande
 			)
 
 		# Expande PHP
 		elif modo['modo'] == 'php':
-			func.editor.aplica(
+			editor.aplica(
 				edit, vis=vis, modo=modo,
-				func=func.html.phpExpande
+				func=html.phpExpande
 			)
 
 		else:
-			func.editor.x('Não expande "' + modo['ext'] + '"')
+			editor.x('Não expande "' + modo['ext'] + '"')
 
 
 #----------------------------------------------------#
@@ -83,10 +83,10 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
 class AutoApagaCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
-		modo = func.utils.pegaModo(func.editor.pegaNomeArquivoAtivo(self.view))
+		modo = utils.pegaModo(editor.pegaNomeArquivoAtivo(self.view))
 
 		# Apaga CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):
-			func.css_apaga.cssAutoApaga(self.view,edit)
+			css_apaga.cssAutoApaga(self.view,edit)
 		else:
-			func.editor.x('Não apaga "' + modo['ext'] + '"')
+			editor.x('Não apaga "' + modo['ext'] + '"')
