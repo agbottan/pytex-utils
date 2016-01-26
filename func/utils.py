@@ -3,7 +3,8 @@
 
 # Funções que NÃO DEPENDEM do editor
 
-import re, editor
+import re
+from func import *
 
 # Retorna a posição do término da primeira identação de um texto (linha)
 def posIdent(tx):

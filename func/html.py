@@ -4,7 +4,8 @@
 #########################
 
 import re, sublime
-from func.utils import splitRe, indices, limpaTexto, posIdent
+#from func.utils import splitRe, indices, limpaTexto, posIdent
+from func.utils import *
 from func.html_config import *
 from func.editor import *
 

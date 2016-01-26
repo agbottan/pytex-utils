@@ -11,10 +11,12 @@ for path in (
 	if os.path.isdir(path) and path not in sys.path:
 		sys.path.append(path)
 
-from func import *
+#from func import *
+
+import func
 
 # 'Reload' nos módulos, ao salvar este arquivo
-# imp.reload(func)
+imp.reload(func)
 
 
 # ============================ CLASSES DOS COMANDOS ============================ #
@@ -24,7 +26,7 @@ from func import *
 #----------------------------------------------------#
 class TrocaEntitiesCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		editor.aplica(edit,entities.trocaEntities,self.view)
+		func.editor.aplica(edit,entities.trocaEntities,self.view)
 
 
 #----------------------------------------------------#
@@ -32,7 +34,7 @@ class TrocaEntitiesCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 class LimpaTextoCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		editor.aplica(edit, func=utils.limpaTexto, vis=self.view)
+		func.editor.aplica(edit, func=func.utils.limpaTexto, vis=self.view)
 
 
 #----------------------------------------------------#
@@ -40,7 +42,7 @@ class LimpaTextoCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 class FormataLinhasCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		editor.aplica(edit, vis=self.view, func=formata_linhas.formataLinhas)
+		func.editor.aplica(edit, vis=self.view, func=formata_linhas.formataLinhas)
 
 
 #----------------------------------------------------#
@@ -50,31 +52,31 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
 		vis = self.view
-		modo = utils.pegaModo(editor.pegaNomeArquivoAtivo(vis))
+		modo = func.utils.pegaModo(func.editor.pegaNomeArquivoAtivo(vis))
 
 		# Expande CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):
-			editor.aplica(
+			func.editor.aplica(
 				edit, vis=vis, modo=modo,
 				func=css_expande.cssExpande
 			)
 
 		# Expande HTML
 		elif modo['modo'] == 'html':
-			editor.aplica(
+			func.editor.aplica(
 				edit, vis=vis, modo=modo,
 				func=html.htmlExpande
 			)
 
 		# Expande PHP
 		elif modo['modo'] == 'php':
-			editor.aplica(
+			func.editor.aplica(
 				edit, vis=vis, modo=modo,
 				func=html.phpExpande
 			)
 
 		else:
-			editor.x('Não expande "' + modo['ext'] + '"')
+			func.editor.x('Não expande "' + modo['ext'] + '"')
 
 
 #----------------------------------------------------#
@@ -83,10 +85,10 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
 class AutoApagaCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
-		modo = utils.pegaModo(editor.pegaNomeArquivoAtivo(self.view))
+		modo = func.utils.pegaModo(func.editor.pegaNomeArquivoAtivo(self.view))
 
 		# Apaga CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):
 			css_apaga.cssAutoApaga(self.view,edit)
 		else:
-			editor.x('Não apaga "' + modo['ext'] + '"')
+			func.editor.x('Não apaga "' + modo['ext'] + '"')

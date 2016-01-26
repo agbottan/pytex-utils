@@ -35,7 +35,8 @@
 
 //////// TESTE
 
-  	{ "keys": ["f7"], "command": "formata_linhas" },
+  	{ "keys": ["f7"], "command": "testa_modulo" },
+  	{ "keys": ["shift+f7"], "command": "formata_linhas" },
 /*
   	{ "keys": ["f7"], "command": "muda_header" },
   	{ "keys": ["f7"], "command": "monta_aula" },

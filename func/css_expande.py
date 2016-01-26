@@ -4,8 +4,7 @@
 #####################
 
 import re, sublime
-from func.utils import splitRe, posIdent
-from func.editor import *
+from func import *
 
 # ------------------------------------------------------- #
 
