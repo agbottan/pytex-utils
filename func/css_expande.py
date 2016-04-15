@@ -3,8 +3,7 @@
 #   CSS > EXPANDE   #
 #####################
 
-import re, sublime
-from func import *
+import re
 
 # ------------------------------------------------------- #
 

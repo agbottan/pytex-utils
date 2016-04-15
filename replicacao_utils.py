@@ -13,10 +13,8 @@ for path in (
 
 from func import *
 
-#import func
-
 # 'Reload' nos módulos, ao salvar este arquivo
-imp.reload(func)
+# imp.reload(func)
 
 
 # ============================ CLASSES DOS COMANDOS ============================ #
