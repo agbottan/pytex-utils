@@ -1,23 +1,31 @@
 ﻿
 ############### REPLICAÇÃO ###############
 
-import sublime, sublime_plugin, sys, re, os, imp
+import sublime, sublime_plugin, sys, re, os
 
 # Caminho para módulos
-for path in (
-	'/home/andre/.config/sublime-text-3/Packages/User', # Apto Bauru - Linux
-	'C:\\Users\\Triata\\AppData\\Roaming\\Sublime Text 3\\Packages\\User' # Triata - Windows
-):
+paths = (
+
+	# Apto Bauru - Linux
+	'/home/andre/.config/sublime-text-3/Packages/User',
+
+	# Triata - Windows
+	'C:\\Users\\Triata\\AppData\\Roaming\\Sublime Text 3\\Packages\\User'
+)
+
+for path in paths:
 	if os.path.isdir(path) and path not in sys.path:
 		sys.path.append(path)
 
-from func import *
+
+#from func import *
+import func
 
 # 'Reload' nos módulos, ao salvar este arquivo
-# imp.reload(func)
+imp.reload(func)
 
 
-# ============================ CLASSES DOS COMANDOS ============================ #
+# ==================== CLASSES DOS COMANDOS ==================== #
 
 #----------------------------------------------------#
 #	CONVERTE 'HTML ENTITIES'
