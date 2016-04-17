@@ -35,8 +35,8 @@ from func.formata_linhas import *
 
 
 # !!! RELOAD !!!
-import imp
-imp.reload(func.editor)
+#import imp
+#imp.reload(func.editor)
 #imp.reload(func.html)
 #imp.reload(func.css_apaga)
 #imp.reload(func.css_expande)
