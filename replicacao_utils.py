@@ -1,7 +1,7 @@
 ﻿
 ############### REPLICAÇÃO ###############
 
-import sublime, sublime_plugin, sys, re, os
+import sublime, sublime_plugin, sys, re, os, imp
 
 # Caminho para módulos
 paths = (
@@ -18,11 +18,20 @@ for path in paths:
 		sys.path.append(path)
 
 
-#from func import *
-import func
+# --------------------------------
 
-# 'Reload' nos módulos, ao salvar este arquivo
-imp.reload(func)
+import func.css_apaga, func.css_expande, func.html, func.entities, func.editor, func.utils, func.formata_linhas
+
+# !!! RELOAD !!!
+import imp
+imp.reload(func.editor)
+imp.reload(func.html)
+imp.reload(func.css_apaga)
+imp.reload(func.css_expande)
+
+
+# Barra Separadora
+barra = '\n' + '#' * 80 + '\n'
 
 
 # ==================== CLASSES DOS COMANDOS ==================== #
@@ -57,6 +66,8 @@ class FormataLinhasCommand(sublime_plugin.TextCommand):
 class AutoExpandeCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
+		print(barra)
+
 		vis = self.view
 		modo = func.utils.pegaModo(func.editor.pegaNomeArquivoAtivo(vis))
 
@@ -64,7 +75,7 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):
 			func.editor.aplica(
 				edit, vis=vis, modo=modo,
-				func=css_expande.cssExpande
+				func=func.css_expande.cssExpande
 			)
 
 		# Expande HTML
