@@ -20,14 +20,26 @@ for path in paths:
 
 # --------------------------------
 
-import func.css_apaga, func.css_expande, func.html, func.entities, func.editor, func.utils, func.formata_linhas
+from func.editor import *
+#from func import editor
+
+from func.utils import *
+
+from func.css_apaga import *
+from func.css_expande import *
+from func.html import *
+from func.entities import *
+from func.formata_linhas import *
+
+# --------------------------------
+
 
 # !!! RELOAD !!!
 import imp
 imp.reload(func.editor)
-imp.reload(func.html)
-imp.reload(func.css_apaga)
-imp.reload(func.css_expande)
+#imp.reload(func.html)
+#imp.reload(func.css_apaga)
+#imp.reload(func.css_expande)
 
 
 # Barra Separadora
@@ -41,7 +53,7 @@ barra = '\n' + '#' * 80 + '\n'
 #----------------------------------------------------#
 class TrocaEntitiesCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		func.editor.aplica(edit,entities.trocaEntities,self.view)
+		aplica(edit,entities.trocaEntities,self.view)
 
 
 #----------------------------------------------------#
@@ -49,7 +61,7 @@ class TrocaEntitiesCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 class LimpaTextoCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		func.editor.aplica(edit, func=func.utils.limpaTexto, vis=self.view)
+		aplica(edit, func=limpaTexto, vis=self.view)
 
 
 #----------------------------------------------------#
@@ -57,7 +69,7 @@ class LimpaTextoCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 class FormataLinhasCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		func.editor.aplica(edit, vis=self.view, func=formata_linhas.formataLinhas)
+		aplica(edit, vis=self.view, func=formataLinhas)
 
 
 #----------------------------------------------------#
@@ -69,31 +81,31 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
 		print(barra)
 
 		vis = self.view
-		modo = func.utils.pegaModo(func.editor.pegaNomeArquivoAtivo(vis))
+		modo = pegaModo(pegaNomeArquivoAtivo(vis))
 
 		# Expande CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):
-			func.editor.aplica(
+			aplica(
 				edit, vis=vis, modo=modo,
-				func=func.css_expande.cssExpande
+				func=cssExpande
 			)
 
 		# Expande HTML
 		elif modo['modo'] == 'html':
-			func.editor.aplica(
+			aplica(
 				edit, vis=vis, modo=modo,
-				func=html.htmlExpande
+				func=htmlExpande
 			)
 
 		# Expande PHP
 		elif modo['modo'] == 'php':
-			func.editor.aplica(
+			aplica(
 				edit, vis=vis, modo=modo,
-				func=html.phpExpande
+				func=phpExpande
 			)
 
 		else:
-			func.editor.x('Não expande "' + modo['ext'] + '"')
+			x('Não expande "' + modo['ext'] + '"')
 
 
 #----------------------------------------------------#
@@ -102,10 +114,10 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
 class AutoApagaCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
-		modo = func.utils.pegaModo(func.editor.pegaNomeArquivoAtivo(self.view))
+		modo = pegaModo(pegaNomeArquivoAtivo(self.view))
 
 		# Apaga CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):
-			css_apaga.cssAutoApaga(self.view,edit)
+			cssAutoApaga(self.view,edit)
 		else:
-			func.editor.x('Não apaga "' + modo['ext'] + '"')
+			x('Não apaga "' + modo['ext'] + '"')
