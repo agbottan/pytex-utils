@@ -3,7 +3,9 @@
 #   CSS > EXPANDE   #
 #####################
 
-import re
+import re, sublime
+from func.utils import splitRe, posIdent
+from func.editor import *
 
 # ------------------------------------------------------- #
 
@@ -18,7 +20,7 @@ def pegaCor(P):
 	return cores
 
 # Regex que acha os números
-#unids = 'px|%|rem|em|vw|vh|cm|mm'
+# unids = 'px|%|rem|em|vw|vh|cm|mm'
 unidades = ('px','%','rem','em','vw','vh','cm','mm')
 unidadesAtalho = ('=','m')
 reNum = re.compile(r'(-?[\d,\.a]+(' + '|'.join(unidades + unidadesAtalho) + ')?)')
