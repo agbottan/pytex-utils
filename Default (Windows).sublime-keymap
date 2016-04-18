@@ -14,8 +14,8 @@
 	{ "keys": ["f1"], "command": "toggle_side_bar" },
 	{ "keys": ["shift+f1"], "command": "toggle_minimap" },
 	{ "keys": ["alt+up"], "command": "select_lines", "args": {"forward": false} },
-  { "keys": ["alt+down"], "command": "select_lines", "args": {"forward": true} },
-  { "keys": ["ctrl+alt+p"], "command": "prompt_select_workspace" },
+	{ "keys": ["alt+down"], "command": "select_lines", "args": {"forward": true} },
+	{ "keys": ["ctrl+alt+p"], "command": "prompt_select_workspace" },
 	{ "keys": ["ctrl+f1"], "command": "show_overlay", "args": {"overlay": "command_palette", "text": "Snippet: trio_translate"}},
 
 //////// PLUGINS
@@ -36,13 +36,10 @@
 	{ "keys": ["f9"], "command": "auto_apaga" },
 
 //////// TESTE
-
-  	{ "keys": ["f7"], "command": "formata_linhas" },
 /*
-  	{ "keys": ["f7"], "command": "muda_header" },
-  	{ "keys": ["f7"], "command": "monta_aula" },
-	{ "keys": ["shift+f7"], "command": "limpa_tags" },
+	{ "keys": ["f7"], "command": "teste_plugin" },
 */
+	{ "keys": ["f7"], "command": "teste_modulo", "args": {"fruta": "BANANA"}},
 
 //////// OUTROS
 	{ "keys": ["shift+f11"], "command": "limpa_texto" },

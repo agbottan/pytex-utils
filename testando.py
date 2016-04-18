@@ -17,13 +17,14 @@ from testemod.testemod_2 import func_2
 #imp.reload(testemod)
 #imp.reload(testemod)
 
-
-barra = '\n\n###############################################\n\n'
+# Barra Separadora
+barra = '\n' + '#' * 80 + '\n'
 
 class TesteModuloCommand(sublime_plugin.TextCommand):
-	def run(self, edit):
+	def run(self, edit, fruta):
 		print(
 			barra,
+			fruta,
 			func_1(),
 			func_2()
 		)
