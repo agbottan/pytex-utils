@@ -22,7 +22,6 @@
 	"font_size": 11,
 	"ignored_packages":
 	[
-		"BracketHighlighter",
 		"CSS",
 		"GitSavvy",
 		"GitStatus",

@@ -23,8 +23,11 @@ barra = '\n' + '#' * 80 + '\n'
 class TesteModuloCommand(sublime_plugin.TextCommand):
 	def run(self, edit, fruta):
 		print(
-			barra,
-			fruta,
-			func_1(),
-			func_2()
+			# barra,
+			# fruta,
+			# func_1(),
+			# func_2(),
+			# sublime.context
+
+			sublime.Window.extract_variables(self)
 		)

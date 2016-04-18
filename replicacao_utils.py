@@ -33,20 +33,18 @@ from func.formata_linhas import *
 
 # --------------------------------
 
-
 # !!! RELOAD !!!
-#import imp
-#imp.reload(func.editor)
-#imp.reload(func.html)
-#imp.reload(func.css_apaga)
-#imp.reload(func.css_expande)
+# import imp
+# imp.reload(func.editor)
+# imp.reload(func.html)
+# imp.reload(func.css_apaga)
+# imp.reload(func.css_expande)
 
 
 # Barra Separadora
 barra = '\n' + '#' * 80 + '\n'
 
-
-# ==================== CLASSES DOS COMANDOS ==================== #
+# ============== CLASSES DOS COMANDOS ============== #
 
 #----------------------------------------------------#
 #	CONVERTE 'HTML ENTITIES'
@@ -79,6 +77,9 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
 		print(barra)
+
+		# pos = editor.posCursor(vis)
+		# tx  = pegaTextoTodo(vis)
 
 		vis = self.view
 		modo = pegaModo(pegaNomeArquivoAtivo(vis))
