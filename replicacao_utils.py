@@ -40,10 +40,6 @@ from func.formata_linhas import *
 # imp.reload(func.css_apaga)
 # imp.reload(func.css_expande)
 
-
-# Barra Separadora
-barra = '\n' + '#' * 80 + '\n'
-
 # ============== CLASSES DOS COMANDOS ============== #
 
 #----------------------------------------------------#
@@ -76,13 +72,8 @@ class FormataLinhasCommand(sublime_plugin.TextCommand):
 class AutoExpandeCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
-		print(barra)
-
-		# pos = editor.posCursor(vis)
-		# tx  = pegaTextoTodo(vis)
-
 		vis = self.view
-		modo = pegaModo(pegaNomeArquivoAtivo(vis))
+		modo = resolveModo(pegaModoInfo(vis))
 
 		# Expande CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):
@@ -115,7 +106,7 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
 class AutoApagaCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
-		modo = pegaModo(pegaNomeArquivoAtivo(self.view))
+		modo = resolveModo(pegaNomeArquivoAtivo(self.view))
 
 		# Apaga CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):

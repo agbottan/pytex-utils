@@ -36,6 +36,9 @@ def pegaNumeros(P, limite=None, completaUnidades=True, unidadePadrao='px'):
 	if completaUnidades:
 		for i, n in enumerate(nums):
 
+			# Tira '0' à esquerda
+			n = re.sub(r'^0(\d+)','\g<1>',n)
+
 			# Põe a unidade padrão
 			n = re.sub(r'^(-?[\d,.]+)$','\g<1>'+unidadePadrao,n)
 
@@ -68,7 +71,7 @@ def limpaNumeros(P):
 def cssExpande(tx, modo=None):
 
 	# Converte tuplas de prop-val em string
-	def propsMonta(propsLista, ident='', propsSepara='', valSepara=':'):
+	def propsMonta(propsLista, ident='', propsSepara='', valSepara=': '):
 		return propsSepara.join([
 			ident + p[0] + valSepara + p[1] + ';' for p in propsLista
 		])
@@ -123,7 +126,7 @@ def cssLista(tx, dirImg=''):
 		# Propriedades montadas - não sofre alteração
 		( 'ignora', r'\b(display|position|z-index|left|top|right|bottom|float|clear|margin|padding|(min-|max-)?width|(min-|max-)?height|line-height|border|text|font|color|background|overflow)[^;]*;' ), # ignora...			
 		# Chamadas para montar propriedades
-		( 'Display',		r'\bd[bnil]\b'			),	# Display
+		( 'Display',		r'\bd[bfnil]\b'			),	# Display
 		( 'Position',		r'\bp[akrfs]\b'			),	# Position
 		( 'Z-index',		r'\bz\s*\d+\b'			),	# Z-index
 		( 'Float',			r'\bf[lrn]\b'			),	# Float
@@ -183,7 +186,7 @@ def cssLista(tx, dirImg=''):
 			# ========================== DISPLAY
 			if ind == 'Display':
 				
-				rel_vals = { 'b':'block', 'n':'none', 'i':'inline', 'l':'inline-block' }
+				rel_vals = { 'b':'block', 'f':'flex', 'n':'none', 'i':'inline', 'l':'inline-block' }
 
 				val = rel_vals.get(ini_prop[-1],'')
 

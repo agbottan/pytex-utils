@@ -70,7 +70,9 @@ def limpaTexto(tx):
 
 
 # Decide e retorna o modo de operação e informações sobre ele
-def pegaModo(arqNome):
+def resolveModo(argInfo):
+
+	arqNome, tx, pos = argInfo
 
 	import os.path
 	ret = {
@@ -94,8 +96,8 @@ def pegaModo(arqNome):
 		ret['dirImg'] = 'img/'
 		
 		# Dentro do html
-		pos = editor.posCursor(vis)
-		tx	= pegaTextoTodo(vis)
+		#pos = editor.posCursor(vis)
+		#tx	= pegaTextoTodo(vis)
 
 		reTipos = (
 			( 'css_tag',	re.compile(r'<style.*?>(.*?)</style>', re.S)),
@@ -120,4 +122,4 @@ def pegaModo(arqNome):
 		return ret
 	else: return ret
 
-# ------------------------ -pegaModo
+# ------------------------ -resolveModo

@@ -8,11 +8,13 @@ import sublime, re
 
 # --------------- Debug
 
+# Barra Separadora
+barra = '\n' + '#' * 80 + '\n'
+
 def x(*args):
 	ret = ''
 	for tx in args:
-		# ret += str(tx) + '\n'
-		ret += str(tx)
+		ret += str(tx) + '\n'
 	print(ret)
 
 def x_(*args):
@@ -28,17 +30,21 @@ def x_(*args):
 def pegaNomeArquivoAtivo(vis):
 	return vis.file_name()
 
+
 # Retorna a posição do cursor no texto
 def posCursor(vis):
 	return vis.sel()[0].b
+
 
 # Retorna limites da linha que contém o cursor
 def linhaCursor(vis):
 	return vis.line(posCursor(vis))
 
+
 # Retorna a posição do cursor no texto da linha em que ele está
 def posLinha(vis):
 	return posCursor(vis) - linhaCursor(vis).a
+
 
 # Manda o cursor para uma posição no texto da linha em que ele está
 # Se o incremento for maior que o comprimento da linha, manda para o final da linha
@@ -49,29 +55,36 @@ def vaiPosLinha(vis, n=0):
 		pos = linha.b
 	vaiCursor(vis,pos)
 
+
 # Retorna uma referência à região selecionada
 def regSel(vis):
 	return sublime.Region(vis.sel()[0].a,vis.sel()[0].b)
+
 
 # Retorna o texto da região selecionada
 def pegaTextoSel(vis):
 	return vis.substr(regSel(vis))
 
+
 # Retorna todo o texto do arquivo
 def pegaTextoTodo(vis):
 	return vis.substr(sublime.Region(0,vis.size()))
+
 
 # Retorna o texto da linha em que está o cursor
 def pegaTextoLinha(vis):
 	return vis.substr(vis.line(vis.sel()[0].a))
 
+
 # Muda o texto da linha do cursor
 def mudaLinha(vis, edit, tx):
 	vis.replace(edit,linhaCursor(vis),tx)
 
+
 # Muda o texto da seleção atual
 def mudaSel(vis, edit, tx):
 	vis.replace(edit,regSel(vis),tx)
+
 
 # Pega texto seleção e, se esta estiver vazia, da linha
 def pegaTexto(vis):
@@ -82,10 +95,12 @@ def pegaTexto(vis):
 		tx = pegaTextoSel(vis)
 	return tx
 
+
 # Manda o cursor para uma posição do texto
 def vaiCursor(vis, pos):
 	vis.sel().clear()
 	vis.sel().add(sublime.Region(pos,pos))
+
 
 # Retorna o cursor para a posição certa, de acordo com parâmetro
 def voltaCursor(vis, pos_init, modo_retorno=0):
@@ -109,6 +124,16 @@ def voltaCursor(vis, pos_init, modo_retorno=0):
 
 	else: return
 
+
+# Retorna informações do arquivo ativo para resolver o modo de operação
+def pegaModoInfo(vis):
+
+	arqNome = pegaNomeArquivoAtivo(vis)
+	arqTx = pegaTextoTodo(vis)
+	arqPosCursor = posCursor(vis)
+
+	return (arqNome, arqTx, arqPosCursor)
+	
 
 # Padrão para aplicação de alteração no texto
 def aplica(edit, func, vis=None, argList=(), retorno_cursor=0, modo=None):
