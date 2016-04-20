@@ -159,7 +159,9 @@ def aplica(edit, func, vis=None, argList=(), retorno_cursor=0, modo=None):
 	if modo != None:
 		argList += (modo,)
 
-	linhaComeco = linhaCursor(vis)
+	linhaComeco = linhaCursor(vis) # !!! VERIFICAR UTILIDADES
+
+	# Aplica a função de transformação
 	ret = func(*argList)
 
 	if (pegaTextoSel(vis) == ''):

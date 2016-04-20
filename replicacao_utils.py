@@ -115,7 +115,6 @@ class AutoApagaCommand(sublime_plugin.TextCommand):
 			x('Não apaga "' + modo['ext'] + '"')
 
 
-
 ######################
 	#	TESTES	#
 ######################
