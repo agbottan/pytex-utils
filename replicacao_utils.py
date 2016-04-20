@@ -73,7 +73,7 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
 		vis = self.view
-		modo = resolveModo(pegaModoInfo(vis))
+		modo = resolveModo(pegaInfoModo(vis))
 
 		# Expande CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):

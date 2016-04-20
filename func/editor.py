@@ -133,7 +133,7 @@ def voltaCursor(vis, pos_init, modo_retorno=0):
 
 
 # Retorna informações do arquivo ativo para resolver o modo de operação
-def pegaModoInfo(vis):
+def pegaInfoModo(vis):
 
 	arqNome = pegaNomeArquivoAtivo(vis)
 	arqTx = pegaTextoTodo(vis)
@@ -145,14 +145,15 @@ def pegaModoInfo(vis):
 # Padrão para aplicação de alteração no texto
 def aplica(edit, func, vis=None, argList=(), retorno_cursor=0, modo=None):
 
-	# if match:
-	#	x(match.start(1),match.end(1))
-
 	#  !!! FAZER ???
 	# se não foi passada a 'view', considera a última view ativa
 
 	# Guarda posição inicial do cursor para voltar depois
 	pos_antes = vis.rowcol(vis.sel()[0].b)
+
+	# Resolve se há seleção (e se é 'multiline' !!!)
+
+	sel_vazia = pegaTextoSel(vis) == ''
 
 	tx = pegaTexto(vis)
 	argList += (tx,)
@@ -164,8 +165,10 @@ def aplica(edit, func, vis=None, argList=(), retorno_cursor=0, modo=None):
 	# Aplica a função de transformação
 	ret = func(*argList)
 
-	if (pegaTextoSel(vis) == ''):
+	# seleção vazia
+	if sel_vazia:
 		mudaLinha(vis,edit,ret)
+	# seleção com texto
 	else:
 		mudaSel(vis,edit,ret)
 
