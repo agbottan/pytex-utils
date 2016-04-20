@@ -20,8 +20,8 @@ for path in paths:
 
 # --------------------------------
 
+# !!! from func import editor
 from func.editor import *
-#from func import editor
 
 from func.utils import *
 
@@ -113,3 +113,57 @@ class AutoApagaCommand(sublime_plugin.TextCommand):
 			cssAutoApaga(self.view,edit)
 		else:
 			x('Não apaga "' + modo['ext'] + '"')
+
+
+
+######################
+	#	TESTES	#
+######################
+
+#----------------------------------------------------#
+#	TESTES > COMMAND OVERLAY
+#----------------------------------------------------#
+
+class TesteOverlayCommand(sublime_plugin.TextCommand):
+	def run(self, edit):
+
+		def cb(ind):
+			x(ind,' -> ',lista[ind]);
+
+		lista = ('banana', 'maçã', 'uva')
+
+		self.view.window().run_command("show_overlay", {"overlay": "command_palette", "text": "Meu Plugin"})
+		# self.view.window().run_command("show_overlay", {"overlay": "goto", "text": "@replace_with_first_selection"})
+		return
+
+
+#----------------------------------------------------#
+#	TESTES > QUICK PANEL
+#----------------------------------------------------#
+
+class TesteQuickPanelCommand(sublime_plugin.TextCommand):
+	def run(self, edit):
+
+		def cb(ind):
+			x(ind,' -> ',lista[ind]);
+
+		lista = ('banana', 'maçã', 'uva')
+
+		self.view.window().show_quick_panel(items=lista, on_select=cb)
+		return
+
+
+#----------------------------------------------------#
+#	TESTES > MENU INLINE
+#----------------------------------------------------#
+
+class TesteMenuInlineCommand(sublime_plugin.TextCommand):
+	def run(self, edit):
+
+		def cb(ind):
+			x(ind,' -> ',lista[ind]);
+
+		lista = ('banana', 'maçã', 'uva')
+
+		self.view.show_popup_menu(items=lista, on_select=cb)
+		return

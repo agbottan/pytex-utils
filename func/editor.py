@@ -11,17 +11,24 @@ import sublime, re
 # Barra Separadora
 barra = '\n' + '#' * 80 + '\n'
 
+
 def x(*args):
 	ret = ''
 	for tx in args:
-		ret += str(tx) + '\n'
+		ret += str(tx)
+
+	#sublime.message_dialog(ret)
 	print(ret)
+
 
 def x_(*args):
 	ret = ''
 	for tx in args:
-		ret += str(tx) + '\n'
-	sublime.message_dialog(ret)
+		ret += str(tx)
+	ret += '\n'
+	
+	#sublime.message_dialog(ret)
+	print(ret)
 
 # ---------------
 
