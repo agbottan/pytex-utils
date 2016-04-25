@@ -1,4 +1,4 @@
-﻿
+
 ############### REPLICAÇÃO ###############
 
 import sublime, sublime_plugin, sys, re, os, imp
@@ -116,6 +116,25 @@ class AutoApagaCommand(sublime_plugin.TextCommand):
 			x('Não apaga "' + modo['ext'] + '"')
 
 
+#----------------------------------------------------#
+#	COMENTÁRIOS
+#----------------------------------------------------#
+class ComentaCommand(sublime_plugin.TextCommand):
+	def run(self, edit):
+
+		vis = self.view
+#		modo = resolveModo(pegaInfoModo(vis))
+
+#		x('comenta',modo)
+
+		x(pegaInfoModo(vis))
+
+
+#----------------------------------------------------#
+#	SNIPPET
+#----------------------------------------------------#
+
+
 ######################
 	#	TESTES	#
 ######################
@@ -134,7 +153,6 @@ class TesteOverlayCommand(sublime_plugin.TextCommand):
 
 		self.view.window().run_command("show_overlay", {"overlay": "command_palette", "text": "Meu Plugin"})
 		# self.view.window().run_command("show_overlay", {"overlay": "goto", "text": "@replace_with_first_selection"})
-		return
 
 
 #----------------------------------------------------#
@@ -150,7 +168,6 @@ class TesteQuickPanelCommand(sublime_plugin.TextCommand):
 		lista = ('banana', 'maçã', 'uva')
 
 		self.view.window().show_quick_panel(items=lista, on_select=cb)
-		return
 
 
 #----------------------------------------------------#
@@ -166,7 +183,6 @@ class TesteMenuInlineCommand(sublime_plugin.TextCommand):
 		lista = ('banana', 'maçã', 'uva')
 
 		self.view.show_popup_menu(items=lista, on_select=cb)
-		return
 
 
 #----------------------------------------------------#
@@ -177,7 +193,6 @@ class TesteConfigProjetoCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 		x__(
 			sublime.active_window().project_file_name(),
-			self.view.settings().get('cor_secundaria'),
-			sublime.active_window().project_data().get('config').get('cor_principal')
+			self.view.settings().get('cor_secundaria',None),
+			sublime.active_window().project_data().get('config',None).get('cor_principal',None)
 		)
-		return
