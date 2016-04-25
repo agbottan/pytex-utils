@@ -167,3 +167,17 @@ class TesteMenuInlineCommand(sublime_plugin.TextCommand):
 
 		self.view.show_popup_menu(items=lista, on_select=cb)
 		return
+
+
+#----------------------------------------------------#
+#	TESTES > PEGA CONFIG DO PROJETO
+#----------------------------------------------------#
+
+class TesteConfigProjetoCommand(sublime_plugin.TextCommand):
+	def run(self, edit):
+		x__(
+			sublime.active_window().project_file_name(),
+			self.view.settings().get('cor_secundaria'),
+			sublime.active_window().project_data().get('config').get('cor_principal')
+		)
+		return

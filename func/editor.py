@@ -30,6 +30,15 @@ def x_(*args):
 	#sublime.message_dialog(ret)
 	print(ret)
 
+
+def x__(*args):
+	ret = ''
+	for tx in args:
+		ret += str(tx) + '\n'
+	ret = '\n' + ret
+	
+	print(ret)
+
 # ---------------
 
 
