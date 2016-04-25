@@ -106,7 +106,8 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
 class AutoApagaCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
-		modo = resolveModo(pegaNomeArquivoAtivo(self.view))
+		vis = self.view
+		modo = resolveModo(pegaInfoModo(vis))
 
 		# Apaga CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):

@@ -1,7 +1,6 @@
 
 .classe {
-	pr
-	db
+	position: relative;
+	display:  block;
+	float: left;
 }
-
-<
