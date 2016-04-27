@@ -40,7 +40,12 @@
 
 //////// 	COMENTÁRIOS
 
-	{ "keys": ["f4"], "command": "comenta" },
+	// { "keys": ["shift+f4"], "command": "comenta" },
+
+
+//////// SNIPPET TRADUÇÃO
+
+	{ "keys": ["f4"], "command": "snip_traduz" },
 
 
 //////// OUTROS

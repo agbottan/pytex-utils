@@ -134,6 +134,14 @@ class ComentaCommand(sublime_plugin.TextCommand):
 #	SNIPPET
 #----------------------------------------------------#
 
+class SnipTraduzCommand(sublime_plugin.TextCommand):
+
+	def wrapTraduz(modo, tx):
+		return "<?php echo $this->translate('" + tx + "'); ?>"
+
+	def run(self, edit):
+		aplica(edit, vis=self.view, func=self.wrapTraduz)
+
 
 ######################
 	#	TESTES	#
