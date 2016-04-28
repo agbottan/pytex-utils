@@ -45,7 +45,11 @@
 
 //////// SNIPPET TRADUÇÃO
 
-	{ "keys": ["f4"], "command": "snip_traduz" },
+	{ "keys": ["shift+f4"], "command": "snip_traduz" },
+
+
+//////// MOSTRA NOME
+	{ "keys": ["f4"], "command": "mostra_nome" },
 
 
 //////// OUTROS

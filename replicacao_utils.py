@@ -131,16 +131,25 @@ class ComentaCommand(sublime_plugin.TextCommand):
 
 
 #----------------------------------------------------#
+#	MOSTRA NOME
+#----------------------------------------------------#
+class MostraNome(sublime_plugin.TextCommand):
+	def run(self, edit):
+		# sublime.message_dialog(self.view.file_name())
+		x(self.view.file_name())
+
+
+#----------------------------------------------------#
 #	SNIPPET
 #----------------------------------------------------#
 
 class SnipTraduzCommand(sublime_plugin.TextCommand):
 
-	def wrapTraduz(modo, tx):
-		return "<?php echo $this->translate('" + tx + "'); ?>"
-
 	def run(self, edit):
 		aplica(edit, vis=self.view, func=self.wrapTraduz)
+
+	def wrapTraduz(modo, tx):
+		return "<?php echo $this->translate('" + tx + "'); ?>"
 
 
 ######################
