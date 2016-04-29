@@ -152,9 +152,9 @@ class SnipTraduzCommand(sublime_plugin.TextCommand):
 		return "<?php echo $this->translate('" + tx + "'); ?>"
 
 
-######################
-	#	TESTES	#
-######################
+####################
+    #  TESTES  #
+####################
 
 #----------------------------------------------------#
 #	TESTES > COMMAND OVERLAY
@@ -169,7 +169,6 @@ class TesteOverlayCommand(sublime_plugin.TextCommand):
 		lista = ('banana', 'maçã', 'uva')
 
 		self.view.window().run_command("show_overlay", {"overlay": "command_palette", "text": "Meu Plugin"})
-		# self.view.window().run_command("show_overlay", {"overlay": "goto", "text": "@replace_with_first_selection"})
 
 
 #----------------------------------------------------#

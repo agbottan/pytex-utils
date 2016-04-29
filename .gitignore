@@ -2,5 +2,5 @@
 # GIT IGNORE
 
 Package*
-Testes/*
+cobaias/*
 *.sublime-settings

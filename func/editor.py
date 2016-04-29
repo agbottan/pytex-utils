@@ -39,7 +39,8 @@ def x__(*args):
 	
 	print(ret)
 
-# ---------------
+
+# ------------------------------
 
 
 # Retorna o nome do arquivo ativo
@@ -47,9 +48,14 @@ def pegaNomeArquivoAtivo(vis):
 	return vis.file_name()
 
 
-# Retorna a posição do cursor no texto
+# Retorna a posição do cursor, relativo ao começo do texto
 def posCursor(vis):
 	return vis.sel()[0].b
+
+
+# Retorna a posição do cursor no texto, como 'linha' e 'coluna'
+def coordCursor(vis):
+	return vis.rowcol(posCursor(vis))
 
 
 # Retorna limites da linha que contém o cursor
@@ -158,7 +164,7 @@ def aplica(edit, func, vis=None, argList=(), retorno_cursor=0, modo=None):
 	# se não foi passada a 'view', considera a última view ativa
 
 	# Guarda posição inicial do cursor para voltar depois
-	pos_antes = vis.rowcol(vis.sel()[0].b)
+	pos_antes = coordCursor(vis)
 
 	# Resolve se há seleção (e se é 'multiline' !!!)
 
