@@ -122,4 +122,4 @@ def resolveModo(argInfo):
 		return ret
 	else: return ret
 
-# ------------------------ -resolveModo
+# ------------------------ /resolveModo

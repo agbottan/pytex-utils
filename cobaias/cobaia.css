@@ -1,6 +1,8 @@
 
 .classe {
 	position: relative;
-	display:  block;
-	float: left;
+	display: block;
+	cursor: pointer;
 }
+
+.deu { position: relative; display: block; } .foi { position: relative; }

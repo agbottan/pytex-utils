@@ -125,10 +125,14 @@ def vaiCursor(vis, pos):
 
 
 # Retorna o cursor para a posição certa, de acordo com parâmetro
-def voltaCursor(vis, pos_init, modo_retorno=0):
+def voltaCursor(vis, pos_init, retorno_cursor=0):
+
+	# 0 - Fim da linha
+	if retorno_cursor == 0:
+		vaiCursor(vis,vis.line(posCursor(vis)).b)
 
 	# 1 - Posição inicial ou mais próxima
-	if modo_retorno == 1:
+	elif retorno_cursor == 1:
 
 		nova_linha = vis.line(vis.text_point(pos_init[0],pos_init[0]))
 		comp_linha = nova_linha.b - nova_linha.a
@@ -140,10 +144,7 @@ def voltaCursor(vis, pos_init, modo_retorno=0):
 
 		vaiCursor(vis,vis.text_point(pos_init[0],pos_linha))
 
-	# 0 - Fim da linha
-	elif modo_retorno == 0:
-		vaiCursor(vis,vis.line(posCursor(vis)).b)
-
+	# 2 - Busca info na linha e se adpta !!!
 	else: return
 
 
@@ -155,7 +156,7 @@ def pegaInfoModo(vis):
 	arqPosCursor = posCursor(vis)
 
 	return (arqNome, arqTx, arqPosCursor)
-	
+
 
 # Padrão para aplicação de alteração no texto
 def aplica(edit, func, vis=None, argList=(), retorno_cursor=0, modo=None):
@@ -188,4 +189,6 @@ def aplica(edit, func, vis=None, argList=(), retorno_cursor=0, modo=None):
 		mudaSel(vis,edit,ret)
 
 	# Volta cursor na posição inicial
-	voltaCursor(vis, pos_antes, modo_retorno=retorno_cursor)
+	voltaCursor( vis=vis, pos_init=pos_antes, retorno_cursor=retorno_cursor)
+
+# ------------------------ /aplica
