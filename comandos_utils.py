@@ -207,8 +207,10 @@ class TesteMenuInlineCommand(sublime_plugin.TextCommand):
 
 class TesteConfigProjetoCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		x__(
-			sublime.active_window().project_file_name(),
-			self.view.settings().get('cor_secundaria',None),
-			sublime.active_window().project_data().get('config',None).get('cor_principal',None)
+		x_(
+			sublime.active_window().project_file_name()
+			# sublime.active_window().views(),
+			# sublime.active_window().active_view(),
+			# self.view.settings().get('cor_secundaria',None),
+			# sublime.active_window().project_data().get('config',None).get('cor_principal',None)
 		)
