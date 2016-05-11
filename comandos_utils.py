@@ -40,6 +40,7 @@ from func.formata_linhas import *
 # imp.reload(func.css_apaga)
 # imp.reload(func.css_expande)
 
+
 # ============== CLASSES DOS COMANDOS ============== #
 
 #----------------------------------------------------#
