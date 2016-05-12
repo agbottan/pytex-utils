@@ -51,10 +51,10 @@ def pegaCssProp(vis):
 
 #--------------------------------- fim de 'pegaCssProp'
 
-def cssAutoApaga(vis, edit):
+def cssAutoApaga(edit,vis):
 
 	prop = pegaCssProp(vis)
 	if None not in (prop.a,prop.b):
-		vis.erase(edit,prop)
+		vis.erase(edit,prop) # !!! ABSTRAIR PRA UMA FUNÇÃO DE APAGAR TRECHO, NO MÓDULO DO EDITOR !!!
 
 #--------------------------------- fim de 'cssAutoApaga'

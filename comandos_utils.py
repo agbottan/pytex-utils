@@ -1,10 +1,13 @@
 
-############### REPLICAÇÃO ###############
+############### PYTEX UTILS ###############
 
 import sublime, sublime_plugin, sys, re, os, imp
 
 # Caminho para módulos
 paths = (
+
+	# Laptop - Linux
+	# ---- 
 
 	# Apto Bauru - Linux
 	'/home/andre/.config/sublime-text-3/Packages/User',
@@ -30,6 +33,7 @@ from func.css_expande import *
 from func.html import *
 from func.entities import *
 from func.formata_linhas import *
+from func.comentator import *
 
 # --------------------------------
 
@@ -112,7 +116,7 @@ class AutoApagaCommand(sublime_plugin.TextCommand):
 
 		# Apaga CSS
 		if modo['modo'] in ('css_arq','css_tag','css_attr'):
-			cssAutoApaga(self.view,edit)
+			cssAutoApaga(edit, self.view)
 		else:
 			x('Não apaga "' + modo['ext'] + '"')
 
@@ -122,13 +126,11 @@ class AutoApagaCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 class ComentaCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-
 		vis = self.view
-#		modo = resolveModo(pegaInfoModo(vis))
+		modo = resolveModo(pegaInfoModo(vis))
+		aplica(edit, vis=self.view, func=comenta, modo=modo)
 
-#		x('comenta',modo)
-
-		x(pegaInfoModo(vis))
+		#x(pegaInfoModo(vis))
 
 
 #----------------------------------------------------#
@@ -146,11 +148,12 @@ class MostraNome(sublime_plugin.TextCommand):
 
 class SnipTraduzCommand(sublime_plugin.TextCommand):
 
+	def wrapTraduz(modo, tx):
+		return "<?php echo $this->translate('" + tx + "'); ?>"
+
 	def run(self, edit):
 		aplica(edit, vis=self.view, func=self.wrapTraduz)
 
-	def wrapTraduz(modo, tx):
-		return "<?php echo $this->translate('" + tx + "'); ?>"
 
 
 ####################

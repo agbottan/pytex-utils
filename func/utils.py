@@ -75,51 +75,52 @@ def resolveModo(argInfo):
 	arqNome, tx, pos = argInfo
 
 	import os.path
-	ret = {
-		'modo':None,
-		'dirImg':None,
-		'ext':None,
-		'match':None
+	modo = {
+		'modo':   None,
+		'dirImg': None,
+		'ext':    None,
+		'match':  None
 	}
 
 	ext = os.path.splitext(arqNome)[1]
-	ret['ext'] = ext 
+	modo['ext'] = ext 
 
 	# Extensão 'css'
-	if re.match( r'\.s?css', ret['ext'], re.I ):
-		ret['modo']		= 'css_arq'
-		ret['dirImg']	= '../img/'
-		return ret
+	if re.match( r'\.s?css', modo['ext'], re.I ):
+		modo['modo']	= 'css_arq'
+		modo['dirImg']	= '../img/'
+		return modo
 
 	# Extensão 'html' e 'php'
-	if re.match( r'\.php|\.p?html?|\.asp', ret['ext'], re.I ):
-		ret['dirImg'] = 'img/'
+	if re.match( r'\.php|\.p?html?|\.asp', modo['ext'], re.I ):
+		modo['dirImg'] = 'img/'
 		
-		# Dentro do html
-		#pos = editor.posCursor(vis)
-		#tx	= pegaTextoTodo(vis)
+		# !!! Dentro do html
+		# pos = editor.posCursor(vis)
+		# tx	= pegaTextoTodo(vis)
 
 		reTipos = (
-			( 'css_tag',	re.compile(r'<style.*?>(.*?)</style>', re.S)),
-			( 'css_attr',	re.compile(r'style="(.*?)"', re.S)),
-			( 'php',		re.compile(r'<\?php(.*?)\?>', re.S))
+			( 'css_tag',  re.compile(r'<style.*?>(.*?)</style>', re.S)),
+			( 'css_attr', re.compile(r'style="(.*?)"', re.S)),
+			( 'php',	  re.compile(r'<\?php(.*?)\?>', re.S))
 		)
 
 		for tipo in reTipos:
 			for m in tipo[1].finditer(tx):
 
 				if m.start(1) <= pos <= m.end(1):
-					ret['modo'] = tipo[0]
-					ret['match'] = m
+					modo['modo'] = tipo[0]
+					modo['match'] = m
 					break
 				
-				if ret['modo'] != None:
+				if modo['modo'] != None:
 					break
 
-		if ret['modo'] == None:
-			ret['modo'] = 'html'
+		if modo['modo'] == None:
+			modo['modo'] = 'html'
 
-		return ret
-	else: return ret
+		return modo
+
+	else: return modo
 
 # ------------------------ /resolveModo

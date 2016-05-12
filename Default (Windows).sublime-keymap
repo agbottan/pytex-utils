@@ -40,7 +40,7 @@
 
 //////// 	COMENTÁRIOS
 
-	{ "keys": ["ctrl+q"], "command": "comenta" },
+	{ "keys": ["f4"], "command": "comenta" },
 
 
 //////// SNIPPET TRADUÇÃO
@@ -49,7 +49,7 @@
 
 
 //////// MOSTRA NOME
-	{ "keys": ["f4"], "command": "mostra_nome" },
+	{ "keys": ["alt+f4"], "command": "mostra_nome" },
 
 
 //////// OUTROS

@@ -11,23 +11,25 @@ import sublime, re
 # Barra Separadora
 barra = '\n' + '#' * 80 + '\n'
 
-
 def x(*args):
 	ret = ''
 	for tx in args:
 		ret += str(tx)
-
-	#sublime.message_dialog(ret)
 	print(ret)
+
+
+def X(*args):
+	ret = ''
+	for tx in args:
+		ret += str(tx)
+	sublime.message_dialog(ret)
 
 
 def x_(*args):
 	ret = ''
 	for tx in args:
 		ret += str(tx)
-	ret += '\n'
-	
-	#sublime.message_dialog(ret)
+	ret += '\n'	
 	print(ret)
 
 
@@ -35,9 +37,11 @@ def x__(*args):
 	ret = ''
 	for tx in args:
 		ret += str(tx) + '\n'
-	ret = '\n' + ret
-	
+	ret = barra + ret
 	print(ret)
+
+
+# !!! Fazer um que loga num arquivo de log aberto e abre se não tiver um
 
 # ------------------------------
 
@@ -150,9 +154,12 @@ def voltaCursor(vis, pos_init, retorno_cursor=0):
 # Retorna informações do arquivo ativo para resolver o modo de operação
 def pegaInfoModo(vis):
 
-	arqNome = pegaNomeArquivoAtivo(vis)
-	arqTx = pegaTextoTodo(vis)
-	arqPosCursor = posCursor(vis)
+	arqNome = pegaNomeArquivoAtivo(vis) # Nome do arquivo
+	if not arqNome:
+		arqNome = ''
+
+	arqTx = pegaTextoTodo(vis) 	  # Texto do arquivo
+	arqPosCursor = posCursor(vis) # Posição do cursor no texto
 
 	return (arqNome, arqTx, arqPosCursor)
 
@@ -160,8 +167,9 @@ def pegaInfoModo(vis):
 # Padrão para aplicação de alteração no texto
 def aplica(edit, func, vis=None, argList=(), retorno_cursor=0, modo=None):
 
-	#  !!! FAZER ???
-	# se não foi passada a 'view', considera a última view ativa
+	# Se não foi passada a 'view', considera a última view ativa
+	if vis == None:
+		vis = sublime.active_window().active_view()
 
 	# Guarda posição inicial do cursor para voltar depois
 	pos_antes = coordCursor(vis)
