@@ -16,8 +16,7 @@ class ConfigComenta:
 	
 	#dirImg = 'img/'
 
-	tags = (
-	) # -tags
+	REs = ()
 
 # Fim de 'ConfigComenta'
 
@@ -26,4 +25,4 @@ def comenta(tx='', modo=None):
 
 	linhas = tx.splitlines(True)
 
-	return str(linhas)
+	return '<!-- ' + ''.join(linhas) + ' -->'
