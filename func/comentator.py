@@ -4,7 +4,7 @@
 ###################
 
 import re, sublime
-from func.utils import splitRe, posIdent
+from func.utils import splitRe, sepIdent
 from func.editor import *
 
 
@@ -13,10 +13,12 @@ from func.editor import *
 # ------------------------ #
 
 class ConfigComenta:
-	
-	#dirImg = 'img/'
 
-	REs = ()
+	langs = (
+
+		# MODO | REGEX
+
+	)
 
 # Fim de 'ConfigComenta'
 
@@ -24,5 +26,8 @@ class ConfigComenta:
 def comenta(tx='', modo=None):
 
 	linhas = tx.splitlines(True)
+	tx = ''.join(linhas).strip()
 
-	return '<!-- ' + ''.join(linhas) + ' -->'
+	#return '<!--\n' + tx + '\n-->'
+
+	return str(sepIdent(tx)) + '\n' + str(posIdent(tx))

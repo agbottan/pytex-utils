@@ -5,16 +5,25 @@
 
 import re
 
+# Regex da identação
+reIdent = re.compile(r'^\s*')
+
+
 # Retorna a posição do término da primeira identação de um texto (linha)
 def posIdent(tx):
-	reIdent = re.compile(r'^\s*')
 	return re.match(reIdent,tx).end(0)
+
+
+# Retorna dupla (identação, texto)
+def sepIdent(tx):
+	p = posIdent(tx)
+	return tx[:p], tx[p:]
 
 
 # Retorna a parte de identação do texto
 def txIdent(tx):
-	pos = posIdent(tx)
-	return tx[0::pos] if pos == 0 else ''
+	p = posIdent(tx)
+	return tx[:p] if p == 0 else ''
 
 
 def indices(tx, sep, completa = False):
@@ -24,7 +33,7 @@ def indices(tx, sep, completa = False):
 	inds = [match.start() for match in sep.finditer(tx)]
 	
 	if completa and len(inds) == 0:
-		#inds = [0,len(tx)]
+		# inds = [0,len(tx)]
 		inds = [len(tx)] # !!! TODO: MELHORAR - POR CHECAGEM ANTES !!!
 	
 	return inds
