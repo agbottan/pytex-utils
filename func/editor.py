@@ -22,6 +22,13 @@ def X(*args):
 	ret = ''
 	for tx in args:
 		ret += str(tx)
+	return ret
+
+
+def X_(*args):
+	ret = ''
+	for tx in args:
+		ret += str(tx)
 	sublime.message_dialog(ret)
 
 
@@ -174,16 +181,16 @@ def aplica(edit, func, vis=None, argList=(), retorno_cursor=0, modo=None):
 	# Guarda posição inicial do cursor para voltar depois
 	pos_antes = coordCursor(vis)
 
-	# Resolve se há seleção (e se é 'multiline' !!!)
-
+	# Resolve se há seleção
 	sel_vazia = pegaTextoSel(vis) == ''
+	# TODO !!! e se é 'multiline'
 
 	tx = pegaTexto(vis)
 	argList += (tx,)
 	if modo != None:
 		argList += (modo,)
 
-	linhaComeco = linhaCursor(vis) # !!! VERIFICAR UTILIDADES
+	linhaComeco = linhaCursor(vis) # TODO !!! VERIFICAR UTILIDADES
 
 	# Aplica a função de transformação
 	ret = func(*argList)
@@ -198,4 +205,4 @@ def aplica(edit, func, vis=None, argList=(), retorno_cursor=0, modo=None):
 	# Volta cursor na posição inicial
 	voltaCursor( vis=vis, pos_init=pos_antes, retorno_cursor=retorno_cursor)
 
-# ------------------------ /aplica
+# ------------------------ /- aplica

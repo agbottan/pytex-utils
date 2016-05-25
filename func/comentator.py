@@ -17,7 +17,8 @@ class ConfigComenta:
 	langs = (
 
 		# MODO | REGEX
-
+		('html', ('<!-- ', ' -->')),
+		('py', 	 ('# '))
 	)
 
 # Fim de 'ConfigComenta'
@@ -25,9 +26,17 @@ class ConfigComenta:
 
 def comenta(tx='', modo=None):
 
+	config = ConfigComenta()
+
 	linhas = tx.splitlines(True)
-	tx = ''.join(linhas).strip()
+	#tx = ''.join(linhas).strip()
+	tx = ''.join(linhas)
+
+	#return str(sepIdent(tx)) + '\n' + str(posIdent(tx))
+
+	tx_ident, tx_resto = sepIdent(tx)
+
+	#return str(linhas)
+	return tx_ident + '<!--' + tx_resto + '-->'
 
 	#return '<!--\n' + tx + '\n-->'
-
-	return str(sepIdent(tx)) + '\n' + str(posIdent(tx))
