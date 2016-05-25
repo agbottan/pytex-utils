@@ -24,9 +24,11 @@
 ------------------
 */
 
+
 /*
-	{ "keys": ["ctrl+f11"], "command": "formata_tabela" },
-	{ "keys": ["f12"], "command": "troca_"entities" },
+	{ "keys": ["f12"], "command": "troca_entities" },
+  { "keys": ["ctrl+f11"], "command": "formata_tabela" },
+  { "keys": ["f12"], "command": "troca_"entities" },
 	{ "keys": ["ctrl+f11"], "command": "limpa_traducao" },
 	{ "keys": ["f11"], "command": "monta_tabela" }
 	{ "keys": ["ctrl+shift+f12"], "command": "formata_tabela" },
