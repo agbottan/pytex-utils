@@ -17,8 +17,16 @@ class ConfigComenta:
 	langs = (
 
 		# MODO | REGEX
-		('html', ('<!-- ', ' -->')),
-		('py', 	 ('# '))
+		('html', {
+			'linhas': False,
+			'comeco': '<!-- ',
+			'fim': ' -->'
+		}),
+
+		('py', {
+			'linhas': True,
+			'comeco': '# '
+		})
 	)
 
 # Fim de 'ConfigComenta'
