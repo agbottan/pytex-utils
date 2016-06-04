@@ -84,6 +84,8 @@ def resolveModo(argInfo):
 	arqNome, tx, pos = argInfo
 
 	import os.path
+
+	# Init do modo
 	modo = {
 		'modo':   None,
 		'dirImg': None,
@@ -91,23 +93,58 @@ def resolveModo(argInfo):
 		'match':  None
 	}
 
-	ext = os.path.splitext(arqNome)[1]
-	modo['ext'] = ext 
+	modos = (
+		('.txt', 'texto'),
+		('.py', 'python'),
+		('.js', 'javascript'),
+		('.php', 'php')
+	)
 
-	# Extensão 'css'
-	if re.match( r'\.s?css', modo['ext'], re.I ):
+	# Extensão do nome do arquivo
+	modo['ext'] = os.path.splitext(arqNome)[1]
+
+
+	# Extensão JS
+	if re.match(
+		r'\.js',
+		modo['ext'], re.I
+	):
+		modo['modo'] = 'javascript'
+		return modo
+
+
+	# Extensão PY
+	if re.match(
+		r'\.py',
+		modo['ext'], re.I
+	):
+		modo['modo'] = 'python'
+		return modo
+
+
+	# Extensões CSS, SCSS e SASS
+	if re.match(
+		r'\.(css|scss|sass)',
+		modo['ext'], re.I
+	):
 		modo['modo']	= 'css_arq'
 		modo['dirImg']	= '../img/'
 		return modo
 
-	# Extensão 'html' e 'php'
-	if re.match( r'\.php|\.p?html?|\.asp', modo['ext'], re.I ):
+
+	# Extensões HTML, HTM, PHTML, ASP e PHP
+	if re.match(
+		r'\.(htm|html|phtml|php|asp)',
+		modo['ext'], re.I
+	):
+
 		modo['dirImg'] = 'img/'
 		
-		# !!! Dentro do html
+		# !!! TODO: Dentro do html
 		# pos = editor.posCursor(vis)
-		# tx	= pegaTextoTodo(vis)
+		# tx  = pegaTextoTodo(vis)
 
+		# Checa se está em um trecho de CSS ou PHP, dentro de um HTML
 		reTipos = (
 			( 'css_tag',  re.compile(r'<style.*?>(.*?)</style>', re.S)),
 			( 'css_attr', re.compile(r'style="(.*?)"', re.S)),
@@ -125,6 +162,7 @@ def resolveModo(argInfo):
 				if modo['modo'] != None:
 					break
 
+		# Se não está em nenhum trecho especial, é HTML
 		if modo['modo'] == None:
 			modo['modo'] = 'html'
 
