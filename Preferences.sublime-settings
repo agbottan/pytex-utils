@@ -17,6 +17,7 @@
 		"*.zip"
 	],
 	"default_encoding": "UTF-8",
+	"default_line_ending": "windows",
 	"detect_indentation": false,
 	"fallback_encoding": "UTF-8",
 	"font_size": 11,
@@ -28,6 +29,7 @@
 		"SearchPanelEnhanced",
 		"Vintage"
 	],
+	"show_line_endings": true,
 	"translate_tabs_to_spaces": false,
 	"word_wrap": true
 }
