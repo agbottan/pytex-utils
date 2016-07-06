@@ -12,6 +12,9 @@ alias shell_teste='bash ./bash_teste.sh'
 # Painel do Xampp
 alias xampp='sudo /opt/lampp/manager-linux-x64.run'
 
+# 'CLS' igual do Windows :)
+alias cls="printf '\033c'"
+
 
 # === NPM === #
 
