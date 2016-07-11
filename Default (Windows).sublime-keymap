@@ -28,7 +28,6 @@
 /*
 	{ "keys": ["f12"], "command": "troca_entities" },
   { "keys": ["ctrl+f11"], "command": "formata_tabela" },
-  { "keys": ["f12"], "command": "troca_"entities" },
 	{ "keys": ["ctrl+f11"], "command": "limpa_traducao" },
 	{ "keys": ["f11"], "command": "monta_tabela" }
 	{ "keys": ["ctrl+shift+f12"], "command": "formata_tabela" },
@@ -63,7 +62,8 @@
 
 //////// TESTE
 
-	{ "keys": ["f2"], "command": "teste_plugin" },
+	// { "keys": ["f2"], "command": "teste_plugin" },
+	{ "keys": ["f2"], "command": "busca_arquivo" },
 	{ "keys": ["shift+f7"], "command": "teste_overlay" },
 	{ "keys": ["alt+f7"], "command": "teste_quick_panel" },
 	{ "keys": ["ctrl+f7"], "command": "teste_menu_inline" },

@@ -155,66 +155,40 @@ class SnipTraduzCommand(sublime_plugin.TextCommand):
 		aplica(edit, vis=self.view, func=self.wrapTraduz)
 
 
-
-####################
-    #  TESTES  #
-####################
-
 #----------------------------------------------------#
-#	TESTES > COMMAND OVERLAY
+#	BUSCA ARQUIVOS RELACIONADOS
 #----------------------------------------------------#
 
-class TesteOverlayCommand(sublime_plugin.TextCommand):
+class BuscaArquivoCommand(sublime_plugin.TextCommand):
+
+	locais = {
+		'local':			  'C:\\Apache24\\htdocs\\trio\\',
+		'dev':				  'Z:\\projetos\\2_execucao\\fastpro\institucional\\site\\',
+		'instalador_trio':	  'C:\\Apache24\htdocs\\projeto-padrao\\',
+		'instalador_modulos': 'C:\\Apache24\htdocs\\trio-modulos-v2\\'
+	}
+
 	def run(self, edit):
 
-		def cb(ind):
-			x(ind,' -> ',lista[ind]);
+		ambiente_atual = None;
+		nome = self.view.file_name()
 
-		lista = ('banana', 'maçã', 'uva')
+		x(nome)
 
-		self.view.window().run_command("show_overlay", {"overlay": "command_palette", "text": "Meu Plugin"})
+		for ambiente, pasta in self.locais.items():
 
+			if pasta in nome:
+				ambiente_atual = ambiente
 
-#----------------------------------------------------#
-#	TESTES > QUICK PANEL
-#----------------------------------------------------#
+		x(ambiente_atual)
 
-class TesteQuickPanelCommand(sublime_plugin.TextCommand):
-	def run(self, edit):
+#x('_' in 'ccc')
+#x(self.vteste)
+#x(self.view.file_name())
 
-		def cb(ind):
-			x(ind,' -> ',lista[ind]);
+#sublime.active_window().open_file(
+#	self.view.file_name()
+#)
 
-		lista = ('banana', 'maçã', 'uva')
-
-		self.view.window().show_quick_panel(items=lista, on_select=cb)
-
-
-#----------------------------------------------------#
-#	TESTES > MENU INLINE
-#----------------------------------------------------#
-
-class TesteMenuInlineCommand(sublime_plugin.TextCommand):
-	def run(self, edit):
-
-		def cb(ind):
-			x(ind,' -> ',lista[ind]);
-
-		lista = ('banana', 'maçã', 'uva')
-
-		self.view.show_popup_menu(items=lista, on_select=cb)
-
-
-#----------------------------------------------------#
-#	TESTES > PEGA CONFIG DO PROJETO
-#----------------------------------------------------#
-
-class TesteConfigProjetoCommand(sublime_plugin.TextCommand):
-	def run(self, edit):
-		x_(
-			sublime.active_window().project_file_name()
-			# sublime.active_window().views(),
-			# sublime.active_window().active_view(),
-			# self.view.settings().get('cor_secundaria',None),
-			# sublime.active_window().project_data().get('config',None).get('cor_principal',None)
-		)
+#sublime.active_window().project_file_name()
+#self.view.file_name()
