@@ -3,7 +3,12 @@
 	position: relative;
 	display: block;
 	cursor: pointer;
-	pa
+	z2
 }
 
-.deu { position: relative; display: block; } .foi { position: relative; }
+.deu { position: relative; display: block; }
+
+.foi {
+	display: block;
+	position: relative;
+}
