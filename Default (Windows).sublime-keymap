@@ -17,6 +17,7 @@
 	{ "keys": ["alt+down"], "command": "select_lines", "args": {"forward": true} },
 	{ "keys": ["ctrl+alt+p"], "command": "prompt_select_workspace" },
 	{ "keys": ["ctrl+f1"], "command": "show_overlay", "args": {"overlay": "command_palette", "text": "Snippet: trio_translate"}},
+  { "keys": ["f11"], "command": "toggle_distraction_free" },
 
 /*
 ------------------
