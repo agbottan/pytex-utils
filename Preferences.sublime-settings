@@ -32,5 +32,13 @@
 	"show_line_endings": true,
 	"translate_tabs_to_spaces": false,
 	"word_wrap": true,
+<<<<<<< HEAD
   "show_encoding": true,
+=======
+
+	// Determines what character(s) are used to terminate each line in new files.
+    // Valid values are 'system' (whatever the OS uses), 'windows' (CRLF) and
+    // 'unix' (LF only).
+    "default_line_ending": "unix"
+>>>>>>> origin/master
 }
