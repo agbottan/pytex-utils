@@ -31,3 +31,6 @@ class TesteModuloCommand(sublime_plugin.TextCommand):
 
 			sublime.Window.extract_variables(self)
 		)
+
+
+# PROXY
