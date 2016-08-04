@@ -9,8 +9,9 @@ class ConfigCss:
 	
 	# Propriedades montadas - não sofrem alteração
 	propsLista = (
+
+		# POSICIONAMENTO
 		'display',
-		'z-index',
 		'position',
 		'left',
 		'top',
@@ -18,10 +19,21 @@ class ConfigCss:
 		'bottom',
 		'float',
 		'clear',
+		'z-index',
+
+		# WIDTH | HEIGHT
+		'width',
+		'height',
+		'min-width',
+		'min-height',
+		'max-width',
+		'max-height',
+
+		# MARGIN | PADDING
 		'margin',
 		'padding',
-		'(min-'|'max-)?width',
-		'(min-'|'max-)?height',
+
+		# TEXTO
 		'line-height',
 		'border',
 		'text',
