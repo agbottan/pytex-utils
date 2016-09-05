@@ -1,6 +1,19 @@
 
+-------------------------------------
 BUGS
+-------------------------------------
 
 CSS.Autocomplete põe o espaço em branco antes do ':' repetidamente
 
 
+-------------------------------------
+TODO
+-------------------------------------
+
+Quando icicia o sublime, coletar e aplicar as variáveis por projeto (ou quando troca de projeto)
+
+Menu com lista de arquivos interessantes para abrir rapidamente
+
+Sistema de snippets 'ultra-dinâmico'
+
+Melhorar 'repetidor formata linha'
