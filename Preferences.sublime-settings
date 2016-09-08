@@ -20,7 +20,11 @@
 	"default_line_ending": "unix",
 	"detect_indentation": false,
 	"fallback_encoding": "UTF-8",
+<<<<<<< Updated upstream
 	"font_size": 11,
+=======
+	"font_size": 12,
+>>>>>>> Stashed changes
 	"ignored_packages":
 	[
 		"CSS",
@@ -31,6 +35,10 @@
 		"SublimeLinter-contrib-jslint",
 		"Vintage"
 	],
+<<<<<<< Updated upstream
+=======
+	"show_encoding": true,
+>>>>>>> Stashed changes
 	"show_line_endings": true,
 	"translate_tabs_to_spaces": false,
 	"word_wrap": true
