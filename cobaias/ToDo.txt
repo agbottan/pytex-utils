@@ -12,8 +12,16 @@ TODO
 
 Quando icicia o sublime, coletar e aplicar as variáveis por projeto (ou quando troca de projeto)
 
-Menu com lista de arquivos interessantes para abrir rapidamente
+MENU DE UTILIDADES
 
-Sistema de snippets 'ultra-dinâmico'
+	Conversor de Entities e Font-Awesome
 
-Melhorar 'repetidor formata linha'
+	Conversor de SVG
+
+	Menu com lista de arquivos interessantes para abrir rapidamente
+
+	Sistema de snippets 'ultra-dinâmico'
+
+	Melhorar 'repetidor formata linha'
+
+	Normatizador de identação
