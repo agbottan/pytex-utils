@@ -7,6 +7,16 @@ CSS.Autocomplete põe o espaço em branco antes do ':' repetidamente
 
 
 -------------------------------------
+SIMPLES
+-------------------------------------
+
+CSS
+	line-height
+	z-index
+	border-radius
+
+
+-------------------------------------
 TODO
 -------------------------------------
 
