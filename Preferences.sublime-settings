@@ -25,21 +25,5 @@
 =======
 	"font_size": 12,
 >>>>>>> Stashed changes
-	"ignored_packages":
-	[
-		"CSS",
-		"GitSavvy",
-		"GitStatus",
-		"JSLint",
-		"SearchPanelEnhanced",
-		"SublimeLinter-contrib-jslint",
-		"Vintage"
-	],
-<<<<<<< Updated upstream
-=======
-	"show_encoding": true,
->>>>>>> Stashed changes
-	"show_line_endings": true,
-	"translate_tabs_to_spaces": false,
-	"word_wrap": true
+	"font_size": 12
 }
