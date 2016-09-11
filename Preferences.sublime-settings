@@ -18,12 +18,9 @@
 	],
 	"default_encoding": "UTF-8",
 	"default_line_ending": "unix",
-	"detect_indentation": false,
+	"detect_indentation": true,
 	"fallback_encoding": "UTF-8",
-<<<<<<< Updated upstream
 	"font_size": 11,
-=======
-	"font_size": 12,
->>>>>>> Stashed changes
-	"font_size": 12
+	"tab_size": 2,
+	"translate_tabs_to_spaces": true
 }
