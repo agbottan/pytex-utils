@@ -21,6 +21,14 @@
 	"detect_indentation": true,
 	"fallback_encoding": "UTF-8",
 	"font_size": 11,
+<<<<<<< 9313f8239d9306de90930ac1f9bb73685b43a5fa
 	"tab_size": 2,
 	"translate_tabs_to_spaces": true
+=======
+	"ignored_packages":
+	[
+		"JSLint",
+		"Vintage"
+	]
+>>>>>>> 20ad8936dd9dfa56a53782472fa4086d4fff0553
 }
