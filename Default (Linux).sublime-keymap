@@ -63,7 +63,7 @@
 
 	{ "keys": ["f2"], "command": "teste_plugin" },
 	{ "keys": ["shift+f7"], "command": "teste_overlay" },
-	{ "keys": ["alt+f7"], "command": "teste_quick_panel" },
+	{ "keys": ["ctrl+shift+f7"], "command": "teste_quick_panel" },
 	{ "keys": ["ctrl+f7"], "command": "teste_menu_inline" },
 	{ "keys": ["f7"], "command": "teste_config_projeto" }
 ]
