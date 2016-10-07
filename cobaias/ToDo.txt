@@ -37,3 +37,5 @@ MENU DE UTILIDADES
 	Normatizador de identação
 
 	Botão para rodar o preprocessador rapidamente, por projeto
+
+	[TRELLO] Limpador e somador de itens dos cards
