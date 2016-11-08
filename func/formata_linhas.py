@@ -9,23 +9,27 @@ import re
 
 # /////////////// CONFIG
 
-sinal		= ';\d*;'
-sepCampo	= '\t+'
+sinal				= ';\d*;'
+sepCampo		= '\t+'
 multilinha	= ';;;'
-formato		= None
-ln			= '\n'
+formato			= None
+ln					= '\n'
 
 sepCampo = re.compile(sepCampo)
 
-def montaCampos(linha,modelo):
+def montaCampos(linha, modelo):
+
 	campos = re.split(sepCampo,linha)
+
 	for campo in campos:
 		#if re.search(sinal,linha) != None:
 		#linha = re.sub(sinal,campo,modelo,1)
 		linha = re.sub(sinal,campo,modelo)
+
 	return linha
 
-def formataLinhas(tx):
+
+def formataLinhas(tx, limpa_vazio = False):
 
 	linhas = tx.splitlines(False)
 
@@ -36,7 +40,8 @@ def formataLinhas(tx):
 			break
 
 	# Retira linhas em branco
-	linhas[:] = [ L for L in linhas if( re.search('^\s*$',L) == None )]
+	if limpa_vazio:
+		linhas[:] = [ L for L in linhas if( re.search('^\s*$',L) == None )]
 
 	# Formata as linhas
 	linhas[:] = [ montaCampos(L,formato) for L in linhas]

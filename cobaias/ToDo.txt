@@ -17,6 +17,14 @@ CSS
 
 
 -------------------------------------
+MONTA LINHAS
+-------------------------------------
+
+Considerar linhas em branco
+Considerar Tabs no começo das linhas
+
+
+-------------------------------------
 TODO
 -------------------------------------
 
@@ -38,4 +46,6 @@ MENU DE UTILIDADES
 
 	Botão para rodar o preprocessador rapidamente, por projeto
 
-	[TRELLO] Limpador e somador de itens dos cards
+	Limpeza Geral
+
+		Espaços em branco no fim da linha
