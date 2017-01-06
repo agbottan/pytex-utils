@@ -49,3 +49,30 @@ MENU DE UTILIDADES
 	Limpeza Geral
 
 		Espaços em branco no fim da linha
+
+	Comentários híbridos com PHP e HTML
+
+	Tabela do Font Awesome
+	Converter a classe para o Unicode pro :after
+
+	'Solução Eficaz' -> Menu contextual com snippets
+	Poder colocar e tirar baseado no texto selecionado
+
+Adicionar o underline " _ " como separador de palavras
+
+'Super Substituição' - Por linha e por texto selecionado
+
+Função para comentário genéric ae modular. Usar no <!-- /.class -->
+
+<div class="banana"> em .banana p/ CSS
+
+Usar na identificação de linguagem o recurso de escopo do ST3.
+Manter a lógica anterior como opção para o NP++
+
+Limpador de tags redundantes de PHP
+
+deixar fera a função dos HTML entities
+Colocar menu para escolha de conjuntop de substituição
+Publicar para fama
+
+CSS -> background-size
