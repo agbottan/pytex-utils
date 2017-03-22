@@ -4,7 +4,7 @@
 ######################
 
 import re, sublime
-from func.editor import *
+import func.editor
 
 
 ############### APAGADOR DE CSS ###############

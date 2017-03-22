@@ -1,29 +1,19 @@
 
-.classe {
-	position: relative;
-	display: block;
-	cursor: pointer;
-	z2
+
+.teste {
+  position: relative;
+  position: absolute;
 }
 
-.deu { position: relative; display: block; }
 
-.foi {
-	display: block;
-	position: relative;
+
+.teste2 { cursor: pointer; } .teste1 { position: absolute; } .teste2 { position: relative; } .teste2 { cursor: pointer; }
+.teste1 {
+  position: absolute;
 }
+.teste2 { pr } .teste2 { pa } .teste2 { pa }
 
-@media (min-width: $screen-md) {
- 
+.teste2 {
+  position: relative;
+  position: relative;
 }
-
-@media (min-width: $screen-md) {
- 
- }
-
-@media (min-width: $screen-md) {
- 
- }
-
-
-bb   

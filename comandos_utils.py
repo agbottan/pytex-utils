@@ -7,7 +7,7 @@ import sublime, sublime_plugin, sys, re, os, imp
 paths = (
 
 	# Laptop - Linux
-	# ---- 
+	# ----
 
 	# Apto Bauru - Linux
 	'/home/andre/.config/sublime-text-3/Packages/User',
@@ -23,11 +23,8 @@ for path in paths:
 
 # --------------------------------
 
-# !!! from func import editor
 from func.editor import *
-
 from func.utils import *
-
 from func.css_apaga import *
 from func.css_expande import *
 from func.html import *
@@ -37,12 +34,15 @@ from func.comentator import *
 
 # --------------------------------
 
+################################################
 # !!! RELOAD !!!
-# import imp
-# imp.reload(func.editor)
-# imp.reload(func.html)
-# imp.reload(func.css_apaga)
-# imp.reload(func.css_expande)
+import sys
+import imp
+imp.reload(sys.modules['func.css_expande'])
+from func.css_expande import *
+imp.reload(sys.modules['func.formata_linhas'])
+from func.formata_linhas import *
+################################################
 
 
 # ============== CLASSES DOS COMANDOS ============== #
@@ -52,7 +52,7 @@ from func.comentator import *
 #----------------------------------------------------#
 class TrocaEntitiesCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		aplica(edit,entities.trocaEntities,self.view)
+		aplica( edit, vis=self.view, func=entities.trocaEntities)
 
 
 #----------------------------------------------------#
@@ -60,7 +60,7 @@ class TrocaEntitiesCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 class LimpaTextoCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		aplica(edit, func=limpaTexto, vis=self.view)
+		aplica( edit, func=limpaTexto, vis=self.view)
 
 
 #----------------------------------------------------#
@@ -68,7 +68,7 @@ class LimpaTextoCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 class FormataLinhasCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		aplica(edit, vis=self.view, func=formataLinhas)
+		aplica( edit, vis=self.view, func=formataLinhas, argList={ 'limpa_vazio': False })
 
 
 #----------------------------------------------------#
@@ -128,7 +128,7 @@ class ComentaCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 		vis = self.view
 		modo = resolveModo(pegaInfoModo(vis))
-		aplica(edit, vis=self.view, func=comenta, modo=modo)
+		aplica( edit, vis=self.view, func=comenta, modo=modo)
 
 		#x(pegaInfoModo(vis))
 
@@ -152,43 +152,4 @@ class SnipTraduzCommand(sublime_plugin.TextCommand):
 		return "<?php echo $this->translate('" + tx + "'); ?>"
 
 	def run(self, edit):
-		aplica(edit, vis=self.view, func=self.wrapTraduz)
-
-
-#----------------------------------------------------#
-#	BUSCA ARQUIVOS RELACIONADOS
-#----------------------------------------------------#
-
-class BuscaArquivoCommand(sublime_plugin.TextCommand):
-
-	locais = {
-		'local':			  'C:\\Apache24\\htdocs\\trio\\',
-		'dev':				  'Z:\\projetos\\2_execucao\\fastpro\institucional\\site\\',
-		'instalador_trio':	  'C:\\Apache24\htdocs\\projeto-padrao\\',
-		'instalador_modulos': 'C:\\Apache24\htdocs\\trio-modulos-v2\\'
-	}
-
-	def run(self, edit):
-
-		ambiente_atual = None;
-		nome = self.view.file_name()
-
-		x(nome)
-
-		for ambiente, pasta in self.locais.items():
-
-			if pasta in nome:
-				ambiente_atual = ambiente
-
-		x(ambiente_atual)
-
-#x('_' in 'ccc')
-#x(self.vteste)
-#x(self.view.file_name())
-
-#sublime.active_window().open_file(
-#	self.view.file_name()
-#)
-
-#sublime.active_window().project_file_name()
-#self.view.file_name()
+		aplica( edit, vis=self.view, func=self.wrapTraduz)

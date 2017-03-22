@@ -1,4 +1,3 @@
-
 ############### PYTEX UTILS ###############
 
 import sublime, sublime_plugin, sys, re, os, imp
@@ -7,7 +6,7 @@ import sublime, sublime_plugin, sys, re, os, imp
 paths = (
 
 	# Laptop - Linux
-	# ---- 
+	# ----
 
 	# Apto Bauru - Linux
 	'/home/andre/.config/sublime-text-3/Packages/User',
@@ -23,11 +22,8 @@ for path in paths:
 
 # --------------------------------
 
-# !!! from func import editor
 from func.editor import *
-
 from func.utils import *
-
 from func.css_apaga import *
 from func.css_expande import *
 from func.html import *
@@ -35,18 +31,54 @@ from func.entities import *
 from func.formata_linhas import *
 from func.comentator import *
 
+from func.meuteste import solta as solta2
+
 # --------------------------------
 
+################################################
 # !!! RELOAD !!!
-# import imp
-# imp.reload(func.editor)
-# imp.reload(func.html)
-# imp.reload(func.css_apaga)
-# imp.reload(func.css_expande)
 
-####################
-    #  TESTES  #
-####################
+import sys
+import imp
+
+imp.reload(sys.modules['func.css_expande'])
+from func.css_expande import *
+
+imp.reload(sys.modules['func.formata_linhas'])
+from func.formata_linhas import *
+
+imp.reload(sys.modules['func.meuteste'])
+from func.meuteste import solta as solta2
+
+################################################
+
+
+# ============== CLASSES DOS COMANDOS ============== #
+
+#----------------------------------------------------#
+#	TESTE REGEX
+#----------------------------------------------------#
+class TesteRegexCommand(sublime_plugin.TextCommand):
+	def run(self, edit):
+
+		#X_(varteste)
+
+		solta2()
+
+		#def testa(modo=None, tx=''):
+
+			# multilinha	= re.compile(r'^\s*;;;\s*\n?$')
+			# multilinha	= re.compile(r'^\s*;;;\s*$', re.M)
+
+			#X_(multilinha.search(tx))
+
+			# if(None):
+			# 	X_('False')
+			# else:
+			# 	X_('True')
+
+		#aplica( edit, vis=self.view, func=testa)
+
 
 #----------------------------------------------------#
 #	TESTES > PLUGIN
