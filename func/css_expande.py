@@ -71,9 +71,9 @@ def limpaNumeros(P):
 def cssExpande(tx, modo=None):
 
 	# Converte tuplas de prop-val em string
-	def propsMonta(propsLista, ident='', propsSepara='', valSepara=': '):
+	def propsMonta(propsReserva, ident='', propsSepara='', valSepara=': '):
 		return propsSepara.join([
-			ident + p[0] + valSepara + p[1] + ';' for p in propsLista
+			ident + p[0] + valSepara + p[1] + ';' for p in propsReserva
 		])
 
 	ret = ''
@@ -89,7 +89,7 @@ def cssExpande(tx, modo=None):
 				dirImg = modo['dirImg']
 			)
 			return propsMonta(
-				propsLista = lista,
+				propsReserva = lista,
 				ident = '',
 				propsSepara = ' '
 			)
@@ -107,7 +107,7 @@ def cssExpande(tx, modo=None):
 			dirImg = modo['dirImg']
 		)
 		ret = propsMonta(
-			propsLista = lista,
+			propsReserva = lista,
 			ident = tx[0:i],
 			propsSepara = '\n'
 		)

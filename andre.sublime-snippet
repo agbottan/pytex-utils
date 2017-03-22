@@ -1,0 +1,57 @@
+
+<!-- /////////// MEDIA QUERY /////////// -->
+
+<snippet>
+  <content><![CDATA[
+@media (min-width: \$screen-md) {
+
+}]]></content>
+  <tabTrigger>mm</tabTrigger>
+  <!-- <scope>source.css</scope> -->
+</snippet>
+
+
+<!-- /////////// MEDIA QUERY COMPOSTO /////////// -->
+
+<snippet>
+  <content><![CDATA[
+@media (max-width: \$screen-md - 1) {
+
+}
+
+@media (min-width: \$screen-md) {
+
+}
+]]></content>
+  <tabTrigger>mmm</tabTrigger>
+  <!-- <scope>source.css</scope> -->
+  <!-- <scope>source.sass</scope> -->
+</snippet>
+
+
+<!-- /////////// BORDA DESTAQUE /////////// -->
+
+<snippet>
+  <content><![CDATA[border:1px red dotted;]]></content>
+  <tabTrigger>bb</tabTrigger>
+  <!-- <scope>source.css</scope> -->
+</snippet>
+
+<snippet>
+  <content><![CDATA[border:1px red dotted;]]></content>
+  <tabTrigger>ddd</tabTrigger>
+  <!-- <scope>source.css</scope> -->
+</snippet>
+
+
+<!-- /////////// WRAP MAILTO /////////// -->
+
+<!--
+<snippet>
+  <description>Mailto Wrap</description>
+  <tabTrigger>mail</tabTrigger>
+  <content><![CDATA[
+<a href="mailto:$SELECTION">$SELECTION</a>
+]]></content>
+</snippet>
+-->

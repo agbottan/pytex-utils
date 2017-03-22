@@ -8,7 +8,7 @@ class ConfigCss:
 	dirImg = 'img/'
 	
 	# Propriedades montadas - não sofrem alteração
-	propsLista = (
+	propsReserva = (
 
 		# POSICIONAMENTO
 		'display',
