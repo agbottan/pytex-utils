@@ -1,3 +1,8 @@
+#!/usr/bin/python3
+# -*- coding: UTF-8 -*-
+
+# ****************************************************** #
+
 
 ###################
 #  CONFIG DO CSS  #
@@ -5,13 +10,14 @@
 
 import re
 
+
 class ConfigCss:
   
   # Diretório das imagens
   dirImg = 'img/'
 
   # Propriedades já montadas - não sofrem alteração
-  ignora = r'\b(display|position|z-index|left|top|right|bottom|float|clear|margin|padding|(min-|max-)?width|(min-|max-)?height|line-height|border|text|font|color||cursor|background|overflow)[^;]*;'
+  ignora = r'\b(display|position|z-index|left|top|right|bottom|float|clear|margin|padding|(min-|max-)?width|(min-|max-)?height|line-height|border|text|font|color|background|overflow)[^;]*;'
 
   # Propriedades a montar
   props = (
@@ -66,3 +72,7 @@ class ConfigCss:
 
 # ------------------------------
 # Fim de 'ConfigCss'
+
+conf = ConfigCss()
+
+print(conf.reCss)

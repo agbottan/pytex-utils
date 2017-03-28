@@ -6,6 +6,8 @@
 import re, sublime
 from func.utils import splitRe, posIdent
 from func.editor import *
+from func.css_config import ConfigCss
+
 
 # ------------------------------------------------------- #
 
@@ -82,6 +84,7 @@ def cssExpande(tx, modo=None):
 	if re.search(r'{.+}',tx):
 
 		def cb(tx):
+
 			nonlocal modo
 
 			lista = cssLista(
@@ -94,9 +97,9 @@ def cssExpande(tx, modo=None):
 				propsSepara = ' '
 			)
 
-		tx = re.sub(r'(?<={).*?(?=})',cb,tx) # aplica 'cssLista' e 'propsMonta' dentro das chaves '{}'
-		tx = re.sub(r'{(?=\S)','{ ',tx)		 # põe espaço depois de '{'
-		tx = re.sub(r'(?<=\S)}',' }',tx)	 # põe espaço antes de '}'
+		tx = re.sub(r'(?<={).*?(?=})', cb, tx)	# aplica 'cssLista' e 'propsMonta' dentro das chaves '{}'
+		tx = re.sub(r'{(?=\S)','{ ', tx)				# põe espaço depois de '{'
+		tx = re.sub(r'(?<=\S)}',' }', tx)				# põe espaço antes de '}'
 		ret = tx
 
 	# Aplica 'cssLista' se não houver as duas chaves '{}'
@@ -120,39 +123,13 @@ def cssExpande(tx, modo=None):
 
 def cssLista(tx, dirImg=''):
 
-	if type(tx) != str: tx = tx.group(0)
+	patCss = ConfigCss()
 
-	patCss = (
-		# Propriedades montadas - não sofre alteração
-		( 'ignora', r'\b(display|position|z-index|left|top|right|bottom|float|clear|margin|padding|(min-|max-)?width|(min-|max-)?height|line-height|border|text|font|color|background|overflow)[^;]*;' ), # ignora...			
-		# Chamadas para montar propriedades
-		( 'Display',		r'\bd[bfnil]\b'			),	# Display
-		( 'Position',		r'\bp[akrfs]\b'			),	# Position
-		( 'Z-index',		r'\bz\s*\d+\b'			),	# Z-index
-		( 'Float',			r'\bf[lrn]\b'			),	# Float
-		( 'Clear',			r'\bc[lrbn]\b'			),	# Clear
-		( 'Box',			r'\bbs[b]?\b'			),	# Box-sizing
-		( 'Cursor',			r'\bcu[dp]\b'			),	# Cursor
-		( 'Overflow',		r'\bo[xy]?[hsv]\b'		),	# Overflow
-		( 'Color',			r'\bco\b'				),	# Color
-		( 'Width-Height',	r'\b(wh?|hw?|q)'		),	# Width - Height
-		( 'Margin-Padding',	r'\b(m|pd)[trbl]?'		),	# Margin - Padding
-		( 'Text',			r'\bt[adit][cjlnoru]?'	),	# Text
-		( 'Font',			r'\bf[msw][abn]?'		),	# Font
-		( 'Border',			r'\bbd[drs]\b'			),	# Border
-		( 'Background',		r'\bbg[aiprcs]?\b'		) 	# Background
-	)
+	if type(tx) != str:
+		tx = tx.group(0)
+	
+	Props = splitRe(tx, patCss.reCss)
 
-	reCss = ''
-	for item in patCss:
-		reCss += item[1] + '|'
-	
-	reCss = r'(' + reCss[:-1] + r')'
-	
-	reCss = re.compile(reCss)
-	
-	Props = splitRe(tx,reCss)
-	
 	fim_prop = None
 	retProps = []
 	
@@ -162,18 +139,20 @@ def cssLista(tx, dirImg=''):
 	for iniProp in Props:
 		
 		# ========================== Propriedade feita, ignora...
-		pronta = re.match(patCss[0][1],iniProp)
-		if pronta:
-			iniProp = re.sub(
-				r'\s+$', '',
-				iniProp.replace(';','')
-			)
-			retProps.append(
-				iniProp.split(':',1)
-			)
+
+		if patCss.reIgnora.match(iniProp):
+
+			iniProp = iniProp.replace(';','')						# Retira o ';' no final da propriedade
+			iniProp = re.sub(r'\s+$', '', iniProp)			# Apaga os espaços em branco no final da propriedade
+			iniProp = re.split(r'\s*:\s*', iniProp, 1)	# Corta pelo ':' e faz o par
+			iniProp = tuple(iniProp)										# Transforma a lista em tupla
+			retProps.append(iniProp)										# Adiciona na lista
 			continue
 		
-		for (ind,pat) in patCss[1:]:
+		for prop in patCss.props:
+
+			ind = prop['nome']
+			pat = prop['regex']
 
 			# ========================== Sem expansão, ignora...
 			m = re.match(pat,iniProp)
@@ -481,6 +460,7 @@ def cssLista(tx, dirImg=''):
 			#- 'switch'
 		#- 'for' dos 'patterns'
 	#- 'for' das 'Props'
+
 	return retProps
 
 #--------------------------------- fim de 'cssLista'

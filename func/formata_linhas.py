@@ -6,44 +6,77 @@
 # /////////////// IMPORTS
 
 import re
+from func.utils import sepIdent
+from func.editor import X_
 
 # /////////////// CONFIG
 
-sinal				= ';\d*;'
-sepCampo		= '\t+'
-multilinha	= ';;;'
+sinal				= re.compile( r'\d*;;')
+sepCampo		= re.compile( r' {2,}|\t+')
+multilinha	= re.compile( r'^;;$', re.M)
+linhaVazia	= re.compile( r'^\s*$')
 formato			= None
 ln					= '\n'
 
-sepCampo = re.compile(sepCampo)
 
 def montaCampos(linha, modelo):
+	
+	# Não usa linhas em branco como campos
+	if linhaVazia.match(linha):
+		return ''
 
-	campos = re.split(sepCampo,linha)
+	ident, campos = sepIdent(linha)
+
+	campos = re.split(sepCampo,campos)
+
+	linha_montada = modelo
 
 	for campo in campos:
-		#if re.search(sinal,linha) != None:
-		#linha = re.sub(sinal,campo,modelo,1)
-		linha = re.sub(sinal,campo,modelo)
+		linha_montada = sinal.sub(campo, linha_montada, 1)
 
-	return linha
+	# Devolve identação e retira os sinais de campos restantes
+	linha_montada = ident + re.sub(sinal, '', linha_montada)
+
+	return linha_montada
 
 
-def formataLinhas(tx, limpa_vazio = False):
+def formataLinhas(tx, modo = None, limpa_vazio = False):
 
-	linhas = tx.splitlines(False)
+	juntaLinha = None	
 
-	for (i,linha) in enumerate(linhas):
-		if re.search(sinal,linha) != None:
-			formato = linha
-			del linhas[i]
-			break
+	# Modelo com várias linhas
+	if multilinha.search(tx):
+
+		partes = multilinha.split(tx, 1)
+
+		for i, parte in enumerate(partes):
+
+			if sinal.search(parte):
+				formato = partes.pop(i)
+				tx = partes.pop()
+	
+		linhas = tx.splitlines()
+
+		juntaLinha = ''
+
+	# Modelo de linha única
+	else:			
+
+		linhas = tx.splitlines()
+
+		for i, linha in enumerate(linhas):
+			if re.search(sinal,linha):
+				formato = linhas.pop(i)
+				juntaLinha = ln
+				break
+	
+	# -----------------------------------
 
 	# Retira linhas em branco
 	if limpa_vazio:
-		linhas[:] = [ L for L in linhas if( re.search('^\s*$',L) == None )]
+		linhas[:] = [ L for L in linhas if not linhaVazia.search(L) ]
 
 	# Formata as linhas
 	linhas[:] = [ montaCampos(L,formato) for L in linhas]
 
-	return ln.join(linhas)
+	return juntaLinha.join(linhas)
