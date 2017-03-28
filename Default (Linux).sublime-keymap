@@ -36,7 +36,7 @@
 
 //////// AUTO-EXPANDE / AUTO-APAGA
 
-	{ "keys": ["ctrl+shift+f8"], "command": "auto_expande" },
+	{ "keys": ["f8"], "command": "auto_expande" },
 	{ "keys": ["f9"], "command": "auto_apaga" },
 
 
@@ -56,7 +56,7 @@
 
 //////// OUTROS
 
-	{ "keys": ["f8"], "command": "formata_linhas" },
+	{ "keys": ["shift+alt+f8"], "command": "formata_linhas" },
 	{ "keys": ["shift+f11"], "command": "limpa_texto" },
 	{ "keys": ["shift+f12"], "command": "troca_entities" },
 
