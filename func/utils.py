@@ -127,8 +127,8 @@ def resolveModo(argInfo):
 		r'\.(css|scss|sass)',
 		modo['ext'], re.I
 	):
-		modo['modo']	= 'css_arq'
-		modo['dirImg']	= '../img/'
+		modo['modo']	 = 'css_arq'
+		modo['dirImg'] = '../img/'
 		return modo
 
 

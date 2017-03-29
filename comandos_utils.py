@@ -42,6 +42,8 @@ imp.reload(sys.modules['func.css_expande'])
 from func.css_expande import *
 imp.reload(sys.modules['func.formata_linhas'])
 from func.formata_linhas import *
+imp.reload(sys.modules['func.css_config'])
+from func.css_config import *
 ################################################
 
 
