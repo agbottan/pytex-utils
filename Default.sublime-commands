@@ -3,5 +3,13 @@
 
 // PLUGINS
 
-	{ "caption":"Meu Plugin: Troca Entities", "command":"troca_entities" }
+  {
+    "caption":"Pytex Utils: Troca Entities",
+    "command":"troca_entities"
+  },
+
+  {
+    "caption":"Pytex Utils: Mostra Nome",
+    "command":"mostra_nome"
+  }
 ]

@@ -30,8 +30,10 @@ from func.html import *
 from func.entities import *
 from func.formata_linhas import *
 from func.comentator import *
+from func.escolhe_projeto import *
 
 from func.meuteste import solta as solta2
+# import func.meuteste.soltaTeste # Dá pau
 
 # --------------------------------
 
@@ -49,6 +51,7 @@ from func.formata_linhas import *
 
 imp.reload(sys.modules['func.meuteste'])
 from func.meuteste import solta as solta2
+from func.meuteste import soltaTeste
 
 ################################################
 
@@ -64,6 +67,7 @@ class TesteRegexCommand(sublime_plugin.TextCommand):
 		#X_(varteste)
 
 		solta2()
+		soltaTeste()
 
 		#def testa(modo=None, tx=''):
 
@@ -85,13 +89,23 @@ class TesteRegexCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 
 class TestePluginCommand(sublime_plugin.TextCommand):
+
+	def teste(d):
+		X_(d)
+		
 	def run(self, edit):
 
-		#x('== Teste de Plugin ==')
+		X_(self.description)
+		self.teste()
+
 		#open_file(file_name)
-		sublime.active_window().open_file(
-			sublime.active_window().project_file_name()
-		)
+
+		#sublime.active_window().open_file(
+			# '/home/andre/Documents/ST3 Projetos/ponto-cruz.sublime-project'
+			#sublime.active_window().project_file_name('')
+		#)
+
+		#X_(sublime.active_window().project_data())
 
 
 #----------------------------------------------------#
@@ -102,11 +116,15 @@ class TesteOverlayCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
 		def cb(ind):
-			x(ind,' -> ',lista[ind]);
+			X_(ind,' -> ',lista[ind]);
 
 		lista = ('banana', 'maçã', 'uva')
 
-		self.view.window().run_command("show_overlay", {"overlay": "command_palette", "text": "Meu Plugin"})
+		#self.view.window().run_command("show_overlay", {"overlay": "command_palette", "text": "Meu Plugin"})
+
+		sublime.active_window().run_command("show_overlay", {"overlay": "command_palette", "text": "Active Window"})
+
+		#self.view.show_popup('<p><input type="text" /></p>')
 
 
 #----------------------------------------------------#
@@ -117,9 +135,13 @@ class TesteQuickPanelCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
 		def cb(ind):
-			x(ind,' -> ',lista[ind]);
+			X_(ind,' -> ',lista[ind]);
 
-		lista = ('banana', 'maçã', 'uva')
+		lista = (
+			'banana',
+			'maçã',
+			'uva'
+		)
 
 		self.view.window().show_quick_panel(items=lista, on_select=cb)
 
@@ -132,9 +154,13 @@ class TesteMenuInlineCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 
 		def cb(ind):
-			x(ind,' -> ',lista[ind]);
+			X_(ind,' -> ',lista[ind]);
 
-		lista = ('banana', 'maçã', 'uva')
+		lista = (
+			'banana',
+			'maçã',
+			'uva'
+		)
 
 		self.view.show_popup_menu(items=lista, on_select=cb)
 
@@ -145,10 +171,15 @@ class TesteMenuInlineCommand(sublime_plugin.TextCommand):
 
 class TesteConfigProjetoCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		x_(
-			sublime.active_window().project_file_name()
-			# sublime.active_window().views(),
-			# sublime.active_window().active_view(),
-			# self.view.settings().get('cor_secundaria',None),
-			# sublime.active_window().project_data().get('config',None).get('cor_principal',None)
-		)
+		X_(sublime.active_window().project_file_name())
+
+
+#----------------------------------------------------#
+#	TESTES > SINTAXE
+#----------------------------------------------------#
+
+class TesteEscopoCommand(sublime_plugin.TextCommand):
+	def run(self, edit):
+		vis = self.view
+		X_(vis.scope_name(posCursor(vis)))
+		X_(sys.version)

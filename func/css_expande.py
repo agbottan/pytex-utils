@@ -12,19 +12,22 @@ from func.css_config import ConfigCss
 # ------------------------------------------------------- #
 
 def pegaFonte():
-	# !!! TODO !!! -> Pegar a fonte por projeto
+	# !!! TODO !!! -> Pegar a fonte por projeto ?? SASS
 	return ''
 
+
 reCor = re.compile(r'(?:[0-9a-fA-F]{3}){1,2}')
+
 def pegaCor(P):
 	cores = reCor.findall(P)
 	cores[:] = ['#'+cor for cor in cores]
 	return cores
 
-# Regex que acha os números
-# unids = 'px|%|rem|em|vw|vh|cm|mm'
+
 unidades = ('px','%','rem','em','vw','vh','cm','mm')
 unidadesAtalho = ('=','m')
+
+# Regex que acha os números
 reNum = re.compile(r'(-?[\d,\.a]+(' + '|'.join(unidades + unidadesAtalho) + ')?)')
 
 def pegaNumeros(P, limite=None, completaUnidades=True, unidadePadrao='px'):
@@ -33,7 +36,8 @@ def pegaNumeros(P, limite=None, completaUnidades=True, unidadePadrao='px'):
 	nums[:] = [n[0] for n in nums] # Reduz para o primeiro subgrupo apenas
 	nums[:] = [re.sub('a','auto',n) for n in nums] # 'a' vira 'auto'
 
-	if limite: nums = nums[:limite]
+	if limite:
+		nums = nums[:limite]
 
 	if completaUnidades:
 		for i, n in enumerate(nums):
@@ -148,21 +152,30 @@ def cssLista(tx, dirImg=''):
 			iniProp = tuple(iniProp)										# Transforma a lista em tupla
 			retProps.append(iniProp)										# Adiciona na lista
 			continue
-		
+
 		for prop in patCss.props:
 
 			ind = prop['nome']
 			pat = prop['regex']
 
-			# ========================== Sem expansão, ignora...
+
+			# ===============================================
+			#		Sem expansão, ignora...
+			# ===============================================
+
 			m = re.match(pat,iniProp)
+
 			if m == None:
 				continue
 
 			ini_prop = m.group(0)
 			ini_vals = iniProp[len(ini_prop):]
 			
-			# ========================== DISPLAY
+
+			# ===============================================
+			#		DISPLAY
+			# ===============================================
+
 			if ind == 'Display':
 				
 				rel_vals = { 'b':'block', 'f':'flex', 'n':'none', 'i':'inline', 'l':'inline-block' }
@@ -170,8 +183,12 @@ def cssLista(tx, dirImg=''):
 				val = rel_vals.get(ini_prop[-1],'')
 
 				retProps.append(('display',val))
-				
-			# ========================== POSITION
+
+			
+			# ===============================================
+			#		POSITION
+			# ===============================================
+
 			if ind == 'Position':
 				
 				rel_vals = { 'a':'absolute', 'r':'relative', 'f':'fixed', 's':'static', 'k':'sticky' }
@@ -180,14 +197,41 @@ def cssLista(tx, dirImg=''):
 
 				retProps.append(('position',val))
 
-			# ========================== Z-INDEX
+
+			# ===============================================
+			#		DESLOCAMENTO
+			# ===============================================
+
+			if ind == 'Deslocamento':
+
+				numeros = pegaNumeros(iniProp, 1)
+				iniProp = limpaNumeros(iniProp)
+
+				rel_props = { 't':'top', 'r':'right', 'b':'bottom', 'l':'left' }
+
+				prop = rel_props.get(ini_prop[-1],'')
+
+				retProps.append((
+					prop,
+					' '.join(numeros)
+				))
+
+
+			# ===============================================
+			#		Z-INDEX
+			# ===============================================
+
 			if ind == 'Z-index':
 
-				val = pegaNumeros(ini_prop,False)[0]
+				val = pegaNumeros(iniProp, 1, False)
 
-				retProps.append(('z-index',val))
+				retProps.append(('z-index',val.pop()))
 
-			# ========================== FLOAT
+
+			# ===============================================
+			#		FLOAT
+			# ===============================================
+
 			if ind == 'Float':
 				
 				rel_vals = { 'l':'left', 'r':'right', 'n':'none' }
@@ -195,8 +239,12 @@ def cssLista(tx, dirImg=''):
 				val = rel_vals.get(ini_prop[-1],'')
 				
 				retProps.append(('float',val))
-				
-			# ========================== CLEAR
+			
+
+			# ===============================================
+			#		CLEAR
+			# ===============================================
+
 			if ind == 'Clear':
 				
 				rel_vals = { 'l':'left', 'r':'right', 'b':'both', 'n':'none' }
@@ -205,7 +253,11 @@ def cssLista(tx, dirImg=''):
 				
 				retProps.append(('clear',val))
 
-			# ========================== BOX-SIZING
+
+			# ===============================================
+			#		BOX-SIZING
+			# ===============================================
+
 			if ind == 'Box':
 				
 				rel_vals = { 'b':'border-box' }
@@ -213,8 +265,12 @@ def cssLista(tx, dirImg=''):
 				val = rel_vals.get(ini_prop[-1],'border-box')
 				
 				retProps.append(('box-sizing',val))
+
 				
-			# ========================== CURSOR
+			# ===============================================
+			#		CURSOR
+			# ===============================================
+
 			if ind == 'Cursor':
 				
 				rel_vals = { 'd':'default', 'p':'pointer' }
@@ -222,8 +278,12 @@ def cssLista(tx, dirImg=''):
 				val = rel_vals.get(ini_prop[-1],'')
 				
 				retProps.append(('cursor',val))
-				
-			# ========================== OVERFLOW
+			
+
+			# ===============================================
+			#		OVERFLOW
+			# ===============================================
+
 			if ind == 'Overflow':
 				
 				rel_vals = { 'a':'auto', 'h':'hidden', 's':'scroll', 'v':'visible' }
@@ -236,7 +296,11 @@ def cssLista(tx, dirImg=''):
 				
 				retProps.append(('overflow' + coord,val))
 
-			# ========================== COLOR
+
+			# ===============================================
+			#		COLOR
+			# ===============================================
+
 			if ind == 'Color':
 
 				val = pegaCor(ini_vals)
@@ -245,11 +309,15 @@ def cssLista(tx, dirImg=''):
 					'color',
 					'='.join(val)
 				))
-				
-			# ========================== WIDTH - HEIGHT
+			
+
+			# ===============================================
+			#		WIDTH - HEIGHT
+			# ===============================================
+
 			if ind == 'Width-Height':
 			
-				numeros = pegaNumeros(iniProp)
+				numeros = pegaNumeros(iniProp, 2)
 				iniProp = limpaNumeros(iniProp)
 				
 				rel_props = {
@@ -267,10 +335,14 @@ def cssLista(tx, dirImg=''):
 				else:
 					retProps += list(zip(props,numeros))
 
-			# ========================== MARGIN - PADDING
+
+			# ===============================================
+			#		MARGIN - PADDING
+			# ===============================================
+
 			if ind == 'Margin-Padding':
 				
-				numeros = pegaNumeros(iniProp)
+				numeros = pegaNumeros(iniProp, 4)
 				iniProp = limpaNumeros(iniProp)
 				
 				rel_props		= { 'm':'margin', 'p':'padding' }
@@ -286,8 +358,12 @@ def cssLista(tx, dirImg=''):
 					prop + subProp,
 					' '.join(numeros)
 				))
-			
-			# ========================== TEXT
+
+
+			# ===============================================
+			#		TEXT
+			# ===============================================
+
 			if ind == 'Text':
 				
 				rel_subProps_vals = {
@@ -308,7 +384,7 @@ def cssLista(tx, dirImg=''):
 				val = numeros = ''
 				
 				if(subProp == 'indent'):
-					numeros = pegaNumeros(iniProp)
+					numeros = pegaNumeros(iniProp, 1)
 					iniProp = limpaNumeros(iniProp)
 					val = numeros[0]
 				else:
@@ -317,7 +393,11 @@ def cssLista(tx, dirImg=''):
 				
 				retProps.append(('text-' + subProp, val))
 
-			# ========================== FONT
+
+			# ===============================================
+			#		FONT
+			# ===============================================
+
 			if ind == 'Font':
 				
 				rel_subProps_vals = {
@@ -337,7 +417,7 @@ def cssLista(tx, dirImg=''):
 				val = numeros = ''
 				
 				if(subProp == 'size'):
-					numeros = pegaNumeros(iniProp)
+					numeros = pegaNumeros(iniProp, 1)
 					iniProp = limpaNumeros(iniProp)
 					val = numeros[0]
 					
@@ -349,8 +429,12 @@ def cssLista(tx, dirImg=''):
 						val = subPropsVals[1].get(ini_prop[2],'')
 				
 				retProps.append(('font-' + subProp, val))
-			
-			# ========================== BORDER
+
+
+			# ===============================================
+			#		BORDER
+			# ===============================================
+
 			if ind == 'Border':
 				
 				rel_subProps_vals = {
@@ -370,7 +454,7 @@ def cssLista(tx, dirImg=''):
 				val = numeros = ''
 				
 				if(subProp == 'radius'):
-					numeros = pegaNumeros(iniProp)
+					numeros = pegaNumeros(iniProp, 4)
 					iniProp = limpaNumeros(iniProp)
 					val = numeros[0]
 				else:
@@ -379,12 +463,16 @@ def cssLista(tx, dirImg=''):
 				
 				retProps.append(('border-' + subProp, val))
 
-			# ========================== BACKGROUND
+
+			# ===============================================
+			#		BACKGROUND
+			# ===============================================
+
 			if ind == 'Background':
 				
 				vImg = vCor = vPox = vPoy = vAtt = vRep = ''
 				
-				# -------------------------- background
+				# -------------------------- Background --------------------------------
 				
 				if	 ini_prop[-1] == 'a':	fim_prop = 'background-attachment'
 				elif ini_prop[-1] == 'i':	fim_prop = 'background-image'
@@ -396,7 +484,7 @@ def cssLista(tx, dirImg=''):
 				
 				if fim_prop in ['background','background-image']:
 				
-					# -------------------------- imagem
+					# -------------------------- Imagem --------------------------------
 					
 					vImg = re.search(r'\w+\.(png|jpg|gif)',ini_vals)
 					if vImg:
@@ -408,7 +496,7 @@ def cssLista(tx, dirImg=''):
 				
 				if fim_prop in ['background','background-color']:
 				
-					# -------------------------- color
+					# -------------------------- Color --------------------------------
 					
 					vCor = re.search(r'(\d|a|b|c|d|e|f){3,6}',ini_vals,re.I) #???
 					if vCor:
@@ -420,19 +508,19 @@ def cssLista(tx, dirImg=''):
 				
 				if fim_prop in ['background','background-position']:
 				
-					# -------------------------- position x
+					# -------------------------- Position X --------------------------------
 				
 					if ini_vals.find('l')	!= -1: vPox = 'left'
 					elif ini_vals.find('r') != -1: vPox = 'right'
 				
-					# -------------------------- position y
+					# -------------------------- Position Y --------------------------------
 				
 					if ini_vals.find('t')	!= -1: vPoy = 'top'
 					elif ini_vals.find('b') != -1: vPoy = 'bottom'
 				
 				if fim_prop in ['background','background-repeat']:
 				
-					# -------------------------- repeat
+					# -------------------------- Repeat --------------------------------
 				
 					if ini_vals.find('n')	!= -1: vRep = 'no-repeat'
 					elif ini_vals.find('re')!= -1: vRep = 'repeat'
@@ -441,7 +529,7 @@ def cssLista(tx, dirImg=''):
 				
 				if fim_prop == 'background':
 				
-					# -------------------------- genéricas
+					# -------------------------- Genéricas --------------------------------
 					
 					if vImg == '': vImg = 'url("'+ dirImg +'")'
 					if vCor == '': vCor = ''

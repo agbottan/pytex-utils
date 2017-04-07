@@ -172,7 +172,13 @@ def pegaInfoModo(vis):
 
 
 # Padrão para aplicação de alteração no texto
-def aplica(edit, func, vis=None, argList={}, retorno_cursor=0, modo=None):
+def aplica(
+	edit, vis, func,
+
+	argList = {},
+	retorno_cursor = 0,
+	modo = None
+):
 
 	# Se não foi passada a 'view', considera a última view ativa
 	if vis == None:
@@ -185,9 +191,7 @@ def aplica(edit, func, vis=None, argList={}, retorno_cursor=0, modo=None):
 	sel_vazia = pegaTextoSel(vis) == ''
 	# TODO !!! e se é 'multiline'
 
-	tx = pegaTexto(vis)
-
-	argList['tx']		= tx
+	argList['tx']		= pegaTexto(vis)
 	argList['modo'] = modo
 
 	linhaComeco = linhaCursor(vis) # TODO !!! VERIFICAR UTILIDADES
@@ -198,6 +202,7 @@ def aplica(edit, func, vis=None, argList={}, retorno_cursor=0, modo=None):
 	# seleção vazia
 	if sel_vazia:
 		mudaLinha(vis,edit,ret)
+
 	# seleção com texto
 	else:
 		mudaSel(vis,edit,ret)

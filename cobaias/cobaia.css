@@ -1,19 +1,12 @@
 
 
-.teste {
-  position: relative;
-  position: absolute;
-}
+.classe {
+  pr
+  left: 10px;
+  padding-left: 10px;
+  wh 20 30 50
+  m 20 30 50 50
 
-
-
-.teste2 { cursor: pointer; } .teste1 { position: absolute; } .teste2 { position: relative; } .teste2 { cursor: pointer; }
-.teste1 {
-  position: absolute;
-}
-.teste2 { pr } .teste2 { pa } .teste2 { pa }
-
-.teste2 {
-  position: relative;
-  position: relative;
+  z 10
+  z10
 }
