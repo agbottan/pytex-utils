@@ -12,18 +12,22 @@ from func.css_config import ConfigCss
 # ------------------------------------------------------- #
 
 def pegaFonte():
-	# !!! TODO !!! -> Pegar a fonte por projeto
+	# !!! TODO !!! -> Pegar a fonte por projeto ?? SASS
 	return ''
 
+
 reCor = re.compile(r'(?:[0-9a-fA-F]{3}){1,2}')
+
 def pegaCor(P):
 	cores = reCor.findall(P)
 	cores[:] = ['#'+cor for cor in cores]
 	return cores
 
-# Regex que acha os números
+
 unidades = ('px','%','rem','em','vw','vh','cm','mm')
 unidadesAtalho = ('=','m')
+
+# Regex que acha os números
 reNum = re.compile(r'(-?[\d,\.a]+(' + '|'.join(unidades + unidadesAtalho) + ')?)')
 
 def pegaNumeros(P, limite=None, completaUnidades=True, unidadePadrao='px'):

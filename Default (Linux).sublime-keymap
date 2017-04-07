@@ -10,15 +10,17 @@
 
 //////// ATALHOS
 	
+	// PAINÉIS
+		{ "keys": ["f1"], "command": "show_panel", "args": {"panel": "console", "toggle": true} },
+		{ "keys": ["ctrl+f1"], "command": "toggle_side_bar" },
+		{ "keys": ["shift+f1"], "command": "toggle_minimap" },
+
 	{ "keys": ["f6"], "command": "wrap_lines" },
-	{ "keys": ["f1"], "command": "toggle_side_bar" },
-	{ "keys": ["shift+f1"], "command": "toggle_minimap" },
 	{ "keys": ["alt+up"], "command": "select_lines", "args": {"forward": false} },
 	{ "keys": ["alt+down"], "command": "select_lines", "args": {"forward": true} },
 	{ "keys": ["ctrl+alt+p"], "command": "prompt_select_workspace" },
-	// { "keys": ["ctrl+f1"], "command": "show_overlay", "args": {"overlay": "command_palette", "text": "Snippet: trio_translate"}},
-	{ "keys": ["ctrl+f1"], "command": "show_panel", "args": {"panel": "console", "toggle": true} },
 	{ "keys": ["ctrl+alt+s"], "command": "save_all" },
+	{ "keys": ["ctrl+shift+alt+f11"], "command": "toggle_distraction_free" },
 
 /*
 ------------------
@@ -27,9 +29,7 @@
 */
 
 /*
-	{ "keys": ["ctrl+f11"], "command": "formata_tabela" },
 	{ "keys": ["f12"], "command": "troca_"entities" },
-	{ "keys": ["ctrl+f11"], "command": "limpa_traducao" },
 	{ "keys": ["f11"], "command": "monta_tabela" }
 	{ "keys": ["ctrl+shift+f12"], "command": "formata_tabela" },
 */
@@ -45,28 +45,33 @@
 	{ "keys": ["f4"], "command": "comenta" },
 
 
-//////// SNIPPET TRADUÇÃO
+//////// SNIPPET ALERT
 
-	{ "keys": ["shift+f4"], "command": "snip_traduz" },
+	{ "keys": ["f11"],			 "command": "alert", "args": { "aspas": false }},
+	{ "keys": ["shift+f11"], "command": "alert", "args": { "aspas": true  }},
 
 
 //////// MOSTRA NOME
-	{ "keys": ["alt+f4"], "command": "mostra_nome" },
+	{ "keys": ["ctrl+f4"], "command": "mostra_nome" },
 
 
 //////// OUTROS
 
 	{ "keys": ["shift+alt+f8"], "command": "formata_linhas" },
-	{ "keys": ["shift+f11"], "command": "limpa_texto" },
+	{ "keys": ["ctrl+shift+f11"], "command": "limpa_texto" },
 	{ "keys": ["shift+f12"], "command": "troca_entities" },
 
 
-//////// TESTE
+//////// TESTES
 
-	{ "keys": ["f2"], "command": "teste_regex" },
-	{ "keys": ["ctrl+f2"], "command": "teste_plugin" },
+	{ "keys": ["ctrl+f2"], "command": "teste_regex" },
+	{ "keys": ["f2"], "command": "teste_escopo" },
+
+	// MENUS e CONFIG
+	{ "keys": ["f7"], "command": "teste_config_projeto" },
+	// { "keys": ["f7"], "command": "alterna_projetos" },
 	{ "keys": ["shift+f7"], "command": "teste_overlay" },
+	{ "keys": ["shift+alt+ctrl+f1"], "command": "show_overlay", "args": { "overlay": "command_palette", "text": "Snippet: texto" }},
 	{ "keys": ["ctrl+shift+f7"], "command": "teste_quick_panel" },
 	{ "keys": ["ctrl+f7"], "command": "teste_menu_inline" },
-	{ "keys": ["f7"], "command": "teste_config_projeto" }
 ]

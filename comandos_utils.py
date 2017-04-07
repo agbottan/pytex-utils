@@ -1,18 +1,22 @@
 
-############### PYTEX UTILS ###############
+#######################
+# --- PYTEX UTILS --- #
+#######################
 
-import sublime, sublime_plugin, sys, re, os, imp
+# IMPORTS
+
+import sublime, sublime_plugin, sys, re, os
+
+from func.utils import sepIdent
+
 
 # Caminho para módulos
 paths = (
 
-	# Laptop - Linux
-	# ----
-
-	# Apto Bauru - Linux
+	# Linux
 	'/home/andre/.config/sublime-text-3/Packages/User',
 
-	# Triata - Windows
+	# Windows
 	'C:\\Users\\Triata\\AppData\\Roaming\\Sublime Text 3\\Packages\\User'
 )
 
@@ -31,19 +35,30 @@ from func.html import *
 from func.entities import *
 from func.formata_linhas import *
 from func.comentator import *
+from func.escolhe_projeto import *
 
 # --------------------------------
 
 ################################################
 # !!! RELOAD !!!
-import sys
+
 import imp
+
 imp.reload(sys.modules['func.css_expande'])
 from func.css_expande import *
+
 imp.reload(sys.modules['func.formata_linhas'])
 from func.formata_linhas import *
+
 imp.reload(sys.modules['func.css_config'])
 from func.css_config import *
+
+imp.reload(sys.modules['func.editor'])
+from func.editor import *
+
+imp.reload(sys.modules['func.escolhe_projeto'])
+from func.escolhe_projeto import *
+
 ################################################
 
 
@@ -62,7 +77,7 @@ class TrocaEntitiesCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 class LimpaTextoCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		aplica( edit, func=limpaTexto, vis=self.view)
+		aplica( edit, vis=self.view, func=limpaTexto )
 
 
 #----------------------------------------------------#
@@ -138,20 +153,52 @@ class ComentaCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 #	MOSTRA NOME
 #----------------------------------------------------#
-class MostraNome(sublime_plugin.TextCommand):
+
+class MostraNomeCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		# sublime.message_dialog(self.view.file_name())
-		x(self.view.file_name())
+		# !!! X_(self.view.file_name())
+		sublime.set_clipboard(self.view.file_name())
 
 
 #----------------------------------------------------#
-#	SNIPPET
+#	SNIPPET > ALERT
 #----------------------------------------------------#
 
-class SnipTraduzCommand(sublime_plugin.TextCommand):
+def wrapAlert(tx, modo, aspas=False):
 
-	def wrapTraduz(modo, tx):
-		return "<?php echo $this->translate('" + tx + "'); ?>"
+	formato = None
+	ident, tx = sepIdent(tx)
 
-	def run(self, edit):
-		aplica( edit, vis=self.view, func=self.wrapTraduz)
+	if aspas:
+		formato = '{0}X_("{1}")'
+	else:
+		formato = '{0}X_({1})'
+
+	return formato.format(ident,tx)
+
+class AlertCommand(sublime_plugin.TextCommand):
+	def run(self, edit, aspas):
+		aplica( edit, vis=self.view, func=wrapAlert, argList={ 'aspas': aspas })
+
+
+#----------------------------------------------------#
+#	ALTERNA PROJETOS
+#----------------------------------------------------#
+
+class AlternaProjetosCommand(sublime_plugin.WindowCommand):
+	def run(self):
+
+		arq_projeto_atual = os.path.basename(self.window.project_file_name())
+		projetos = list( filter( lambda proj: proj['arq'] != arq_projeto_atual, projetos_config ))
+
+		def cb(ind = 0):
+			comando = "subl --project '/home/andre/Documents/ST3 Projetos/{0}'".format(projetos[ind]['arq'])
+			os.system(comando)
+			#self.window.run_command('close_window')
+
+		nomes = [ proj.get('tit') for proj in projetos ]
+
+		self.window.show_quick_panel(
+			items			= nomes,
+			on_select = cb
+		)
