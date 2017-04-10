@@ -118,16 +118,6 @@ def mudaSel(vis, edit, tx):
 	vis.replace(edit,regSel(vis),tx)
 
 
-# Pega texto seleção e, se esta estiver vazia, da linha
-def pegaTexto(vis):
-	tx 	= ''
-	if vis.sel()[0].empty():
-		tx = pegaTextoLinha(vis)
-	else:
-		tx = pegaTextoSel(vis)
-	return tx
-
-
 # Manda o cursor para uma posição do texto
 def vaiCursor(vis, pos):
 	vis.sel().clear()
@@ -211,3 +201,58 @@ def aplica(
 	voltaCursor( vis=vis, pos_init=pos_antes, retorno_cursor=retorno_cursor)
 
 # ------------------------ /- aplica
+
+
+# Pega texto seleção e, se esta estiver vazia, da linha
+def pegaTexto(vis=None):
+
+	tx 	= ''
+
+	if vis == None:
+		vis = sublime.active_window().active_view()
+
+	# Guarda posição inicial do cursor para voltar depois
+	pos_antes = coordCursor(vis)
+
+	if vis.sel()[0].empty():
+		tx = pegaTextoLinha(vis)
+	else:
+		tx = pegaTextoSel(vis)
+	return tx
+
+
+# Pega texto seleção e, se esta estiver vazia, da linha
+# def getTexto(vis=None):
+# 
+# 	tx 	= ''
+# 
+# 	if vis == None:
+# 		vis = sublime.active_window().active_view()
+# 
+# 	# Guarda posição inicial do cursor para voltar depois
+# 	pos_antes = coordCursor(vis)
+# 
+# 	if vis.sel()[0].empty():
+# 		tx = pegaTextoLinha(vis)
+# 	else:
+# 		tx = pegaTextoSel(vis)
+# 	return tx
+
+# ------------------------ /- Get texto
+
+
+# Bota texto
+# def botaTexto(edit, vis=None, tx=''):
+# 
+# 	# Seleção vazia
+# 	if sel_vazia:
+# 		mudaLinha(vis,edit,tx)
+# 
+# 	# Seleção com texto
+# 	else:
+# 		mudaSel(vis, edit, tx)
+# 
+# 	# Volta cursor na posição inicial
+# 	voltaCursor( vis=vis, pos_init=pos_antes, retorno_cursor=retorno_cursor)
+
+# ------------------------ /- Bota texto
