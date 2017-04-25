@@ -13,16 +13,16 @@ from func.utils import sepIdent
 # Caminho para módulos
 paths = (
 
-	# Linux
-	'/home/andre/.config/sublime-text-3/Packages/User',
+  # Linux
+  '/home/andre/.config/sublime-text-3/Packages/User',
 
-	# Windows
-	'C:\\Users\\Triata\\AppData\\Roaming\\Sublime Text 3\\Packages\\User'
+  # Windows
+  'C:\\Users\\Triata\\AppData\\Roaming\\Sublime Text 3\\Packages\\User'
 )
 
 for path in paths:
-	if os.path.isdir(path) and path not in sys.path:
-		sys.path.append(path)
+  if os.path.isdir(path) and path not in sys.path:
+    sys.path.append(path)
 
 
 # --------------------------------
@@ -65,140 +65,140 @@ from func.escolhe_projeto import *
 # ============== CLASSES DOS COMANDOS ============== #
 
 #----------------------------------------------------#
-#	CONVERTE 'HTML ENTITIES'
+# CONVERTE 'HTML ENTITIES'
 #----------------------------------------------------#
 class TrocaEntitiesCommand(sublime_plugin.TextCommand):
-	def run(self, edit):
-		aplica( edit, vis=self.view, func=entities.trocaEntities)
+  def run(self, edit):
+    aplica( edit, vis=self.view, func=trocaEntities)
 
 
 #----------------------------------------------------#
-#	LIMPA TEXTO
+# LIMPA TEXTO
 #----------------------------------------------------#
 class LimpaTextoCommand(sublime_plugin.TextCommand):
-	def run(self, edit):
-		aplica( edit, vis=self.view, func=limpaTexto )
+  def run(self, edit):
+    aplica( edit, vis=self.view, func=limpaTexto )
 
 
 #----------------------------------------------------#
-#	FORMATA LINHAS
+# FORMATA LINHAS
 #----------------------------------------------------#
 class FormataLinhasCommand(sublime_plugin.TextCommand):
-	def run(self, edit):
-		aplica( edit, vis=self.view, func=formataLinhas, argList={ 'limpa_vazio': False })
+  def run(self, edit):
+    aplica( edit, vis=self.view, func=formataLinhas, argList={ 'limpa_vazio': False })
 
 
 #----------------------------------------------------#
-#	AUTO EXPANDE
+# AUTO EXPANDE
 #----------------------------------------------------#
 class AutoExpandeCommand(sublime_plugin.TextCommand):
-	def run(self, edit):
+  def run(self, edit):
 
-		vis = self.view
-		modo = resolveModo(pegaInfoModo(vis))
+    vis = self.view
+    modo = resolveModo(pegaInfoModo(vis))
 
-		# Expande CSS
-		if modo['modo'] in ('css_arq','css_tag','css_attr'):
-			aplica(
-				edit, vis=vis, modo=modo,
-				func=cssExpande
-			)
+    # Expande CSS
+    if modo['modo'] in ('css_arq','css_tag','css_attr'):
+      aplica(
+        edit, vis=vis, modo=modo,
+        func=cssExpande
+      )
 
-		# Expande HTML
-		elif modo['modo'] == 'html':
-			aplica(
-				edit, vis=vis, modo=modo,
-				func=htmlExpande
-			)
+    # Expande HTML
+    elif modo['modo'] == 'html':
+      aplica(
+        edit, vis=vis, modo=modo,
+        func=htmlExpande
+      )
 
-		# Expande PHP
-		elif modo['modo'] == 'php':
-			aplica(
-				edit, vis=vis, modo=modo,
-				func=phpExpande
-			)
+    # Expande PHP
+    elif modo['modo'] == 'php':
+      aplica(
+        edit, vis=vis, modo=modo,
+        func=phpExpande
+      )
 
-		else:
-			x('Não expande "' + modo['ext'] + '"')
+    else:
+      x('Não expande "' + modo['ext'] + '"')
 
 
 #----------------------------------------------------#
-#	AUTO APAGA
+# AUTO APAGA
 #----------------------------------------------------#
 class AutoApagaCommand(sublime_plugin.TextCommand):
-	def run(self, edit):
+  def run(self, edit):
 
-		vis = self.view
-		modo = resolveModo(pegaInfoModo(vis))
+    vis = self.view
+    modo = resolveModo(pegaInfoModo(vis))
 
-		# Apaga CSS
-		if modo['modo'] in ('css_arq','css_tag','css_attr'):
-			cssAutoApaga(edit, self.view)
-		else:
-			x('Não apaga "' + modo['ext'] + '"')
+    # Apaga CSS
+    if modo['modo'] in ('css_arq','css_tag','css_attr'):
+      cssAutoApaga(edit, self.view)
+    else:
+      x('Não apaga "' + modo['ext'] + '"')
 
 
 #----------------------------------------------------#
-#	COMENTÁRIOS
+# COMENTÁRIOS
 #----------------------------------------------------#
 class ComentaCommand(sublime_plugin.TextCommand):
-	def run(self, edit):
-		vis = self.view
-		modo = resolveModo(pegaInfoModo(vis))
-		aplica( edit, vis=self.view, func=comenta, modo=modo)
+  def run(self, edit):
+    vis = self.view
+    modo = resolveModo(pegaInfoModo(vis))
+    aplica( edit, vis=self.view, func=comenta, modo=modo)
 
-		#x(pegaInfoModo(vis))
+    #x(pegaInfoModo(vis))
 
 
 #----------------------------------------------------#
-#	MOSTRA NOME
+# MOSTRA NOME
 #----------------------------------------------------#
 
 class MostraNomeCommand(sublime_plugin.TextCommand):
-	def run(self, edit):
-		# !!! X_(self.view.file_name())
-		sublime.set_clipboard(self.view.file_name())
+  def run(self, edit):
+    # !!! X_(self.view.file_name())
+    sublime.set_clipboard(self.view.file_name())
 
 
 #----------------------------------------------------#
-#	SNIPPET > ALERT
+# SNIPPET > ALERT
 #----------------------------------------------------#
 
 def wrapAlert(tx, modo, aspas=False):
 
-	formato = None
-	ident, tx = sepIdent(tx)
+  formato = None
+  ident, tx = sepIdent(tx)
 
-	if aspas:
-		formato = '{0}X_("{1}")'
-	else:
-		formato = '{0}X_({1})'
+  if aspas:
+    formato = '{0}X_("{1}")'
+  else:
+    formato = '{0}X_({1})'
 
-	return formato.format(ident,tx)
+  return formato.format(ident,tx)
 
 class AlertCommand(sublime_plugin.TextCommand):
-	def run(self, edit, aspas):
-		aplica( edit, vis=self.view, func=wrapAlert, argList={ 'aspas': aspas })
+  def run(self, edit, aspas):
+    aplica( edit, vis=self.view, func=wrapAlert, argList={ 'aspas': aspas })
 
 
 #----------------------------------------------------#
-#	ALTERNA PROJETOS
+# ALTERNA PROJETOS
 #----------------------------------------------------#
 
 class AlternaProjetosCommand(sublime_plugin.WindowCommand):
-	def run(self):
+  def run(self):
 
-		arq_projeto_atual = os.path.basename(self.window.project_file_name())
-		projetos = list( filter( lambda proj: proj['arq'] != arq_projeto_atual, projetos_config ))
+    arq_projeto_atual = os.path.basename(self.window.project_file_name())
+    projetos = list( filter( lambda proj: proj['arq'] != arq_projeto_atual, projetos_config ))
 
-		def cb(ind = 0):
-			comando = "subl --project '/home/andre/Documents/ST3 Projetos/{0}'".format(projetos[ind]['arq'])
-			os.system(comando)
-			#self.window.run_command('close_window')
+    def cb(ind = 0):
+      comando = "subl --project '/home/andre/Documents/ST3 Projetos/{0}'".format(projetos[ind]['arq'])
+      os.system(comando)
+      #self.window.run_command('close_window')
 
-		nomes = [ proj.get('tit') for proj in projetos ]
+    nomes = [ proj.get('tit') for proj in projetos ]
 
-		self.window.show_quick_panel(
-			items			= nomes,
-			on_select = cb
-		)
+    self.window.show_quick_panel(
+      items     = nomes,
+      on_select = cb
+    )

@@ -23,39 +23,49 @@ class ConfigCss:
   props = (
 
     # VISIBILIDADE
-    { 'nome': 'Display',  'regex': r'\bd[bfnil]\b'    }, # Display
-    { 'nome': 'Overflow', 'regex': r'\bo[xy]?[hsv]\b' }, # Overflow
-    
-    # POSICIONAMENTO
-    { 'nome': 'Position', 'regex': r'\bp[akrfs]\b' }, # Position
-    { 'nome': 'Float',    'regex': r'\bf[lrn]\b'   }, # Float
-    { 'nome': 'Clear',    'regex': r'\bc[lrbn]\b'  }, # Clear
-    { 'nome': 'Box',      'regex': r'\bbs[b]?\b'   }, # Box-sizing
+    { 'nome': 'Display',  'regex': r'\bd([bfnil])\b'      }, # Display
+    { 'nome': 'Overflow', 'regex': r'\bo([xy]?)([hsv])\b' }, # Overflow
     
     # Z-INDEX
     { 'nome': 'Z-index', 'regex': r'\bz', 'unidade': '' }, # Z-index
+
+    # POSICIONAMENTO
+    { 'nome': 'Position', 'regex': r'\bp(?:([afkrs])|(1|2|22|3|6|66|9|8|88|7|4|44|5))?\b' }, # Position
+    { 'nome': 'Float',    'regex': r'\bf([lrn])\b'   }, # Float
+    { 'nome': 'Clear',    'regex': r'\bc([lrbn])\b'  }, # Clear
     
+    # BOX-MODEL
+    { 'nome': 'Box', 'regex': r'\bbz([bc])?\b'  }, # Box-sizing
+
     # DESLOCAMENTO
-    { 'nome': 'Deslocamento', 'regex': r'\b[trbl]' }, # Top | Right | Bottom | Left
+    { 'nome': 'Deslocamento', 'regex': r'\b(to|r|bo|l)' }, # Top | Right | Bottom | Left
     
     # WIDTH - HEIGHT
     { 'nome': 'Width-Height', 'regex': r'\b(wh?|hw?|q)'},
 
     # MARGIN - PADDING
-    { 'nome': 'Margin-Padding',  'regex': r'\b(m|pd)[trbl]?'},
+    { 'nome': 'Margin-Padding',  'regex': r'\b(m|pd)([trbl])?'},
 
     # BORDER
-    { 'nome': 'Border', 'regex': r'\bbd[drs]\b' },
+    { 'nome': 'Border', 'regex': r'\bb([drs])\b' },
 
     # TEXTO
-    { 'nome': 'Cursor',      'regex': r'\bcu[dp]\b'          }, # Cursor
-    { 'nome': 'Color',       'regex': r'\bco\b'              }, # Color
-    { 'nome': 'Text',        'regex': r'\bt[adit][cjlnoru]?' }, # Text
-    { 'nome': 'Font',        'regex': r'\bf[msw][abn]?'      }, # Font
-    { 'nome': 'Line-Height', 'regex': r'\blh'                }, # Line-Height
+    { 'nome': 'Text', 'regex': r'\bt([adit])([cjlnoru])?' },
+
+    # CURSOR
+    { 'nome': 'Cursor', 'regex': r'\bcu[dp]\b' },
+
+    # COR
+    { 'nome': 'Color',  'regex': r'\bco\b' },
+
+    # FONTE
+    { 'nome': 'Font', 'regex': r'\bf([fsw])([abn])?' },
+
+    # LINE-HEIGHT
+    { 'nome': 'Line-Height', 'regex': r'\blh' },
 
     # BACKGROUND
-    { 'nome': 'Background', 'regex': r'\bbg[aiprcs]?\b' },
+    { 'nome': 'Background', 'regex': r'\bbg([aiprcs])?\b' },
 
   ) # ------ /-props
 

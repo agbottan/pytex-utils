@@ -12,114 +12,151 @@ from func.css_config import ConfigCss
 # ------------------------------------------------------- #
 
 def pegaFonte():
-	# !!! TODO !!! -> Pegar a fonte por projeto ?? SASS
-	return ''
+  # !!! TODO !!! -> Pegar a fonte por projeto ?? SASS
+  return ''
 
 
 reCor = re.compile(r'(?:[0-9a-fA-F]{3}){1,2}')
 
-def pegaCor(P):
-	cores = reCor.findall(P)
-	cores[:] = ['#'+cor for cor in cores]
-	return cores
+def pegaCor(regra, junta=True):
+  cores = reCor.findall(regra)
+  cores[:] = [ '#' + cor for cor in cores ]
+  if junta:
+    cores = ' '.join(cores)
+  return cores
 
+
+# -------- MEDIDAS --------
 
 unidades = ('px','%','rem','em','vw','vh','cm','mm')
-unidadesAtalho = ('=','m')
+unidades_atalhos = ('=', 'm')
+
+sub = {
+  'm': 'em',
+  '=': '%',
+}
 
 # Regex que acha os números
-reNum = re.compile(r'(-?[\d,\.a]+(' + '|'.join(unidades + unidadesAtalho) + ')?)')
+reMedida = re.compile(r'(a|-?[\d,\.]+)(' + '|'.join(unidades + unidades_atalhos) + ')?')
 
-def pegaNumeros(P, limite=None, completaUnidades=True, unidadePadrao='px'):
+def pegaMedidas(regra, limite=None, completaUnidades=True, unidadePadrao='px', junta=True):
 
-	nums = reNum.findall(P)
-	nums[:] = [n[0] for n in nums] # Reduz para o primeiro subgrupo apenas
-	nums[:] = [re.sub('a','auto',n) for n in nums] # 'a' vira 'auto'
+  medidas = reMedida.findall(regra)
 
-	if limite:
-		nums = nums[:limite]
+  if limite:
+    medidas = medidas[:limite]
 
-	if completaUnidades:
-		for i, n in enumerate(nums):
+  if completaUnidades:
+    for i, medida in enumerate(medidas):
 
-			# Tira '0' à esquerda
-			n = re.sub(r'^0(\d+)','\g<1>',n)
+      numero, unidade = medida
 
-			# Põe a unidade padrão
-			n = re.sub(r'^(-?[\d,.]+)$','\g<1>'+unidadePadrao,n)
+      # Tira '0' à esquerda
+      numero = re.sub(r'^0(\d+)','\g<1>', numero)
 
-			# 'm' vira 'em'
-			n = re.sub(r'^(-?[\d,.]+)m$','\g<1>em',n)
+      # Põe a unidade padrão
+      if unidade == '':
+        unidade = unidadePadrao
 
-			# '=' vira '%'
-			n = re.sub(r'^(-?[\d,.]+)=$','\g<1>%',n)
+      # 'm' vira 'em'
+      if unidade == 'm':
+        unidade = 'em'
 
-			# Transforma '0 unid' em '0'
-			n = re.sub(r'^0('+ '|'.join(unidades) +')$','0',n)
+      # '=' vira '%'
+      if unidade == '=':
+        unidade = '%'
 
-			# 'A.Bpx' vira 'Apx'
-			n = re.sub(r'^(-?\d+)[.,]\d+px$','\g<1>px',n)
+      # Descarta casa decimal quando a unidade é em pixels
+      match = False
+      if unidade == 'px':
+        match = re.search(r'[.,]+', numero)
 
-			nums[i] = n
+      if match:
+        numero = numero[:match.start(0)]
 
-	return nums
-	
-def limpaNumeros(P):
-	nums = reNum.findall(P)
-	nums[:] = [n[0] for n in nums] # Reduz para o primeiro subgrupo apenas
-	for n in nums:
-		P = re.sub(n,'',P)
-	return P
+      # medida 'auto'
+      if numero == 'a':
+        numero, unidade = 'auto', ''
+
+      # Transforma '0 unid' em '0'
+      if numero == '0':
+        unidade = ''
+
+      # Altera item da coleção
+      medidas[i] = numero + unidade
+
+  # Junta tudo em 'string' se a opção estiver habilitada
+  if junta:
+    medidas = ' '.join(medidas)
+
+  return medidas
+
+
+def limpaNumeros(regra):
+
+  numeros = reMedida.findall(regra)
+
+  numeros[:] = [n[0] for n in numeros] # Reduz para o primeiro subgrupo apenas
+
+  for n in numeros:
+    regra = re.sub(n,'',regra)
+
+  return regra
+
+
+def separaNumeros(regra, limite=None, completaUnidades=True, unidadePadrao='px', junta=True):
+
+  return limpaNumeros(regra), pegaMedidas(regra, limite, completaUnidades, unidadePadrao, junta)
 
 
 ############### EXPANSOR DE CSS ###############
 
 def cssExpande(tx, modo=None):
 
-	# Converte tuplas de prop-val em string
-	def propsMonta(propsReserva, ident='', propsSepara='', valSepara=': '):
-		return propsSepara.join([
-			ident + p[0] + valSepara + p[1] + ';' for p in propsReserva
-		])
+  # Converte tuplas de config_prop-val em string
+  def propsMonta(propsReserva, ident='', propsSepara='', separa=': '):
+    return propsSepara.join([
+      ident + p[0] + separa + p[1] + ';' for p in propsReserva
+    ])
 
-	ret = ''
+  ret = ''
 
-	# Aplica 'cssLista' dentro das chaves '{}'
-	if re.search(r'{.+}',tx):
+  # Aplica 'cssLista' dentro das chaves '{}'
+  if re.search(r'{.+}',tx):
 
-		def cb(tx):
+    def cb(tx):
 
-			nonlocal modo
+      nonlocal modo
 
-			lista = cssLista(
-				tx = tx,
-				dirImg = modo['dirImg']
-			)
-			return propsMonta(
-				propsReserva = lista,
-				ident = '',
-				propsSepara = ' '
-			)
+      lista = cssLista(
+        tx = tx,
+        dirImg = modo['dirImg']
+      )
+      return propsMonta(
+        propsReserva = lista,
+        ident = '',
+        propsSepara = ' '
+      )
 
-		tx = re.sub(r'(?<={).*?(?=})', cb, tx)	# aplica 'cssLista' e 'propsMonta' dentro das chaves '{}'
-		tx = re.sub(r'{(?=\S)','{ ', tx)				# põe espaço depois de '{'
-		tx = re.sub(r'(?<=\S)}',' }', tx)				# põe espaço antes de '}'
-		ret = tx
+    tx = re.sub(r'(?<={).*?(?=})', cb, tx)  # aplica 'cssLista' e 'propsMonta' dentro das chaves '{}'
+    tx = re.sub(r'{(?=\S)','{ ', tx)        # põe espaço depois de '{'
+    tx = re.sub(r'(?<=\S)}',' }', tx)       # põe espaço antes de '}'
+    ret = tx
 
-	# Aplica 'cssLista' se não houver as duas chaves '{}'
-	else:
-		i = posIdent(tx)
-		lista = cssLista(
-			tx = tx[i::],
-			dirImg = modo['dirImg']
-		)
-		ret = propsMonta(
-			propsReserva = lista,
-			ident = tx[0:i],
-			propsSepara = '\n'
-		)
+  # Aplica 'cssLista' se não houver as duas chaves '{}'
+  else:
+    i = posIdent(tx)
+    lista = cssLista(
+      tx = tx[i::],
+      dirImg = modo['dirImg']
+    )
+    ret = propsMonta(
+      propsReserva = lista,
+      ident = tx[0:i],
+      propsSepara = '\n'
+    )
 
-	return ret
+  return ret
 
 #--------------------------------- fim de 'cssExpande'
 
@@ -127,428 +164,500 @@ def cssExpande(tx, modo=None):
 
 def cssLista(tx, dirImg=''):
 
-	patCss = ConfigCss()
+  configCss = ConfigCss()
 
-	if type(tx) != str:
-		tx = tx.group(0)
-	
-	Props = splitRe(tx, patCss.reCss)
+  if type(tx) != str:
+    tx = tx.group(0)
+  
+  Regras = splitRe(tx, configCss.reCss)
 
-	fim_prop = None
-	retProps = []
-	
-	if Props == None:
-		return ''.join(retProps)
+  fim_prop = None
+  novasRegras = []
+  
+  if Regras == None:
+    return ''.join(novasRegras)
 
-	for iniProp in Props:
-		
-		# ========================== Propriedade feita, ignora...
+  # ========================== Laço por cada regra
+  for regra in Regras:
+    
+    novaRegra = []; # inicializa nova regra
 
-		if patCss.reIgnora.match(iniProp):
+    # ========================== Propriedade feita, ignora...
 
-			iniProp = iniProp.replace(';','')						# Retira o ';' no final da propriedade
-			iniProp = re.sub(r'\s+$', '', iniProp)			# Apaga os espaços em branco no final da propriedade
-			iniProp = re.split(r'\s*:\s*', iniProp, 1)	# Corta pelo ':' e faz o par
-			iniProp = tuple(iniProp)										# Transforma a lista em tupla
-			retProps.append(iniProp)										# Adiciona na lista
-			continue
+    if configCss.reIgnora.match(regra):
 
-		for prop in patCss.props:
+      regra = regra.replace(';','')           # Retira o ';' no final da propriedade
+      regra = re.sub(r'\s+$', '', regra)      # Apaga os espaços em branco no final da propriedade
+      regra = re.split(r'\s*:\s*', regra, 1)  # Corta pelo ':' e faz o par
+      regra = tuple(regra)                    # Transforma a lista em tupla
 
-			ind = prop['nome']
-			pat = prop['regex']
+      novaRegra.append(regra)
+      continue
 
+    # ========================== Propriedades não formadas
 
-			# ===============================================
-			#		Sem expansão, ignora...
-			# ===============================================
+    for config_prop in configCss.props:
 
-			m = re.match(pat,iniProp)
+      # ===============================================
+      #   Sem expansão, ignora...
+      # ===============================================
 
-			if m == None:
-				continue
+      matchRegra = re.match(config_prop['regex'],regra)
 
-			ini_prop = m.group(0)
-			ini_vals = iniProp[len(ini_prop):]
-			
+      if matchRegra == None:
+        continue # sai do loop
 
-			# ===============================================
-			#		DISPLAY
-			# ===============================================
 
-			if ind == 'Display':
-				
-				rel_vals = { 'b':'block', 'f':'flex', 'n':'none', 'i':'inline', 'l':'inline-block' }
+      # ========================== Com expansão...
 
-				val = rel_vals.get(ini_prop[-1],'')
+      caso = config_prop['nome']
 
-				retProps.append(('display',val))
 
-			
-			# ===============================================
-			#		POSITION
-			# ===============================================
+      # ===============================================
+      #   DISPLAY
+      # ===============================================
 
-			if ind == 'Position':
-				
-				rel_vals = { 'a':'absolute', 'r':'relative', 'f':'fixed', 's':'static', 'k':'sticky' }
+      if caso == 'Display':
 
-				val = rel_vals.get(ini_prop[-1],'')
+        valor = {
 
-				retProps.append(('position',val))
+          'b': 'block',
+          'f': 'flex',
+          'i': 'inline',
+          'l': 'inline-block',
+          'n': 'none',
 
+        }.get(matchRegra.group(1))
 
-			# ===============================================
-			#		DESLOCAMENTO
-			# ===============================================
+        novaRegra.append(('display', valor))
 
-			if ind == 'Deslocamento':
 
-				numeros = pegaNumeros(iniProp, 1)
-				iniProp = limpaNumeros(iniProp)
+      # ===============================================
+      #   POSITION
+      # ===============================================
 
-				rel_props = { 't':'top', 'r':'right', 'b':'bottom', 'l':'left' }
+      if caso == 'Position':
 
-				prop = rel_props.get(ini_prop[-1],'')
+        valor = {
 
-				retProps.append((
-					prop,
-					' '.join(numeros)
-				))
+          'a': 'absolute',
+          'f': 'fixed',
+          'k': 'sticky',
+          'r': 'relative',
+          's': 'static',
 
+        }.get(matchRegra.group(1))
 
-			# ===============================================
-			#		Z-INDEX
-			# ===============================================
+        completaPosicao = {
 
-			if ind == 'Z-index':
+          '7' : [('top', '0'), ('left', '0')],
+          '8' : [('top', '0'), ('left', '0')],
+          '88': [('top', '0'), ('right', '0'), ('left', '0')],
+          '9' : [('top', '0'), ('right', '0')],
+          '6' : [('right', '0')],
+          '66': [('top', '0'), ('right', '0'), ('bottom', '0')],
+          '3' : [('bottom', '0'), ('left', '0')],
+          '2' : [('bottom', '0')],
+          '22': [('right', '0'), ('bottom', '0'), ('left', '0')],
+          '1' : [('bottom', '0'), ('left', '0')],
+          '4' : [('left', '0')],
+          '44': [('top', '0'), ('bottom', '0'), ('left', '0')],
+          '5' : [('top', '0'), ('right', '0'), ('bottom', '0'), ('left', '0')],
 
-				val = pegaNumeros(iniProp, 1, False)
+        }.get(matchRegra.group(2))
 
-				retProps.append(('z-index',val.pop()))
+        # Só posição, sem dimensionamento
+        if valor:
+            novaRegra.append(('position', valor))
 
+        # 'position absolute', com dimensionamento
+        else:
+            novaRegra.append(('position', 'absolute'))
+            novaRegra += completaPosicao
 
-			# ===============================================
-			#		FLOAT
-			# ===============================================
-
-			if ind == 'Float':
-				
-				rel_vals = { 'l':'left', 'r':'right', 'n':'none' }
-
-				val = rel_vals.get(ini_prop[-1],'')
-				
-				retProps.append(('float',val))
-			
-
-			# ===============================================
-			#		CLEAR
-			# ===============================================
-
-			if ind == 'Clear':
-				
-				rel_vals = { 'l':'left', 'r':'right', 'b':'both', 'n':'none' }
-
-				val = rel_vals.get(ini_prop[-1],'')
-				
-				retProps.append(('clear',val))
-
-
-			# ===============================================
-			#		BOX-SIZING
-			# ===============================================
-
-			if ind == 'Box':
-				
-				rel_vals = { 'b':'border-box' }
-
-				val = rel_vals.get(ini_prop[-1],'border-box')
-				
-				retProps.append(('box-sizing',val))
-
-				
-			# ===============================================
-			#		CURSOR
-			# ===============================================
-
-			if ind == 'Cursor':
-				
-				rel_vals = { 'd':'default', 'p':'pointer' }
-
-				val = rel_vals.get(ini_prop[-1],'')
-				
-				retProps.append(('cursor',val))
-			
-
-			# ===============================================
-			#		OVERFLOW
-			# ===============================================
-
-			if ind == 'Overflow':
-				
-				rel_vals = { 'a':'auto', 'h':'hidden', 's':'scroll', 'v':'visible' }
-
-				val = rel_vals.get(ini_prop[-1],'')
-				
-				coord = ''
-				if len(ini_prop) == 3:
-					coord = '-' + ini_prop[1]
-				
-				retProps.append(('overflow' + coord,val))
-
-
-			# ===============================================
-			#		COLOR
-			# ===============================================
-
-			if ind == 'Color':
-
-				val = pegaCor(ini_vals)
-				
-				retProps.append((
-					'color',
-					'='.join(val)
-				))
-			
-
-			# ===============================================
-			#		WIDTH - HEIGHT
-			# ===============================================
-
-			if ind == 'Width-Height':
-			
-				numeros = pegaNumeros(iniProp, 2)
-				iniProp = limpaNumeros(iniProp)
-				
-				rel_props = {
-					'w':['width'],
-					'h':['height'],
-					'wh':['width','height'],
-					'hw':['height','width'],
-					'q':['width','height']
-				}
-				
-				props = rel_props.get(ini_prop,'')
-
-				if iniProp[0] == 'q':
-					retProps += list(zip(props,(numeros[0],numeros[0])))
-				else:
-					retProps += list(zip(props,numeros))
-
-
-			# ===============================================
-			#		MARGIN - PADDING
-			# ===============================================
-
-			if ind == 'Margin-Padding':
-				
-				numeros = pegaNumeros(iniProp, 4)
-				iniProp = limpaNumeros(iniProp)
-				
-				rel_props		= { 'm':'margin', 'p':'padding' }
-				rel_subProps	= { 't':'top', 'r':'right', 'b':'bottom', 'l':'left' }
-				
-				val = ''
-				subProp = ''
-				prop	= rel_props.get(ini_prop[0],'')
-				subProp	= rel_subProps.get(ini_prop[-1],'')
-				if( subProp != '' ): subProp = '-' + subProp
-				
-				retProps.append((
-					prop + subProp,
-					' '.join(numeros)
-				))
-
-
-			# ===============================================
-			#		TEXT
-			# ===============================================
-
-			if ind == 'Text':
-				
-				rel_subProps_vals = {
-					'a':('align',{ 'c':'center', 'j':'justify', 'l':'left', 'r':'right' }),
-					'd':('decoration',{ 'n':'none', 'o':'overline', 'u':'underline' }),
-					'i':'indent',
-					't':('transform',{ 'l':'lowercase', 'c':'capitalize', 'u':'uppercase' })
-				}
-				
-				subPropsVals = rel_subProps_vals.get(ini_prop[1],None)
-				
-				subProp = ''
-				if(type(subPropsVals) is str):
-					subProp = subPropsVals
-				else:
-					subProp = subPropsVals[0]
-					
-				val = numeros = ''
-				
-				if(subProp == 'indent'):
-					numeros = pegaNumeros(iniProp, 1)
-					iniProp = limpaNumeros(iniProp)
-					val = numeros[0]
-				else:
-					if( len(ini_prop) == 3 ):
-						val = subPropsVals[1].get(ini_prop[2],'')
-				
-				retProps.append(('text-' + subProp, val))
-
-
-			# ===============================================
-			#		FONT
-			# ===============================================
-
-			if ind == 'Font':
-				
-				rel_subProps_vals = {
-					'm':'family',
-					's':'size',
-					'w':('weight',{ 'b':'bold', 'n':'normal' })
-				}
-				
-				subPropsVals = rel_subProps_vals.get(ini_prop[1],'')
-				
-				subProp = ''
-				if(type(subPropsVals) is str):
-					subProp = subPropsVals
-				else:
-					subProp = subPropsVals[0]
-					
-				val = numeros = ''
-				
-				if(subProp == 'size'):
-					numeros = pegaNumeros(iniProp, 1)
-					iniProp = limpaNumeros(iniProp)
-					val = numeros[0]
-					
-				elif(subProp == 'family'):
-					val = pegaFonte()
-
-				else:
-					if( len(ini_prop) == 3 ):
-						val = subPropsVals[1].get(ini_prop[2],'')
-				
-				retProps.append(('font-' + subProp, val))
-
-
-			# ===============================================
-			#		BORDER
-			# ===============================================
-
-			if ind == 'Border':
-				
-				rel_subProps_vals = {
-					'd':'dotted',
-					'r':'radius',
-					's':'solid'
-				}
-				
-				subPropsVals = rel_subProps_vals.get(ini_prop[1],None)
-				
-				subProp = ''
-				if(type(subPropsVals) is str):
-					subProp = subPropsVals
-				else:
-					subProp = subPropsVals[0]
-					
-				val = numeros = ''
-				
-				if(subProp == 'radius'):
-					numeros = pegaNumeros(iniProp, 4)
-					iniProp = limpaNumeros(iniProp)
-					val = numeros[0]
-				else:
-					if( len(ini_prop) == 3 ):
-						val = subPropsVals[1].get(ini_prop[2],'') # !!!
-				
-				retProps.append(('border-' + subProp, val))
-
-
-			# ===============================================
-			#		BACKGROUND
-			# ===============================================
-
-			if ind == 'Background':
-				
-				vImg = vCor = vPox = vPoy = vAtt = vRep = ''
-				
-				# -------------------------- Background --------------------------------
-				
-				if	 ini_prop[-1] == 'a':	fim_prop = 'background-attachment'
-				elif ini_prop[-1] == 'i':	fim_prop = 'background-image'
-				elif ini_prop[-1] == 'p':	fim_prop = 'background-position'
-				elif ini_prop[-1] == 'r':	fim_prop = 'background-repeat'
-				elif ini_prop[-1] == 'c':	fim_prop = 'background-color'
-				elif ini_prop[-1] == 's':	fim_prop = 'background-size'
-				else: fim_prop = 'background'
-				
-				if fim_prop in ['background','background-image']:
-				
-					# -------------------------- Imagem --------------------------------
-					
-					vImg = re.search(r'\w+\.(png|jpg|gif)',ini_vals)
-					if vImg:
-						vImg = vImg.group(0)
-						iniProp = re.sub(vImg,'',iniProp)
-						vImg = 'url("'+ dirImg + vImg +'")'
-					else:
-						vImg = ''
-				
-				if fim_prop in ['background','background-color']:
-				
-					# -------------------------- Color --------------------------------
-					
-					vCor = re.search(r'(\d|a|b|c|d|e|f){3,6}',ini_vals,re.I) #???
-					if vCor:
-						vCor = vCor.group(0)
-						ini_vals = re.sub(vCor,'',ini_vals)
-						vCor = '#' + vCor
-					else:
-						vCor = ''
-				
-				if fim_prop in ['background','background-position']:
-				
-					# -------------------------- Position X --------------------------------
-				
-					if ini_vals.find('l')	!= -1: vPox = 'left'
-					elif ini_vals.find('r') != -1: vPox = 'right'
-				
-					# -------------------------- Position Y --------------------------------
-				
-					if ini_vals.find('t')	!= -1: vPoy = 'top'
-					elif ini_vals.find('b') != -1: vPoy = 'bottom'
-				
-				if fim_prop in ['background','background-repeat']:
-				
-					# -------------------------- Repeat --------------------------------
-				
-					if ini_vals.find('n')	!= -1: vRep = 'no-repeat'
-					elif ini_vals.find('re')!= -1: vRep = 'repeat'
-					elif ini_vals.find('x') != -1: vRep = 'repeat-x'
-					elif ini_vals.find('y') != -1: vRep = 'repeat-y'
-				
-				if fim_prop == 'background':
-				
-					# -------------------------- Genéricas --------------------------------
-					
-					if vImg == '': vImg = 'url("'+ dirImg +'")'
-					if vCor == '': vCor = ''
-					if vPox == '': vPox = 'left'
-					if vPoy == '': vPoy = 'top'
-					if vAtt == '': vAtt = ''
-					if vRep == '': vRep = 'no-repeat'
-				
-				# Retorna
-				fim_vals = ( vImg, vCor, vPox, vPoy, vAtt, vRep )
-				fim_vals = ' '.join(fim_vals)
-				fim_vals = fim_vals.strip(' ')
-
-				retProps.append((fim_prop, fim_vals))
-			
-			#- 'switch'
-		#- 'for' dos 'patterns'
-	#- 'for' das 'Props'
-
-	return retProps
+
+      # ===============================================
+      #   DESLOCAMENTO
+      # ===============================================
+
+      if caso == 'Deslocamento':
+
+        propriedade = {
+
+          'to': 'top',
+          'r':  'right',
+          'b':  'bottom',
+          'l':  'left',
+
+        }.get(matchRegra.group(0))
+
+        valor = pegaMedidas(regra, limite=1)
+
+        novaRegra.append((propriedade, valor))
+
+
+      # ===============================================
+      #   Z-INDEX
+      # ===============================================
+
+      if caso == 'Z-index':
+
+        valor = pegaMedidas(regra, limite=1, unidadePadrao='')
+
+        novaRegra.append(('z-index', valor))
+
+
+      # ===============================================
+      #   FLOAT
+      # ===============================================
+
+      if caso == 'Float':
+
+        valor = {
+
+          'l': 'left',
+          'r': 'right',
+          'n': 'none',
+
+        }.get(matchRegra.group(1))
+
+        novaRegra.append(('float', valor))
+
+
+      # ===============================================
+      #   CLEAR
+      # ===============================================
+
+      if caso == 'Clear':
+
+        valor = {
+
+          'l': 'left',
+          'r': 'right',
+          'b': 'both',
+          'n': 'none',
+
+        }.get(matchRegra.group(1))
+
+        novaRegra.append(('clear', valor))
+
+
+      # ===============================================
+      #   BOX-SIZING
+      # ===============================================
+
+      if caso == 'Box':
+
+        valor = {
+
+          'b': 'border-box',
+          'c': 'content-box',
+
+        }.get(matchRegra.group(1))
+
+        novaRegra.append(('box-sizing', valor))
+
+
+      # ===============================================
+      #   CURSOR
+      # ===============================================
+
+      if caso == 'Cursor':
+
+        valor = {
+
+          'd': 'default',
+          'p': 'pointer',
+
+        }.get(matchRegra.group(1))
+
+        novaRegra.append(('cursor', valor))
+
+
+      # ===============================================
+      #   OVERFLOW
+      # ===============================================
+
+      if caso == 'Overflow':
+
+        valor = {
+
+          'a': 'auto',
+          'h': 'hidden',
+          's': 'scroll',
+          'v': 'visible',
+
+        }.get(matchRegra.group(1))
+
+        novaRegra.append(('overflow', valor))
+
+
+      # ===============================================
+      #   COLOR
+      # ===============================================
+
+      if caso == 'Color':
+
+        valor = pegaCor(regra)
+        
+        novaRegra.append(('color', valor))
+
+
+      # ===============================================
+      #   WIDTH - HEIGHT
+      # ===============================================
+
+      if caso == 'Width-Height':
+        
+        numeros = pegaMedidas(regra, limite=2, junta=False)
+
+        matchProp = matchRegra.group(1)
+
+        propriedades = {
+
+          'w':  ['width'],
+          'h':  ['height'],
+          'wh': ['width','height'],
+          'hw': ['height','width'],
+          'q':  ['width','height']
+
+        }.get(matchProp)
+
+        if matchProp == 'q':
+          novaRegra = list(zip(propriedades,(numeros[0],numeros[0])))
+
+        else:
+          novaRegra = list(zip(propriedades,numeros))
+
+
+      # ===============================================
+      #   MARGIN - PADDING
+      # ===============================================
+
+      if caso == 'Margin-Padding':
+
+        propriedade = {
+
+          'm':  'margin',
+          'pd': 'padding'
+
+        }.get(matchRegra.group(1))
+
+        propriedade_sub  = {
+
+          't': '-top',
+          'r': '-right',
+          'b': '-bottom',
+          'l': '-left'
+
+        }.get(matchRegra.group(2),'')
+
+        if propriedade_sub == '':
+          limite = 4
+        else:
+          limite = 1
+
+        valor = pegaMedidas(regra, limite=limite)
+
+        novaRegra.append(( propriedade + propriedade_sub, valor ))
+
+
+      # ===============================================
+      #   TEXT
+      # ===============================================
+
+      if caso == 'Text':
+        
+        # sub-propriedades e valores
+        subprop_val = {
+
+          'a': ( '-align',
+            {
+              'c': 'center',
+              'j': 'justify',
+              'l': 'left',
+              'r': 'right',
+            }),
+
+          'd': ( '-decoration',
+            {
+              'n': 'none',
+              'o': 'overline',
+              'u': 'underline',
+            }),
+
+          'i': '-indent',
+
+          't': ( '-transform',
+            {
+              'l': 'lowercase',
+              'c': 'capitalize',
+              'u': 'uppercase',
+            }),
+
+        }.get(matchRegra.group(1))
+
+        # Não é text-indent
+        if isinstance(subprop_val, tuple):
+          propriedade_sub = subprop_val[0]
+          valor = subprop_val[1].get(matchRegra.group(2), '')
+
+        # É text-indent
+        else:
+          propriedade_sub = subprop_val
+          valor = pegaMedidas(regra, limite=1)
+        
+        novaRegra.append(( 'text' + propriedade_sub, valor ))
+
+
+      # ===============================================
+      #   FONT
+      # ===============================================
+
+      if caso == 'Font':
+        
+        # sub-propriedades e valores
+        subprop_val = {
+
+          'f': '-family',
+          's': '-size',
+
+          'w': ( '-weight',
+            {
+              'b': 'bold',
+              'n': 'normal',
+            }),
+
+        }.get(matchRegra.group(1))
+        
+        # Não é 'text-indent'
+        if isinstance(subprop_val, tuple):
+          propriedade_sub = subprop_val[0]
+          valor = subprop_val[1].get(matchRegra.group(2), '')
+
+        # É 'text-indent'
+        else:
+          propriedade_sub = subprop_val
+          valor = pegaMedidas(regra, limite=1)
+        
+        novaRegra.append(( 'font' + propriedade_sub, valor ))
+
+
+      # ===============================================
+      #   BORDER
+      # ===============================================
+
+      # sub-propriedades e valores
+      if caso == 'Border':
+        
+        subprop = {
+
+          'd':'dotted',
+          'r':'radius',
+          's':'solid',
+
+        }.get(matchRegra.group(1))
+
+        # É 'border-radius'
+        if subprop == 'radius':
+          propriedade_sub = '-radius'
+          valor = pegaMedidas(regra, limite=4)
+
+        # Não é 'border-radius'
+        else:
+          propriedade_sub = ''
+          valor = subprop
+
+        novaRegra.append(( 'border' + propriedade_sub, valor ))
+
+
+      # ===============================================
+      #   BACKGROUND
+      # ===============================================
+
+      if caso == 'Background':
+        
+        vImg = vCor = vPox = vPoy = vAtt = vRep = ''
+        
+        # -------------------------- Background --------------------------------
+        
+        subprop = {
+
+          'a': '-attachment',
+          'i': '-image', 
+          'p': '-position',
+          'r': '-repeat',
+          'c': '-color',
+          's': '-size',
+
+        }.get(matchRegra.group(1),'')
+
+        if subprop in ('','-image'):
+        
+          # -------------------------- Imagem --------------------------------
+          
+          vImg = re.search(r'\w+\.(png|jpg|gif)', regra)
+          if vImg:
+            vImg = vImg.group(0)
+            regra = re.sub(vImg,'',regra)
+            vImg = 'url("'+ dirImg + vImg +'")'
+          else:
+            vImg = ''
+        
+        if subprop in ('','-color'):
+
+          # -------------------------- Color --------------------------------
+
+          vCor = pegaCor(regra)
+
+        if subprop in ('','-position'):
+
+          # -------------------------- Position X --------------------------------
+        
+          if   regra.find('l') != -1: vPox = 'left'
+          elif regra.find('r') != -1: vPox = 'right'
+
+          # -------------------------- Position Y --------------------------------
+
+          if   regra.find('t') != -1: vPoy = 'top'
+          elif regra.find('b') != -1: vPoy = 'bottom'
+        
+        if subprop in ('','-repeat'):
+
+          # -------------------------- Repeat --------------------------------
+        
+          if   regra.find('n')  != -1: vRep = 'no-repeat'
+          elif regra.find('re') != -1: vRep = 'repeat'
+          elif regra.find('x')  != -1: vRep = 'repeat-x'
+          elif regra.find('y')  != -1: vRep = 'repeat-y'
+        
+        if subprop == '':
+        
+          # -------------------------- Genéricas --------------------------------
+          
+          if vImg == '': vImg = 'url("'+ dirImg +'")'
+          if vCor == '': vCor = ''
+          if vPox == '': vPox = 'left'
+          if vPoy == '': vPoy = 'top'
+          if vAtt == '': vAtt = ''
+          if vRep == '': vRep = 'no-repeat'
+        
+        # Retorna
+        fim_vals = ( vImg, vCor, vPox, vPoy, vAtt, vRep )
+        fim_vals = ' '.join(fim_vals)
+        fim_vals = fim_vals.strip(' ')
+
+        fim_vals = str(fim_vals)
+
+        novaRegra.append(( 'background' + subprop, fim_vals ))
+      
+      #- 'switch'
+    #- 'for' dos 'patterns'
+
+    novasRegras += novaRegra
+
+  #- 'for' das 'Regras'
+
+  return novasRegras
 
 #--------------------------------- fim de 'cssLista'
