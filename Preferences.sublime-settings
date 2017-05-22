@@ -22,7 +22,7 @@
 	"default_line_ending": "unix",
 	"detect_indentation": true,
 	"fallback_encoding": "UTF-8",
-	"font_size": 10,
+	"font_size": 11,
 	"ignored_packages":
 	[
 		"JSLint",
