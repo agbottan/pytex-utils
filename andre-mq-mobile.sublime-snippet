@@ -1,0 +1,11 @@
+
+<!-- /////////// MEDIA QUERY MOBILE /////////// -->
+
+<snippet>
+  <content><![CDATA[
+@media #{\$mobile} {
+
+}]]></content>
+  <tabTrigger>mm</tabTrigger>
+  <scope>source.scss</scope>
+</snippet>

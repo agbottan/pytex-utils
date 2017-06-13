@@ -142,28 +142,24 @@ class AutoApagaCommand(sublime_plugin.TextCommand):
 # COMENTÁRIOS
 #----------------------------------------------------#
 class ComentaCommand(sublime_plugin.TextCommand):
-  def run(self, edit):
+  def run(self, edit, alternativo):
     vis = self.view
     modo = resolveModo(pegaInfoModo(vis))
-    aplica( edit, vis=self.view, func=comenta, modo=modo)
-
-    #x(pegaInfoModo(vis))
+    aplica( edit, vis=self.view, func=comenta, modo=modo, argList={ 'alternativo': alternativo })
 
 
 #----------------------------------------------------#
 # MOSTRA NOME
 #----------------------------------------------------#
-
 class MostraNomeCommand(sublime_plugin.TextCommand):
   def run(self, edit):
-    # !!! X_(self.view.file_name())
+    X_(self.view.file_name(), '-> Foi pro clipboard')
     sublime.set_clipboard(self.view.file_name())
 
 
 #----------------------------------------------------#
 # SNIPPET > ALERT
 #----------------------------------------------------#
-
 def wrapAlert(tx, modo, aspas=False):
 
   formato = None
@@ -184,7 +180,6 @@ class AlertCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 # ALTERNA PROJETOS
 #----------------------------------------------------#
-
 class AlternaProjetosCommand(sublime_plugin.WindowCommand):
   def run(self):
 

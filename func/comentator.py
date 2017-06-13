@@ -16,13 +16,20 @@ class ConfigComenta:
 
 	langs = (
 
-		# MODO | REGEX
+		# ------------ HTML
 		('html', {
 			'linhas': False,
 			'comeco': '<!-- ',
 			'fim': ' -->'
 		}),
 
+		# ------------ JS | PHP
+		('py', {
+			'linhas': True,
+			'comeco': '# '
+		}),
+
+		# ------------ PYTHON
 		('py', {
 			'linhas': True,
 			'comeco': '# '
@@ -32,19 +39,19 @@ class ConfigComenta:
 # Fim de 'ConfigComenta'
 
 
-def comenta(tx='', modo=None):
+def comenta(tx='', modo=None, escopo='', alternativo=False):
 
-	config = ConfigComenta()
+	X_("modo => ", modo);
+	X_("escopo => ", escopo);
+	X_("alternativo => ", alternativo);
+
+	conf = ConfigComenta()
 
 	linhas = tx.splitlines(True)
-	#tx = ''.join(linhas).strip()
 	tx = ''.join(linhas)
-
-	#return str(sepIdent(tx)) + '\n' + str(posIdent(tx))
 
 	tx_ident, tx_resto = sepIdent(tx)
 
-	#return str(linhas)
-	return tx_ident + '<!--' + tx_resto + '-->'
+	ret = tx_ident + '<!--' + tx_resto + '-->'
 
-	#return '<!--\n' + tx + '\n-->'
+	return ret

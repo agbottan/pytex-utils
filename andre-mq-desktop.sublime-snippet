@@ -1,0 +1,11 @@
+
+<!-- /////////// MEDIA QUERY DESKTOP /////////// -->
+
+<snippet>
+  <content><![CDATA[
+@media #{\$desktop} {
+
+}]]></content>
+  <tabTrigger>dd</tabTrigger>
+  <scope>source.scss</scope>
+</snippet>

@@ -43,9 +43,10 @@
 
 //////// 	COMENTÁRIOS
 
-	{ "keys": ["f4"], "command": "comenta" },
+	{ "keys": ["f4"], "command": "comenta", "args": { "alternativo": false }},
+	{ "keys": ["ctrl+shift+f4"], "command": "comenta", "args": { "alternativo": true  }},
 
-
+ 
 //////// SNIPPET ALERT
 
 	{ "keys": ["f11"],			 "command": "alert", "args": { "aspas": false }},
@@ -66,8 +67,8 @@
 //////// TESTES
 
 	{ "keys": ["ctrl+f2"], "command": "teste_regex" },
-	// { "keys": ["f2"], "command": "teste_escopo" },
-	{ "keys": ["f2"], "command": "teste_numeros" },
+	{ "keys": ["f2"], "command": "teste_escopo" },
+	// { "keys": ["f2"], "command": "teste_numeros" },
 
 	// MENUS e CONFIG
 	{ "keys": ["f7"], "command": "teste_config_projeto" },

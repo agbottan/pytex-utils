@@ -181,8 +181,9 @@ def aplica(
 	sel_vazia = pegaTextoSel(vis) == ''
 	# TODO !!! e se é 'multiline'
 
-	argList['tx']		= pegaTexto(vis)
-	argList['modo'] = modo
+	argList['tx']			= pegaTexto(vis)
+	argList['modo'] 	= modo
+	argList['escopo']	= vis.scope_name(posCursor(vis))
 
 	linhaComeco = linhaCursor(vis) # TODO !!! VERIFICAR UTILIDADES
 

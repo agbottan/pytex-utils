@@ -1,0 +1,16 @@
+
+<!-- /////////// MEDIA QUERY COMPOSTO /////////// -->
+
+<snippet>
+  <content><![CDATA[
+@media #{\$mobile} {
+
+}
+
+@media #{\$desktop} {
+
+}
+]]></content>
+  <tabTrigger>qq</tabTrigger>
+  <scope>source.scss</scope>
+</snippet>

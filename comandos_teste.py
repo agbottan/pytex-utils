@@ -49,6 +49,9 @@ from func.css_expande import *
 imp.reload(sys.modules['func.formata_linhas'])
 from func.formata_linhas import *
 
+imp.reload(sys.modules['func.comentator'])
+from func.comentator import *
+
 imp.reload(sys.modules['func.meuteste'])
 from func.meuteste import solta as solta2
 from func.meuteste import soltaTeste
@@ -172,6 +175,8 @@ class TesteMenuInlineCommand(sublime_plugin.TextCommand):
 class TesteConfigProjetoCommand(sublime_plugin.TextCommand):
   def run(self, edit):
     X_(sublime.active_window().project_file_name())
+    X_(sublime.active_window().project_data().get('projeto_config').get('fruta'))
+    X_(sublime.active_window().project_data().get('projeto_config').get('tamanho'))
 
 
 #----------------------------------------------------#
@@ -181,12 +186,14 @@ class TesteConfigProjetoCommand(sublime_plugin.TextCommand):
 class TesteEscopoCommand(sublime_plugin.TextCommand):
   def run(self, edit):
     vis = self.view
-    X_(vis.scope_name(posCursor(vis)))
-    X_(sys.version)
+    X_(
+      'comment' in vis.scope_name(posCursor(vis))
+    )
+    # X_(sys.version)
 
 
 #----------------------------------------------------#
-# TESTES > ESCOPO
+# TESTES > PEGA NÚMEROS
 #----------------------------------------------------#
 
 class TesteNumerosCommand(sublime_plugin.TextCommand):
