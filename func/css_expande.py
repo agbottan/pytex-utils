@@ -111,7 +111,7 @@ def separaNumeros(regra, limite=None, completaUnidades=True, unidadePadrao='px',
 
 ############### EXPANSOR DE CSS ###############
 
-def cssExpande(tx, modo=None):
+def cssExpande(tx, modo=None, escopo=None):
 
   # Converte tuplas de config_prop-val em string
   def propsMonta(propsReserva, ident='', propsSepara='', separa=': '):

@@ -6,6 +6,7 @@ __all__ = [
 	# Requisitos
 	'editor',
 	'utils',
+	'global_config',
 
 	# Gerais
 	'formata_linhas',

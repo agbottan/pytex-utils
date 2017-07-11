@@ -31,6 +31,7 @@ from func.entities import *
 from func.formata_linhas import *
 from func.comentator import *
 from func.escolhe_projeto import *
+from func.global_config import *
 
 from func.meuteste import solta as solta2
 # import func.meuteste.soltaTeste # Dá pau
@@ -55,6 +56,9 @@ from func.comentator import *
 imp.reload(sys.modules['func.meuteste'])
 from func.meuteste import solta as solta2
 from func.meuteste import soltaTeste
+
+imp.reload(sys.modules['func.global_config'])
+from func.global_config import *
 
 ################################################
 
@@ -99,7 +103,8 @@ class TestePluginCommand(sublime_plugin.TextCommand):
   def run(self, edit):
 
     X_(self.description)
-    self.teste()
+
+    #self.teste()
 
     #open_file(file_name)
 
@@ -109,6 +114,23 @@ class TestePluginCommand(sublime_plugin.TextCommand):
     #)
 
     #X_(sublime.active_window().project_data())
+
+
+#----------------------------------------------------#
+# TESTES > CONFIG
+#----------------------------------------------------#
+
+class TesteConfigCommand(sublime_plugin.TextCommand):
+
+  def teste(e):
+    return e;
+
+  # description = "Descrição Marota"
+
+  def run(self, edit):
+    X_(self.description)
+    X_(func.global_config.ConfigGlobal)
+    X_(sublime.active_window().project_data().get('projeto_config').get('tamanho'))
 
 
 #----------------------------------------------------#

@@ -1,6 +1,7 @@
 
 .classe {
-
-  position: relative;
-  
+  position: absolute;
+  display: block;
+  margin: 0;
+  position: relative; position: relative;
 }

@@ -11,8 +11,8 @@
 //////// ATALHOS
 	
 	// PAINÉIS
-		{ "keys": ["f1"], "command": "show_panel", "args": {"panel": "console", "toggle": true} },
-		{ "keys": ["ctrl+f1"], "command": "toggle_side_bar" },
+		{ "keys": ["ctrl+f1"], "command": "show_panel", "args": {"panel": "console", "toggle": true} },
+		{ "keys": ["f1"], "command": "toggle_side_bar" },
 		{ "keys": ["shift+f1"], "command": "toggle_minimap" },
 
 	{ "keys": ["f6"], "command": "wrap_lines" },
@@ -59,16 +59,21 @@
 
 //////// OUTROS
 
-	{ "keys": ["shift+alt+f8"], "command": "formata_linhas" },
+	//{ "keys": ["shift+alt+f8"], "command": "formata_linhas" },
+	{ "keys": ["ctrl+shift+f8"], "command": "formata_linhas" },
 	{ "keys": ["ctrl+shift+f11"], "command": "limpa_texto" },
 	{ "keys": ["shift+f12"], "command": "troca_entities" },
 
 
 //////// TESTES
 
-	{ "keys": ["ctrl+f2"], "command": "teste_regex" },
+	/*
+  { "keys": ["f2"],      "command": "teste_config" },
+  { "keys": ["ctrl+f2"], "command": "teste_plugin"  },
 	{ "keys": ["f2"], "command": "teste_escopo" },
-	// { "keys": ["f2"], "command": "teste_numeros" },
+	{ "keys": ["ctrl+f2"], "command": "teste_regex" },
+	{ "keys": ["f2"], "command": "teste_numeros" },
+	*/
 
 	// MENUS e CONFIG
 	{ "keys": ["f7"], "command": "teste_config_projeto" },

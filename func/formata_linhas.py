@@ -40,7 +40,7 @@ def montaCampos(linha, modelo):
 	return linha_montada
 
 
-def formataLinhas(tx, modo = None, limpa_vazio = False):
+def formataLinhas(tx, modo = None, limpa_vazio = False, escopo = None):
 
 	juntaLinha = None	
 
