@@ -17,7 +17,7 @@ class ConfigCss:
   dirImg = 'img/'
 
   # Propriedades já montadas - não sofrem alteração
-  ignora = r'\b(display|position|z-index|left|top|right|bottom|float|clear|margin|padding|(min-|max-)?width|(min-|max-)?height|line-height|border|text|font|color||cursor|background|overflow)[^;]*;'
+  ignora = r'\b(display|position|z-index|left|top|right|bottom|float|clear|margin|padding|(min-|max-)?width|(min-|max-)?height|line-height|border|text|font|color|cursor|background|overflow)[^;]*;'
 
   # Propriedades a montar
   props = (
@@ -53,7 +53,7 @@ class ConfigCss:
     { 'nome': 'Text', 'regex': r'\bt([adit])([cjlnoru])?' },
 
     # CURSOR
-    { 'nome': 'Cursor', 'regex': r'\bcu[dp]\b' },
+    { 'nome': 'Cursor', 'regex': r'\bcu([dp])\b' },
 
     # COR
     { 'nome': 'Color',  'regex': r'\bco\b' },
