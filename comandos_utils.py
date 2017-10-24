@@ -5,7 +5,7 @@
 
 # IMPORTS
 
-import sublime, sublime_plugin, sys, re, os
+import sublime, sublime_plugin, sys, re, os, subprocess
 
 from func.utils import sepIdent
 
@@ -187,13 +187,37 @@ class AlternaProjetosCommand(sublime_plugin.WindowCommand):
     projetos = list( filter( lambda proj: proj['arq'] != arq_projeto_atual, projetos_config ))
 
     def cb(ind = 0):
-      comando = "subl --project '/home/andre/Documents/ST3 Projetos/{0}'".format(projetos[ind]['arq'])
-      os.system(comando)
-      #self.window.run_command('close_window')
 
+      arqProjeto = "/home/andre/Documents/ST3 - projetos/{0}".format(projetos[ind]['arq'])
+
+      x(arqProjeto)
+
+      janelaAtual = sublime.active_window()
+
+      # Sub Processo -> Abre o projeto
+      subprocess.call([ "subl", "--new-window", "--project", arqProjeto ])
+
+      janelaAtual.run_command('close_window')
+
+    # Retira projeto atual do menu
     nomes = [ proj.get('tit') for proj in projetos ]
 
+    # Mostra painel
     self.window.show_quick_panel(
       items     = nomes,
       on_select = cb
     )
+
+
+"""
+class AlternaProjetosCommand(sublime_plugin.ApplicationCommand):
+  def run(self):
+
+    x('Deu 1')
+    sublime_plugin.ApplicationCommand.run('close_file')
+    x('Deu 2')
+    #x(is_visible())
+
+    #self.window.run_command('close_window')
+    #self.window.run_command('project')
+"""
