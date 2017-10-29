@@ -313,7 +313,7 @@ def montaTags(arvore):
 
 ############### HTML EXPANDE ##############################
 
-def htmlExpande(tx,modo=None):
+def htmlExpande(tx,modo=None, escopo=None):
 
 	pos_ident = posIdent(tx)
 

@@ -79,7 +79,9 @@
 	*/
 
 	// MENUS e CONFIG
+  // { "keys": ["f7"], "command": "teste_args" },
   { "keys": ["f7"], "command": "alterna_projetos" },
+
   /*
   { "keys": ["f7"], "command": "teste_config_projeto" },
   */

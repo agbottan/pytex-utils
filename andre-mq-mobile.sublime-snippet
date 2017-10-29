@@ -1,11 +1,12 @@
 
-<!-- /////////// MEDIA QUERY MOBILE /////////// -->
+<!-- /////////// MEDIA QUERY COMPOSTO /////////// -->
 
 <snippet>
   <content><![CDATA[
-@media #{\$mobile} {
+@include --mobi {
 
-}]]></content>
+}
+]]></content>
   <tabTrigger>mm</tabTrigger>
   <scope>source.scss</scope>
 </snippet>

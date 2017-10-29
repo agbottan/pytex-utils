@@ -246,3 +246,22 @@ class TesteNumerosCommand(sublime_plugin.TextCommand):
       X_(type(tt))
 
     aplica( edit, vis=self.view, func=testa)
+
+#######################################################
+
+#----------------------------------------------------#
+# ALTERNA PROJETOS
+#----------------------------------------------------#
+class TesteArgsCommand(sublime_plugin.WindowCommand):
+  def run(self):
+
+    def teste(teste = '', foca = ''):
+      x(teste)
+      x(foca)
+
+    deu = {
+      'foca--': 'bubu',
+      'teste--': 'treta'
+    }
+
+    teste(*deu)
