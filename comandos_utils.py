@@ -5,7 +5,7 @@
 
 # IMPORTS
 
-import sublime, sublime_plugin, sys, re, os, subprocess
+import sublime, sublime_plugin, sys, re, os, subprocess, multiprocessing
 
 from func.utils import sepIdent
 
@@ -184,7 +184,8 @@ class AlternaProjetosCommand(sublime_plugin.WindowCommand):
   def run(self):
 
     arq_projeto_atual = os.path.basename(self.window.project_file_name())
-    projetos = list( filter( lambda proj: proj['arq'] != arq_projeto_atual, projetos_config ))
+    #projetos = list( filter( lambda proj: proj['arq'] != arq_projeto_atual, projetos_config ))
+    projetos = projetos_config
 
     def cb(ind = 0):
 
@@ -197,7 +198,8 @@ class AlternaProjetosCommand(sublime_plugin.WindowCommand):
       # Sub Processo -> Abre o projeto
       subprocess.call([ "subl", "--new-window", "--project", arqProjeto ])
 
-      janelaAtual.run_command('close_window')
+      #janelaAtual.run_command('close_window')
+      #multiprocessing.apply(lambda: janelaAtual.run_command('close_window'))
 
     # Retira projeto atual do menu
     nomes = [ proj.get('tit') for proj in projetos ]
