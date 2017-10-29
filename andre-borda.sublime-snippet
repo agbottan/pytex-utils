@@ -3,14 +3,8 @@
 
 <snippet>
   <content><![CDATA[
-@include Medio {
-
-}
-
-@include Grande {
-
-}
+border: 1px red dotted !important; /* !!! teste */
 ]]></content>
-  <tabTrigger>qq</tabTrigger>
+  <tabTrigger>bb</tabTrigger>
   <scope>source.scss</scope>
 </snippet>

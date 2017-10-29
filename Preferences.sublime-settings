@@ -21,7 +21,7 @@
 	"color_scheme": "Packages/Color Scheme - Default/Monokai.tmTheme",
 	"default_line_ending": "unix",
 	"detect_indentation": false,
-	"font_size": 11,
+	"font_size": 13,
 	"ignored_packages":
 	[
 		"JSLint",
@@ -31,5 +31,6 @@
 	"show_line_endings": true,
 	"tab_size": 2,
 	"translate_tabs_to_spaces": true,
+	"word_separators": "./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?_",
 	"word_wrap": false
 }
