@@ -93,24 +93,28 @@ def resolveModo(argInfo):
 		'match':  None
 	}
 
-	modos = (
-		('.txt', 'texto'),
-		('.py', 'python'),
-		('.js', 'javascript'),
-		('.php', 'php')
-	)
-
 	# Extensão do nome do arquivo
 	modo['ext'] = os.path.splitext(arqNome)[1]
 
 
+	# Extensão TXT
+	if re.match(
+		r'\.txt',
+		modo['ext'], re.I
+	):
+		modo['modo'] = 'texto'
+		return modo
+
+
 	# Extensão JS
+	'''
 	if re.match(
 		r'\.js',
 		modo['ext'], re.I
 	):
 		modo['modo'] = 'javascript'
 		return modo
+	'''
 
 
 	# Extensão PY
@@ -134,7 +138,7 @@ def resolveModo(argInfo):
 
 	# Extensões HTML, HTM, PHTML, ASP e PHP
 	if re.match(
-		r'\.(htm|html|phtml|php|asp)',
+		r'\.(htm|html|phtml|php|asp|js|jsx)',
 		modo['ext'], re.I
 	):
 

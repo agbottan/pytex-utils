@@ -3,14 +3,14 @@
 
 <snippet>
   <content><![CDATA[
-@media #{\$mobile} {
+@include --mobi {
 
 }
 
-@media #{\$desktop} {
+@include desk-- {
 
 }
 ]]></content>
-  <tabTrigger>qqq</tabTrigger>
+  <tabTrigger>qq</tabTrigger>
   <scope>source.scss</scope>
 </snippet>

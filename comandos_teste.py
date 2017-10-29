@@ -209,7 +209,9 @@ class TesteEscopoCommand(sublime_plugin.TextCommand):
   def run(self, edit):
     vis = self.view
     X_(
-      'comment' in vis.scope_name(posCursor(vis))
+      # 'comment' in vis.scope_name(posCursor(vis))
+
+      vis.scope_name(posCursor(vis))
     )
     # X_(sys.version)
 
@@ -246,3 +248,22 @@ class TesteNumerosCommand(sublime_plugin.TextCommand):
       X_(type(tt))
 
     aplica( edit, vis=self.view, func=testa)
+
+#######################################################
+
+#----------------------------------------------------#
+# ALTERNA PROJETOS
+#----------------------------------------------------#
+class TesteArgsCommand(sublime_plugin.WindowCommand):
+  def run(self):
+
+    def teste(teste = '', foca = ''):
+      x(teste)
+      x(foca)
+
+    deu = {
+      'foca--': 'bubu',
+      'teste--': 'treta'
+    }
+
+    teste(*deu)

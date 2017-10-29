@@ -3,14 +3,9 @@
 
 <snippet>
   <content><![CDATA[
-@include Medio {
-
-}
-
-@include Grande {
-
-}
+---
+layout: default
+---
 ]]></content>
-  <tabTrigger>qq</tabTrigger>
-  <scope>source.scss</scope>
+  <tabTrigger>ll</tabTrigger>
 </snippet>

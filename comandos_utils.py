@@ -5,7 +5,7 @@
 
 # IMPORTS
 
-import sublime, sublime_plugin, sys, re, os, subprocess
+import sublime, sublime_plugin, sys, re, os, subprocess, threading, multiprocessing
 
 from func.utils import sepIdent
 
@@ -24,8 +24,13 @@ for path in paths:
   if os.path.isdir(path) and path not in sys.path:
     sys.path.append(path)
 
+# ----------------------------------------------
 
-# --------------------------------
+# IMPORT DAS FUNÇÕES
+
+'''
+from func.comentator import *
+'''
 
 from func.editor import *
 from func.utils import *
@@ -34,10 +39,10 @@ from func.css_expande import *
 from func.html import *
 from func.entities import *
 from func.formata_linhas import *
-from func.comentator import *
 from func.escolhe_projeto import *
 
-# --------------------------------
+# ----------------------------------------------
+
 
 ################################################
 # !!! RELOAD !!!
@@ -183,41 +188,50 @@ class AlertCommand(sublime_plugin.TextCommand):
 class AlternaProjetosCommand(sublime_plugin.WindowCommand):
   def run(self):
 
+    # Projeto aberto
     arq_projeto_atual = os.path.basename(self.window.project_file_name())
+
+    # Projetos listados
+    projetos = projetos_config
+
+    # Retira projeto atual da lista
     projetos = list( filter( lambda proj: proj['arq'] != arq_projeto_atual, projetos_config ))
 
-    def cb(ind = 0):
-
-      arqProjeto = "/home/andre/Documents/ST3 - projetos/{0}".format(projetos[ind]['arq'])
-
-      x(arqProjeto)
-
-      janelaAtual = sublime.active_window()
-
-      # Sub Processo -> Abre o projeto
-      subprocess.call([ "subl", "--new-window", "--project", arqProjeto ])
-
-      janelaAtual.run_command('close_window')
-
-    # Retira projeto atual do menu
+    # Nome no painel
     nomes = [ proj.get('tit') for proj in projetos ]
+
+    # Processo
+    def abreProjeto(pathProjeto, janelaAnterior):
+      def dentroThread(_pathProjeto, _janelaAnterior):
+
+        # Abre projeto por linha de comando
+        proc = subprocess.Popen([ "subl", "--new-window", "--project", _pathProjeto ])
+        
+        # Espera a execução finalizar
+        # proc.wait()
+
+        # Fecha a janela anterior
+        # _janelaAnterior.run_command('close_window')
+
+        return
+
+      thread = threading.Thread(
+        target=dentroThread,
+        args=(pathProjeto, janelaAnterior))
+
+      thread.start()
+      return thread
+
+    def callbackMenu(ind = 0):
+      if (ind == -1):
+        return
+
+      janelaAnterior = sublime.active_window()
+      pathProjeto = "/home/andre/Documents/ST3 - projetos/{0}".format(projetos[ind]['arq'])
+      abreProjeto(pathProjeto, janelaAnterior)
 
     # Mostra painel
     self.window.show_quick_panel(
       items     = nomes,
-      on_select = cb
+      on_select = callbackMenu
     )
-
-
-"""
-class AlternaProjetosCommand(sublime_plugin.ApplicationCommand):
-  def run(self):
-
-    x('Deu 1')
-    sublime_plugin.ApplicationCommand.run('close_file')
-    x('Deu 2')
-    #x(is_visible())
-
-    #self.window.run_command('close_window')
-    #self.window.run_command('project')
-"""
