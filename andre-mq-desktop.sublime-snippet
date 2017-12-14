@@ -1,11 +1,12 @@
 
-<!-- /////////// MEDIA QUERY DESKTOP /////////// -->
+<!-- /////////// MEDIA QUERY COMPOSTO /////////// -->
 
 <snippet>
   <content><![CDATA[
-@media #{\$desktop} {
+@include desk-- {
 
-}]]></content>
+}
+]]></content>
   <tabTrigger>dd</tabTrigger>
   <scope>source.scss</scope>
 </snippet>

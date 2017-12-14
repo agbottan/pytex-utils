@@ -24,7 +24,7 @@ class ConfigComenta:
 		}),
 
 		# ------------ JS | PHP
-		('py', {
+		('js', {
 			'linhas': True,
 			'comeco': '# '
 		}),

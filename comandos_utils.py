@@ -184,42 +184,50 @@ class AlternaProjetosCommand(sublime_plugin.WindowCommand):
   def run(self):
 
     arq_projeto_atual = os.path.basename(self.window.project_file_name())
+<<<<<<< HEAD
     #projetos = list( filter( lambda proj: proj['arq'] != arq_projeto_atual, projetos_config ))
     projetos = projetos_config
+=======
+    projetos = projetos_config
+
+    # Retira projeto atual do menu
+    projetos = list( filter( lambda proj: proj['arq'] != arq_projeto_atual, projetos_config ))
+>>>>>>> Close_Window_Callback
 
     def cb(ind = 0):
 
+      if (ind == -1):
+        return
+
       arqProjeto = "/home/andre/Documents/ST3 - projetos/{0}".format(projetos[ind]['arq'])
 
-      x(arqProjeto)
-
-      janelaAtual = sublime.active_window()
+      janelaAntes = sublime.active_window()
 
       # Sub Processo -> Abre o projeto
-      subprocess.call([ "subl", "--new-window", "--project", arqProjeto ])
+      #retorno = subprocess.call([ "subl", "--new-window", "--project", arqProjeto ])
+      #teste = subprocess.Popen([ "subl", "--new-window", "--project", arqProjeto ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
+<<<<<<< HEAD
       #janelaAtual.run_command('close_window')
       #multiprocessing.apply(lambda: janelaAtual.run_command('close_window'))
+=======
+      subprocess.Popen([ "subl", "--new-window", "--project", arqProjeto ])
+>>>>>>> Close_Window_Callback
 
-    # Retira projeto atual do menu
-    nomes = [ proj.get('tit') for proj in projetos ]
+      #X_(teste)
+      # Fecha a janela anterior
+      '''
+p = subprocess.Popen('find . -name "*.txt"', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+stdout, stderr = p.communicate()
+
+      if(retorno == 0):
+        janelaAntes.run_command('close_window')
+      '''
 
     # Mostra painel
+    nomes = [ proj.get('tit') for proj in projetos ]
+
     self.window.show_quick_panel(
       items     = nomes,
       on_select = cb
     )
-
-
-"""
-class AlternaProjetosCommand(sublime_plugin.ApplicationCommand):
-  def run(self):
-
-    x('Deu 1')
-    sublime_plugin.ApplicationCommand.run('close_file')
-    x('Deu 2')
-    #x(is_visible())
-
-    #self.window.run_command('close_window')
-    #self.window.run_command('project')
-"""
