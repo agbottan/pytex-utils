@@ -5,7 +5,7 @@
 
 # IMPORTS
 
-import sublime, sublime_plugin, sys, re, os, subprocess, multiprocessing
+import sublime, sublime_plugin, sys, re, os, subprocess, threading, multiprocessing
 
 from func.utils import sepIdent
 
@@ -183,16 +183,27 @@ class AlertCommand(sublime_plugin.TextCommand):
 class AlternaProjetosCommand(sublime_plugin.WindowCommand):
   def run(self):
 
+    # Processo
+    def popenAndCall(onExit, popenArgs):
+      def runInThread(onExit, popenArgs):
+          proc = subprocess.Popen(*popenArgs)
+          proc.wait()
+          onExit()
+          return
+
+      thread = threading.Thread(target=runInThread, args=(onExit, popenArgs))
+      thread.start()
+      return thread
+
+###########################################################
+
     arq_projeto_atual = os.path.basename(self.window.project_file_name())
-<<<<<<< HEAD
-    #projetos = list( filter( lambda proj: proj['arq'] != arq_projeto_atual, projetos_config ))
-    projetos = projetos_config
-=======
     projetos = projetos_config
 
     # Retira projeto atual do menu
     projetos = list( filter( lambda proj: proj['arq'] != arq_projeto_atual, projetos_config ))
->>>>>>> Close_Window_Callback
+
+###########################################################
 
     def cb(ind = 0):
 
@@ -203,26 +214,12 @@ class AlternaProjetosCommand(sublime_plugin.WindowCommand):
 
       janelaAntes = sublime.active_window()
 
-      # Sub Processo -> Abre o projeto
-      #retorno = subprocess.call([ "subl", "--new-window", "--project", arqProjeto ])
-      #teste = subprocess.Popen([ "subl", "--new-window", "--project", arqProjeto ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-<<<<<<< HEAD
-      #janelaAtual.run_command('close_window')
-      #multiprocessing.apply(lambda: janelaAtual.run_command('close_window'))
-=======
-      subprocess.Popen([ "subl", "--new-window", "--project", arqProjeto ])
->>>>>>> Close_Window_Callback
-
-      #X_(teste)
-      # Fecha a janela anterior
-      '''
-p = subprocess.Popen('find . -name "*.txt"', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-stdout, stderr = p.communicate()
-
-      if(retorno == 0):
+      def fecha():
         janelaAntes.run_command('close_window')
-      '''
+
+      popenAndCall(fecha, [[ "subl", "--new-window", "--project", arqProjeto ]])
+
+###########################################################
 
     # Mostra painel
     nomes = [ proj.get('tit') for proj in projetos ]
