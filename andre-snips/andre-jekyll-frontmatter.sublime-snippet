@@ -1,0 +1,11 @@
+
+<!-- /////////// MEDIA QUERY COMPOSTO /////////// -->
+
+<snippet>
+  <content><![CDATA[
+---
+layout: default
+---
+]]></content>
+  <tabTrigger>ll</tabTrigger>
+</snippet>

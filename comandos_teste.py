@@ -209,7 +209,9 @@ class TesteEscopoCommand(sublime_plugin.TextCommand):
   def run(self, edit):
     vis = self.view
     X_(
-      'comment' in vis.scope_name(posCursor(vis))
+      # 'comment' in vis.scope_name(posCursor(vis))
+
+      vis.scope_name(posCursor(vis))
     )
     # X_(sys.version)
 
