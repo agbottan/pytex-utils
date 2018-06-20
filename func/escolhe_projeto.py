@@ -30,7 +30,7 @@
 { 'tit': 'Pytex Utils',       'arq': 'pytex-utils.sublime-project' },
 { 'tit': 'Seguro Light',      'arq': 'segurolight.sublime-project' },
 { 'tit': 'Site Padrão',       'arq': 'padrao.sublime-project' }
-{ 'tit': 'SCSS Sintaxe',      'arq': 'scss-lang.sublime-project' },
+{ 'tit': 'ST-3 Linguagens',   'arq': 'scss-lang.sublime-project' },
 { 'tit': 'SVG e Ícones',      'arq': 'svg-icons.sublime-project' },
 { 'tit': 'Snippets',          'arq': 'snippets.sublime-project' },
 { 'tit': 'Sweet Timeline',    'arq': 'sweetimeline.sublime-project' },
@@ -66,9 +66,10 @@ projetos_config = [
   { 'tit': 'Guia de Missas',  	 'arq': 'guia-de-missas.sublime-project' },
   { 'tit': 'Site Padrão',     	 'arq': 'padrao.sublime-project' },
   { 'tit': 'SVG e Ícones',    	 'arq': 'svg-icons.sublime-project' },
+	{ 'tit': 'Seguro Light',       'arq': 'segurolight.sublime-project' },
   { 'tit': 'Shell Scripts Home', 'arq': 'home-andre.sublime-project' },
   { 'tit': 'Cartas',          	 'arq': 'cartas.sublime-project' },
   { 'tit': 'Excursa Já',      	 'arq': 'excursa.sublime-project' },
   { 'tit': 'Bujinkan Bauru',  	 'arq': 'bujinkan-bauru.sublime-project' },
-  { 'tit': 'SCSS Sintaxe',    	 'arq': 'scss-lang.sublime-project' },
+  { 'tit': 'ST-3 Linguagens',    'arq': 'scss-lang.sublime-project' },
 ]
