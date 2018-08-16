@@ -58,6 +58,7 @@ projetos_config = [
   # { 'tit': 'Java - Login Prof',  'arq': 'pos-java/pos-java-prof.sublime-project' },
 
   { 'tit': 'Pisces', 						 'arq': 'pisces.sublime-project' },
+  { 'tit': 'Cálculo de Toras',   'arq': 'toras.sublime-project' },
   { 'tit': 'André G. Bottan', 	 'arq': 'andre-bottan.sublime-project' },
   { 'tit': 'Oestesom - Tray', 	 'arq': 'oestesom-tray.sublime-project' },
   { 'tit': 'Apache Config',   	 'arq': 'apache-config.sublime-project' },
