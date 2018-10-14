@@ -7,64 +7,12 @@
 
 import sublime, sublime_plugin, sys, re, os, subprocess, threading, multiprocessing
 
-from func.utils import sepIdent
-
-
-# Caminho para módulos
-paths = (
-
-  # Linux
-  '/home/andre/.config/sublime-text-3/Packages/User',
-
-  # Windows
-  'C:\\Users\\Triata\\AppData\\Roaming\\Sublime Text 3\\Packages\\User'
-)
-
-for path in paths:
-  if os.path.isdir(path) and path not in sys.path:
-    sys.path.append(path)
-
-# ----------------------------------------------
-
-# IMPORT DAS FUNÇÕES
-
-'''
-from func.comentator import *
-'''
-
-from func.editor import *
-from func.utils import *
-from func.css_apaga import *
-from func.css_expande import *
-from func.html import *
-from func.entities import *
-from func.formata_linhas import *
-from func.escolhe_projeto import *
-
-# ----------------------------------------------
-
-
-################################################
-# !!! RELOAD !!!
-
-import imp
-
-imp.reload(sys.modules['func.css_expande'])
-from func.css_expande import *
-
-imp.reload(sys.modules['func.formata_linhas'])
-from func.formata_linhas import *
-
-imp.reload(sys.modules['func.css_config'])
-from func.css_config import *
-
-imp.reload(sys.modules['func.editor'])
-from func.editor import *
-
-imp.reload(sys.modules['func.escolhe_projeto'])
-from func.escolhe_projeto import *
-
-################################################
+from pytex.editor.log_utils  import *
+from pytex.escolhe_projeto   import projetos_config
+from pytex.utils             import resolveModo
+from pytex.editor.text_utils import aplica, pegaInfoModo
+from pytex.css.css_expande   import cssExpande
+from pytex.html.html         import htmlExpande
 
 
 # ============== CLASSES DOS COMANDOS ============== #
@@ -227,7 +175,7 @@ class AlternaProjetosCommand(sublime_plugin.WindowCommand):
         return
 
       janelaAnterior = sublime.active_window()
-      pathProjeto = "/home/andre/Documents/ST3 - projetos/{0}".format(projetos[ind]['arq'])
+      pathProjeto = "/home/andre/ST3 - projetos/{0}".format(projetos[ind]['arq'])
       abreProjeto(pathProjeto, janelaAnterior)
 
     # Mostra painel

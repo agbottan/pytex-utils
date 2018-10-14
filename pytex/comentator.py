@@ -4,8 +4,8 @@
 ###################
 
 import re, sublime
-from func.utils import splitRe, sepIdent, posIdent
-from func.editor import *
+from pytex.utils import splitRe, sepIdent, posIdent
+from pytex.editor import *
 
 
 # ------------------------ #

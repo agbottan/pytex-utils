@@ -4,10 +4,10 @@
 #########################
 
 import re, sublime
-#from func.utils import splitRe, indices, limpaTexto, posIdent
-from func.utils import *
-from func.html_config import *
-from func.editor import *
+#from pytex.utils import splitRe, indices, limpaTexto, posIdent
+from pytex.utils import *
+from pytex.html.html_config import *
+from pytex.editor import *
 
 # ------------------------------------------------------- #
 

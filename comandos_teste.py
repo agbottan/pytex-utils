@@ -1,3 +1,4 @@
+
 ############### PYTEX UTILS ###############
 
 import sublime, sublime_plugin, sys, re, os, imp
@@ -22,102 +23,25 @@ for path in paths:
 
 # --------------------------------
 
-from func.editor import *
-from func.utils import *
-from func.css_apaga import *
-from func.css_expande import *
-from func.html import *
-from func.entities import *
-from func.formata_linhas import *
-from func.comentator import *
-from func.escolhe_projeto import *
-from func.global_config import *
+import pytex.editor.log_utils
 
-from func.meuteste import solta as solta2
-# import func.meuteste.soltaTeste # Dá pau
+from pytex.editor.text_utils import *
+from pytex.utils import *
+from pytex.css import *
+from pytex.html import *
+from pytex.entities import *
+from pytex.formata_linhas import *
+from pytex.comentator import *
+from pytex.escolhe_projeto import *
+# from pytex.config.global_config import *
 
-# --------------------------------
-
-################################################
-# !!! RELOAD !!!
-
-import sys
-import imp
-
-imp.reload(sys.modules['func.css_expande'])
-from func.css_expande import *
-
-imp.reload(sys.modules['func.formata_linhas'])
-from func.formata_linhas import *
-
-imp.reload(sys.modules['func.comentator'])
-from func.comentator import *
-
-imp.reload(sys.modules['func.meuteste'])
-from func.meuteste import solta as solta2
-from func.meuteste import soltaTeste
-
-imp.reload(sys.modules['func.global_config'])
-from func.global_config import *
-
-################################################
+l = log_utils.log
 
 
 # ============== CLASSES DOS COMANDOS ============== #
 
 #----------------------------------------------------#
-# TESTE REGEX
-#----------------------------------------------------#
-class TesteRegexCommand(sublime_plugin.TextCommand):
-  def run(self, edit):
-
-    #X_(varteste)
-
-    solta2()
-    soltaTeste()
-
-    #def testa(modo=None, tx=''):
-
-      # multilinha  = re.compile(r'^\s*;;;\s*\n?$')
-      # multilinha  = re.compile(r'^\s*;;;\s*$', re.M)
-
-      #X_(multilinha.search(tx))
-
-      # if(None):
-      #   X_('False')
-      # else:
-      #   X_('True')
-
-    #aplica( edit, vis=self.view, func=testa)
-
-
-#----------------------------------------------------#
-# TESTES > PLUGIN
-#----------------------------------------------------#
-
-class TestePluginCommand(sublime_plugin.TextCommand):
-
-  def teste(d):
-    X_(d)
-    
-  def run(self, edit):
-
-    X_(self.description)
-
-    #self.teste()
-
-    #open_file(file_name)
-
-    #sublime.active_window().open_file(
-      # '/home/andre/Documents/ST3 Projetos/ponto-cruz.sublime-project'
-      #sublime.active_window().project_file_name('')
-    #)
-
-    #X_(sublime.active_window().project_data())
-
-
-#----------------------------------------------------#
-# TESTES > CONFIG
+#   TESTES > CONFIG
 #----------------------------------------------------#
 
 class TesteConfigCommand(sublime_plugin.TextCommand):
@@ -128,13 +52,13 @@ class TesteConfigCommand(sublime_plugin.TextCommand):
   # description = "Descrição Marota"
 
   def run(self, edit):
-    X_(self.description)
-    X_(func.global_config.ConfigGlobal)
-    X_(sublime.active_window().project_data().get('projeto_config').get('tamanho'))
+    l.X_(self.description)
+    l.X_(pytex.global_config.ConfigGlobal)
+    l.X_(sublime.active_window().project_data().get('projeto_config').get('tamanho'))
 
 
 #----------------------------------------------------#
-# TESTES > COMMAND OVERLAY
+#   TESTES > COMMAND OVERLAY
 #----------------------------------------------------#
 
 class TesteOverlayCommand(sublime_plugin.TextCommand):
@@ -153,7 +77,7 @@ class TesteOverlayCommand(sublime_plugin.TextCommand):
 
 
 #----------------------------------------------------#
-# TESTES > QUICK PANEL
+#   TESTES > QUICK PANEL
 #----------------------------------------------------#
 
 class TesteQuickPanelCommand(sublime_plugin.TextCommand):
@@ -172,7 +96,7 @@ class TesteQuickPanelCommand(sublime_plugin.TextCommand):
 
 
 #----------------------------------------------------#
-# TESTES > MENU INLINE
+#   TESTES > MENU INLINE
 #----------------------------------------------------#
 
 class TesteMenuInlineCommand(sublime_plugin.TextCommand):
@@ -191,79 +115,21 @@ class TesteMenuInlineCommand(sublime_plugin.TextCommand):
 
 
 #----------------------------------------------------#
-# TESTES > PEGA CONFIG DO PROJETO
+#   TESTES > PEGA CONFIG DO PROJETO
 #----------------------------------------------------#
 
 class TesteConfigProjetoCommand(sublime_plugin.TextCommand):
   def run(self, edit):
-    X_(sublime.active_window().project_file_name())
-    X_(sublime.active_window().project_data().get('projeto_config').get('fruta'))
-    X_(sublime.active_window().project_data().get('projeto_config').get('tamanho'))
+    l.X_(sublime.active_window().project_file_name())
+    l.X_(sublime.active_window().project_data().get('projeto_config').get('fruta'))
+    l.X_(sublime.active_window().project_data().get('projeto_config').get('tamanho'))
 
 
 #----------------------------------------------------#
-# TESTES > ESCOPO
+#   TESTES > ESCOPO
 #----------------------------------------------------#
 
 class TesteEscopoCommand(sublime_plugin.TextCommand):
   def run(self, edit):
     vis = self.view
-    X_(
-      # 'comment' in vis.scope_name(posCursor(vis))
-
-      vis.scope_name(posCursor(vis))
-    )
-    # X_(sys.version)
-
-
-#----------------------------------------------------#
-# TESTES > PEGA NÚMEROS
-#----------------------------------------------------#
-
-class TesteNumerosCommand(sublime_plugin.TextCommand):
-  def run(self, edit):
-
-    def testa(modo, tx):
-
-      #tt = 'fff dddddd 123'
-
-      #X_(pegaCor(tt))
-
-      #v, t = (0, 0)
-
-      #X_(v,t)
-
-      #X_(pegaNumeros(tx, limite=1))
-      # M = re.search(r'[.,]', tx)
-      # return tx[:M.start(0)]
-
-      #return str(M.start(0) + M.end(0))
-
-      #X_(1 in (1,2))
-
-      tt = 'ddd kkk'
-
-      tt = '_' + pegaCor(tt) + '_'
-
-      X_(type(tt))
-
-    aplica( edit, vis=self.view, func=testa)
-
-#######################################################
-
-#----------------------------------------------------#
-# ALTERNA PROJETOS
-#----------------------------------------------------#
-class TesteArgsCommand(sublime_plugin.WindowCommand):
-  def run(self):
-
-    def teste(teste = '', foca = ''):
-      x(teste)
-      x(foca)
-
-    deu = {
-      'foca--': 'bubu',
-      'teste--': 'treta'
-    }
-
-    teste(*deu)
+    l.x(vis.scope_name(posCursor(vis)))

@@ -1,56 +1,14 @@
 
-############### FUNÇÕES DO EDITOR ###############
+############### EDITOR FUNCTIONS ################
 
-# Funções que DEPENDEM do editor
-# Devem ser alteradas para portabilidade entre editores
+# Editor depenjdent functions
+# Should be changed for portability between editors
 
 import sublime, re
 
-# --------------- Debug
 
-# Barra Separadora
-barra = '\n' + '#' * 80 + '\n'
-
-def x(*args):
-	ret = ''
-	for tx in args:
-		ret += str(tx)
-	print(ret)
-
-
-def X(*args):
-	ret = ''
-	for tx in args:
-		ret += str(tx)
-	return ret
-
-
-def X_(*args):
-	ret = ''
-	for tx in args:
-		ret += str(tx)
-	sublime.message_dialog(ret)
-
-
-def x_(*args):
-	ret = ''
-	for tx in args:
-		ret += str(tx)
-	ret += '\n'	
-	print(ret)
-
-
-def x__(*args):
-	ret = ''
-	for tx in args:
-		ret += str(tx) + '\n'
-	ret = barra + ret
-	print(ret)
-
-
-# !!! Fazer um que loga num arquivo de log aberto e abre se não tiver um
-
-# ------------------------------
+class editor:
+    pass
 
 
 # Retorna o nome do arquivo ativo

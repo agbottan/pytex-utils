@@ -4,9 +4,9 @@
 #####################
 
 import re, sublime
-from func.utils import splitRe, posIdent
-from func.editor import *
-from func.css_config import ConfigCss
+from pytex.utils import splitRe, posIdent
+from pytex.editor import *
+from pytex.css.css_config import ConfigCss
 
 
 # ------------------------------------------------------- #

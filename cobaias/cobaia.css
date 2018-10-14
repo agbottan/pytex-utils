@@ -6,3 +6,8 @@
   position: relative; position: relative;
   cursor: pointer;
 }
+
+.c {
+    position: relative;
+    display: block;
+}

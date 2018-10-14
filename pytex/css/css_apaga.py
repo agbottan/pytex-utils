@@ -4,7 +4,7 @@
 ######################
 
 import re, sublime
-import func.editor
+import pytex.editor
 
 
 ############### APAGADOR DE CSS ###############

@@ -8,21 +8,31 @@
       ]
   },
 
+
+//////// PAINÉIS
+  
+  { "keys": ["f1"], "command": "toggle_side_bar" },
+  { "keys": ["f2"], "command": "show_panel", "args": {"panel": "console", "toggle": true} },
+  { "keys": ["f3"], "command": "toggle_minimap" },
+
+
 //////// ATALHOS
-	
-	// PAINÉIS
-	{ "keys": ["f1"], "command": "toggle_side_bar" },
-  { "keys": ["ctrl+f1"], "command": "show_panel", "args": {"panel": "console", "toggle": true} },
-	{ "keys": ["shift+f1"], "command": "toggle_minimap" },
 
   // WORLD WRAP
   { "keys": ["f6"], "command": "toggle_setting", "args": {"setting": "word_wrap"}},
-	
-	{ "keys": ["alt+up"], "command": "select_lines", "args": {"forward": false} },
-	{ "keys": ["alt+down"], "command": "select_lines", "args": {"forward": true} },
-	{ "keys": ["ctrl+alt+p"], "command": "prompt_select_workspace" },
-	{ "keys": ["ctrl+alt+s"], "command": "save_all" },
-	{ "keys": ["ctrl+shift+alt+f11"], "command": "toggle_distraction_free" },
+
+  { "keys": ["alt+up"], "command": "select_lines", "args": {"forward": false} },
+  { "keys": ["alt+down"], "command": "select_lines", "args": {"forward": true} },
+  { "keys": ["ctrl+alt+p"], "command": "prompt_select_workspace" },
+  { "keys": ["ctrl+alt+s"], "command": "save_all" },
+  { "keys": ["ctrl+shift+alt+f11"], "command": "toggle_distraction_free" },
+
+  { "keys": ["f5"], "command": "find_next" },
+  { "keys": ["shift+f5"], "command": "find_prev" },
+
+  // ATALHOS DE AJEITAR
+  { "keys": ["ctrl+e"], "command": "save", "args": {"encoding": "utf-8"} },
+  { "keys": ["ctrl+r"], "command": "set_setting", "args": {"setting": "tab_size", "value": 2} },
 
 /*
 ------------------
@@ -44,8 +54,8 @@
 
 //////// 	COMENTÁRIOS
 
-	{ "keys": ["f4"], "command": "comenta", "args": { "alternativo": false }},
-	{ "keys": ["ctrl+shift+f4"], "command": "comenta", "args": { "alternativo": true  }},
+	// { "keys": ["f4"], "command": "comenta", "args": { "alternativo": false }},
+	// { "keys": ["ctrl+shift+f4"], "command": "comenta", "args": { "alternativo": true  }},
 
  
 //////// SNIPPET ALERT
@@ -56,25 +66,20 @@
 
 //////// MOSTRA NOME
 
-	{ "keys": ["ctrl+f4"], "command": "mostra_nome" },
+	// { "keys": ["ctrl+f4"], "command": "mostra_nome" },
 
 
 //////// BOOKMARKS
 
-/*
-  { "keys": ["f2"], "command": "next_bookmark" },
-  { "keys": ["shift+f2"], "command": "prev_bookmark" },
-  { "keys": ["ctrl+f2"], "command": "toggle_bookmark" },
-  { "keys": ["ctrl+shift+f2"], "command": "clear_bookmarks" },
-  { "keys": ["alt+f2"], "command": "select_all_bookmarks" },
-*/
+  { "keys": ["ctrl+f4"],           "command": "toggle_bookmark"      },
+  { "keys": ["f4"],                "command": "next_bookmark"        },
+  { "keys": ["shift+f4"],          "command": "prev_bookmark"        },
+  { "keys": ["ctrl+shift+f4"],     "command": "clear_bookmarks"      },
+  { "keys": ["ctrl+shift+alt+f4"], "command": "select_all_bookmarks" },
 
 
 //////// OUTROS
-  
-  /*
-  { "keys": ["shift+alt+f8"], "command": "formata_linhas" },
-  */
+
   { "keys": ["ctrl+shift+f8"], "command": "formata_linhas" },
   { "keys": ["ctrl+shift+f11"], "command": "limpa_texto" },
   { "keys": ["shift+f12"], "command": "troca_entities" },
@@ -86,7 +91,7 @@
   { "keys": ["f2"],      "command": "teste_config" },
   { "keys": ["ctrl+f2"], "command": "teste_plugin"  },
   { "keys": ["ctrl+f2"], "command": "teste_regex" },
-  { "keys": ["f2"], "command": "teste_numeros" },
+  { "keys": ["shift+f7"], "command": "teste_escopo" },
   */
 	{ "keys": ["shift+f7"], "command": "teste_escopo" },
 
@@ -110,4 +115,12 @@
 
 	{ "keys": ["ctrl+shift+f7"], "command": "teste_quick_panel" },
   { "keys": ["ctrl+f7"], "command": "teste_menu_inline" },
+
+
+//////// SNIPPETS
+
+  /* ASSET LARAVEL */
+  { "keys": ["ctrl+alt+a"], 
+  "command": "insert_snippet", 
+  "args": { "name": "Packages/User/asset-laravel.sublime-snippet" } },
 ]

@@ -6,17 +6,16 @@
 # /////////////// IMPORTS
 
 import re
-from func.utils import sepIdent
-from func.editor import X_
+from pytex.utils import sepIdent
 
 # /////////////// CONFIG
 
-sinal				= re.compile( r'\d*;;')
-sepCampo		= re.compile( r' {2,}|\t+')
-multilinha	= re.compile( r'^;;$', re.M)
-linhaVazia	= re.compile( r'^\s*$')
-formato			= None
-ln					= '\n'
+sinal       = re.compile( r'\d*;;')
+sepCampo    = re.compile( r' {2,}|\t+')
+multilinha  = re.compile( r'^;;$', re.M)
+linhaVazia  = re.compile( r'^\s*$')
+formato     = None
+ln          = '\n'
 
 
 def montaCampos(linha, modelo):

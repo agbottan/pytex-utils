@@ -13,7 +13,7 @@ border: 3px blue solid !important; /* !!! teste */
 
 <snippet>
   <content><![CDATA[
-border: 1px red solid !important; /* !!! teste */
+border: 1px red dotted !important; /* !!! teste */
 ]]></content>
   <tabTrigger>bb</tabTrigger>
   <scope>source.scss, source.css</scope>

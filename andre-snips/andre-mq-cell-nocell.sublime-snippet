@@ -1,0 +1,16 @@
+
+<!-- /////////// MEDIA QUERY COMPOSTO - CELL x NO-CELL /////////// -->
+
+<snippet>
+  <content><![CDATA[
+@include --cell {
+
+}
+
+@include cell-mais-- {
+
+}
+]]></content>
+  <tabTrigger>ccc</tabTrigger>
+  <scope>source.scss</scope>
+</snippet>

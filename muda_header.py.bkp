@@ -7,14 +7,14 @@
 #     </h1>
 # </header>
 
-import sublime, sublime_plugin, re, func.editor
-def x(*args): func.editor.x(*args);
+import sublime, sublime_plugin, re, pytex.editor
+def x(*args): pytex.editor.x(*args);
 
 
 class mudaHeaderCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 		vis = self.view
-		tx = func.editor.pegaTextoTodo(vis)
+		tx = pytex.editor.pegaTextoTodo(vis)
 
 		# Substituição
 		tx = tx.replace('<!-- !! Colocar Seta !! -->','')
