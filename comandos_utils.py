@@ -175,7 +175,8 @@ class AlternaProjetosCommand(sublime_plugin.WindowCommand):
         return
 
       janelaAnterior = sublime.active_window()
-      pathProjeto = "/home/andre/ST3 - projetos/{0}".format(projetos[ind]['arq'])
+      pathProjeto = "/home/andre/Projetos/ST-3 Projetos/{0}".format(projetos[ind]['arq'])
+      
       abreProjeto(pathProjeto, janelaAnterior)
 
     # Mostra painel
