@@ -1,7 +1,7 @@
 
 ############### EDITOR FUNCTIONS ################
 
-# Editor depenjdent functions
+# Editor dependent functions
 # Should be changed for portability between editors
 
 import sublime, re
