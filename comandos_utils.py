@@ -7,10 +7,17 @@
 
 import sublime, sublime_plugin, sys, re, os, subprocess, threading, multiprocessing
 
+
+# INPORTS > EDITOR
+
 from pytex.editor.log_utils  import *
+from pytex.editor.text_utils import aplica, pegaInfoModo
+
+
+# INPORTS > FUNÇÕES
+
 from pytex.escolhe_projeto   import projetos_config
 from pytex.utils             import resolveModo
-from pytex.editor.text_utils import aplica, pegaInfoModo
 from pytex.css.css_expande   import cssExpande
 from pytex.html.html         import htmlExpande
 
@@ -72,7 +79,7 @@ class AutoExpandeCommand(sublime_plugin.TextCommand):
       )
 
     else:
-      x('Não expande "' + modo['ext'] + '"')
+      log.x('Não expande "' + modo['ext'] + '"')
 
 
 #----------------------------------------------------#
@@ -106,7 +113,7 @@ class ComentaCommand(sublime_plugin.TextCommand):
 #----------------------------------------------------#
 class MostraNomeCommand(sublime_plugin.TextCommand):
   def run(self, edit):
-    X_(self.view.file_name(), '-> Foi pro clipboard')
+    log.X_(self.view.file_name(), '-> Foi pro clipboard')
     sublime.set_clipboard(self.view.file_name())
 
 
@@ -175,7 +182,7 @@ class AlternaProjetosCommand(sublime_plugin.WindowCommand):
         return
 
       janelaAnterior = sublime.active_window()
-      pathProjeto = "/home/andre/ST3 - projetos/{0}".format(projetos[ind]['arq'])
+      pathProjeto = r'/home/andre/Projetos/ST-3 Projetos/{0}'.format(projetos[ind]['arq'])
       abreProjeto(pathProjeto, janelaAnterior)
 
     # Mostra painel

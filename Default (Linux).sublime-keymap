@@ -60,7 +60,7 @@
  
 //////// SNIPPET ALERT
 
-	{ "keys": ["f11"],			 "command": "alert", "args": { "aspas": false }},
+	{ "keys": ["f11"],	     "command": "alert", "args": { "aspas": false }},
 	{ "keys": ["shift+f11"], "command": "alert", "args": { "aspas": true  }},
 
 

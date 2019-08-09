@@ -31,6 +31,7 @@
 # { 'tit': 'Pós Graduação',     'arq': 'pos_graduacao.sublime-project' },
 # { 'tit': 'Pós Laravel',       'arq': 'pos-php.sublime-project' },
 # { 'tit': 'Pytex Utils',       'arq': 'pytex-pytex.sublime-project' },
+# { 'tit': 'Santuário',         'arq': 'santuario.sublime-project' },
 # { 'tit': 'Seguro Light',      'arq': 'segurolight.sublime-project' },
 # { 'tit': 'Site Padrão',       'arq': 'padrao.sublime-project' }
 # { 'tit': 'Sormani Imóveis',   'arq': 'sormani.sublime-project' },
@@ -63,6 +64,7 @@ projetos_config = [
   { 'tit': 'Guia de Missas',     'arq': 'guia-de-missas.sublime-project' },
   { 'tit': 'Gulp',               'arq': 'gulp.sublime-project' },
   { 'tit': 'Site Padrão',        'arq': 'padrao.sublime-project' },
+  { 'tit': 'Santuário',          'arq': 'santuario.sublime-project' },
   { 'tit': 'SVG e Ícones',       'arq': 'svg-icons.sublime-project' },
   { 'tit': 'Seguro Light',       'arq': 'segurolight.sublime-project' },
   { 'tit': 'Shell Scripts Home', 'arq': 'home-andre.sublime-project' },
