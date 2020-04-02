@@ -1,0 +1,16 @@
+
+<!-- /////////// MEDIA QUERY COMPOSTO - MED x GDE /////////// -->
+
+<snippet>
+  <content><![CDATA[
+@include -med- {
+
+}
+
+@include gde-- {
+
+}
+]]></content>
+  <tabTrigger>mg</tabTrigger>
+  <scope>source.scss</scope>
+</snippet>
