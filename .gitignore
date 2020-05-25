@@ -1,6 +1,6 @@
 
 # GIT IGNORE
-
+*.pyc
 Package*
 *.sublime-settings
 Package Control.cache
