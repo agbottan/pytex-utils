@@ -3,11 +3,11 @@
 
 <snippet>
   <content><![CDATA[
-@include --mobi {
+@include --mobile {
 
 }
 
-@include desk-- {
+@include desktop-- {
 
 }
 ]]></content>

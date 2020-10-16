@@ -1,0 +1,10 @@
+
+<!-- /////////// TAG - STRONG /////////// -->
+
+<snippet>
+  <content><![CDATA[<strong>$SELECTION</strong>]]></content>
+  <!-- Optional: Tab trigger to activate the snippet -->
+  <tabTrigger>ss</tabTrigger>
+  <!-- Optional: Description to show in the menu -->
+  <description>Tag Strong</description>
+</snippet>

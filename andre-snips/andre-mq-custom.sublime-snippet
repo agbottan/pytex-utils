@@ -1,0 +1,16 @@
+
+<!-- /////////// MEDIA QUERY CUSTOM /////////// -->
+
+<snippet>
+  <content><![CDATA[
+@include --wid-max(\$wid-txt) {
+    ${1}
+}
+
+@include wid-min--(\$wid-txt) {
+    ${2}
+}
+]]></content>
+  <tabTrigger>mmm</tabTrigger>
+  <scope>source.scss</scope>
+</snippet>

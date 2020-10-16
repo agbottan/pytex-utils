@@ -3,7 +3,7 @@
 
 <snippet>
   <content><![CDATA[
-@include desk-- {
+@include desktop-- {
 
 }
 ]]></content>

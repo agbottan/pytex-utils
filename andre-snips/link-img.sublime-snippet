@@ -1,0 +1,12 @@
+
+<!-- /////////// LINK - IMG /////////// -->
+
+<snippet>
+  <content><![CDATA[
+<a title="" rel="repertorio_pedagogico" href="javascript:initGaleria('repertorio_pedagogico', );">
+<img alt="" src="{{ asset('albuns/repertorio/mini/$SELECTION') }}"></a>
+
+]]></content>
+  <tabTrigger>kk</tabTrigger>
+  <description>kk</description>
+</snippet>

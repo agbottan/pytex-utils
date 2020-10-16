@@ -326,6 +326,6 @@ def htmlExpande(tx,modo=None, escopo=None):
 			)
 		),
 		inicIdent = tx[0:pos_ident]
-	)
+	).strip('\n')
 
 #------------------------------------- fim 'htmlExpande'

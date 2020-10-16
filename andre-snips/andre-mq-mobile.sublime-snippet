@@ -3,7 +3,7 @@
 
 <snippet>
   <content><![CDATA[
-@include --mobi {
+@include --mobile {
 
 }
 ]]></content>

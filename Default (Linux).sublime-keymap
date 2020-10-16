@@ -64,6 +64,11 @@
 	{ "keys": ["shift+f11"], "command": "alert", "args": { "aspas": true  }},
 
 
+//////// SNIPPET STRONG
+  { "keys": ["ctrl+shift+o"], "command": "insert_snippet",
+    "args": { "name": "Packages/User/andre-snips/tag-strong.sublime-snippet" }},
+
+
 //////// MOSTRA NOME
 
 	// { "keys": ["ctrl+f4"], "command": "mostra_nome" },
@@ -101,8 +106,8 @@
   { "keys": ["f7"], "command": "alterna_projetos" },
   /*
   { "keys": ["f7"], "command": "teste_config_projeto" },
-  { "keys": ["shift+f7"], "command": "teste_overlay" },
   */
+  { "keys": ["ctrl+shift+f7"], "command": "teste_overlay" },
 
 	{
 		"keys": ["shift+alt+ctrl+f1"],
@@ -113,7 +118,7 @@
 		}
 	},
 
-	{ "keys": ["ctrl+shift+f7"], "command": "teste_quick_panel" },
+	//{ "keys": ["ctrl+shift+f7"], "command": "teste_quick_panel" },
   { "keys": ["ctrl+f7"], "command": "teste_menu_inline" },
 
 

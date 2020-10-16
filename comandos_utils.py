@@ -136,14 +136,19 @@ class AlertCommand(sublime_plugin.TextCommand):
 class AlternaProjetosCommand(sublime_plugin.WindowCommand):
   def run(self):
 
-    # Projeto aberto
-    arq_projeto_atual = os.path.basename(self.window.project_file_name())
-
     # Projetos listados
     projetos = projetos_config
 
-    # Retira projeto atual da lista
-    projetos = list( filter( lambda proj: proj['arq'] != arq_projeto_atual, projetos_config ))
+    # Nome do projeto
+    arq_projeto_atual = self.window.project_file_name()
+
+    if arq_projeto_atual != None:
+
+      # Projeto aberto
+      arq_projeto_atual = os.path.basename(arq_projeto_atual)
+
+      # Retira projeto atual da lista
+      projetos = list( filter( lambda proj: proj['arq'] != arq_projeto_atual, projetos_config ))
 
     # Nome no painel
     nomes = [ proj.get('tit') for proj in projetos ]
@@ -175,8 +180,8 @@ class AlternaProjetosCommand(sublime_plugin.WindowCommand):
         return
 
       janelaAnterior = sublime.active_window()
-      pathProjeto = "/home/andre/Projetos/ST-3 Projetos/{0}".format(projetos[ind]['arq'])
-      
+      pathProjeto = "/home/andre/Projetos/ST-3/ST-3 Projetos/{0}".format(projetos[ind]['arq'])
+
       abreProjeto(pathProjeto, janelaAnterior)
 
     # Mostra painel

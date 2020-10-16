@@ -1,0 +1,17 @@
+
+<!-- /////////// REPERTÓRIO DO ELEMENTOS /////////// -->
+
+<snippet>
+  <content><![CDATA[
+<article class="repertorio-item">
+  <div class="capa">
+    <img alt="$SELECTION" src="{{ asset('albuns/repertorio/gd/${1:______}') }}">
+  </div>
+  <div class="desc">
+    <h3>${2:______}:&ensp;$SELECTION</h3>
+  </div>
+</article>
+]]></content>
+  <tabTrigger>xx</tabTrigger>
+  <description>Repertório - xx</description>
+</snippet>
